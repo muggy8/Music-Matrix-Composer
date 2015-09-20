@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>New Account</title>
+        <meta charset="UTF-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script>
+            function registerAcc(){
+            var uName = $("#desiredName")[0].value;
+            var password1 = $("#pass1")[0].value;
+            var password2 = $("#pass2")[0].value;
+            
+            if (password1 == password2 && pass1 != ""){
+                $.post("services/newAccount.php", {name:uName, pass1: password1, pass2: password2}, function(data){
+                    //do something with return data\
+                    var jsondata = data;
+                    if (jsondata.success){
+                        parent.loginCookie= jsondata;
+                        //alert("Account created successful");
+                        parent.login();
+                        parent.messageOff();
+                    }
+                    else{
+                        alert(jsondata.error);
+                    }
+                }, "json")
+            }
+            else{
+                alert("password must match and cannot be empty");
+            }
+           return false;
+        }
+        </script>
+        <style>
+            input {
+                display:block;
+                width:100%;
+            }
+            lable {
+                display:block;
+            }
+        </style>
+    </head>
+    <body>
+        <form action="#banner" method="post" onsubmit="return registerAcc()">
+            <label for="desiredName">Desired Username: </label>
+            <input type="text" name="desiredName" id="desiredName" placeholder="Desired username" class="inputField"><br>
+            <lable for="pass1">New Password: </lable>
+            <input type="password" name="pass1" id="pass1" placeholder="Password" class="inputField" required><br>
+            <lable for="pass2">Re-enter Password: </lable>
+            <input type="password" name="pass2" id="pass2" placeholder="Re-type password" class="inputField" required><br>
+            <input type="submit" name="register" value="register" class="inputField">
+        </form>
+    </body>
+</html>

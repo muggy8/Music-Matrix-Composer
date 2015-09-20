@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+            if (window.location.protocol != "https:"){
+			    window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+			}
+        </script>
+        <meta charset="UTF-8">
+        <title>Music Matrix Composer v2</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="JS/MMC2.js"></script>
+        <link rel="stylesheet" type="text/css" href="CSS/index.css">
+        <!-- jasmid package -->
+    	<script src="JS/inc/jasmid/stream.js"></script>
+    	<script src="JS/inc/jasmid/midifile.js"></script>
+    	<script src="JS/inc/jasmid/replayer.js"></script>
+    	<script src="JS/inc/shim/WebMIDIAPI.js" type="text/javascript"></script>
+        <!-- polyfill -->
+    	<script src="JS/inc/shim/Base64.js" type="text/javascript"></script>
+    	<script src="JS/inc/shim/Base64binary.js" type="text/javascript"></script>
+    	<script src="JS/inc/shim/WebAudioAPI.js" type="text/javascript"></script>
+    	<!-- midi.js package -->
+    	<script src="JS/midi/audioDetect.js" type="text/javascript"></script>
+    	<script src="JS/midi/gm.js" type="text/javascript"></script>
+    	<script src="JS/midi/loader.js" type="text/javascript"></script>
+    	<script src="JS/midi/plugin.audiotag.js" type="text/javascript"></script>
+    	<script src="JS/midi/plugin.webaudio.js" type="text/javascript"></script>
+    	<script src="JS/midi/plugin.webmidi.js" type="text/javascript"></script>
+    	<!-- utils -->
+    	<script src="JS/util/dom_request_xhr.js" type="text/javascript"></script>
+    	<script src="JS/util/dom_request_script.js" type="text/javascript"></script>
+    	<script type='text/javascript' src='JS/jquery.mousewheel.js'></script><!-- used for horizontal scolling -->
+    </head>
+    
+    <body onload="login()">
+        <div id="infoGroup" class="infoGroup" style="display:none">
+            <div class="infoBG" id="alert" onclick="messageOff()"></div>
+            <div class="infoBody" id="infoBody">
+                <div id="messageBody"></div>
+                <button id="confirm" type="button" class="alertOk" onclick="messageOff()">Ok</button>
+            </div>
+        </div>
+        <div id="banner" >
+            <h1>Music Matrix Composer v2</h1>
+            <div id="login" class="login">
+                <form action="#" method="post" onsubmit="return login('email', 'password')">
+                    <input type="text" name="email" id="email" placeholder="e-mail">
+                    <input type="password" name="password" id="password" placeholder="password">
+                    <input type="submit" value="login">
+                </form>
+            </div>
+            <div id="weba" class="login hide">
+                <h7>welcome back senpai</h7>
+                <input type="button" onclick="logout()" value="logout">
+            </div>
+        </div>
+        <div id="mainbody">
+            <div id="rightCollum" class="rightCollumBody">
+                <div id="newUser" class="rightCollumEle">
+                    <form action="#banner" method="post" onsubmit="return registerAcc()">
+                        <label for="desiredName">Desired Username: </label>
+                        <input type="text" name="desiredName" id="desiredName" placeholder="Desired username" class="inputField"><br>
+                        <lable for="pass1">New Password: </lable>
+                        <input type="password" name="pass1" id="pass1" placeholder="Password" class="inputField" required><br>
+                        <lable for="pass2">Re-enter Password: </lable>
+                        <input type="password" name="pass2" id="pass2" placeholder="Re-type password" class="inputField" required><br>
+                        <input type="submit" name="register" value="register" class="inputField">
+                    </form>
+                </div>
+                <div id="returningUser" class="rightCollumEle hide">
+                    <!-- the saved songs go here -->
+                </div>
+                <div id="newSong" class="rightCollumEle">
+                    <form action="#" method="post" onsubmit="return initializeSong()">
+                        <div id="scale" onmouseup="scaleInfo()">Select Scale</div>
+                        <lable for="songName">Song Name: </lable>
+                        <input id="songName" name="songName" type="text" placeholder="Name of New Song" class="inputField"><br>
+                        <lable for="songLength">Song Length: </lable>
+                        <input id="songLength" type="number" name="min" placeholder="minutes" min="0" max="59"class="numberSelect inputField">
+                        <input id="songSec" type="number" name="seconds" placeholder="seconds" min="0" max="59" class="numberSelect inputField "><br>
+                        <label for="NPS">Notes per Second: </label>
+                        <input id="NPS" type="number" name="NPS" placeholder="BPM/60" class="numberSelect inputField" value="8" min="1" max="32" onchange="bpsUpdate()"><br>
+                        <input type="submit" value="create" class="inputField">
+                    </form>
+                </div>
+            </div>
+            <div class="floatClear"></div>
+        </div>
+        <div id="songBody" class="hide">
+            <div id="buttonHolder" class="controllBar">
+                <img src="img/icons/Home.png" width="48" height="48" alt="homeButton" class="controllButtons" onclick="homeButton()">
+            </div>
+        </div>
+    </body>
+</html>

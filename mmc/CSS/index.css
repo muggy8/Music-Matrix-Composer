@@ -1,0 +1,364 @@
+body {
+    font-size:16px;
+}
+
+h1{
+    font-size:1.5rem;
+    margin-left:1rem;
+    margin-bottom:0.5rem;
+    margin-top:2rem;
+    color:white;
+    font-family:sans-serif;
+}
+
+h4{
+    margin-bottom: 2px;
+}
+
+div{
+    display:block;
+}
+
+input[type=submit]{
+    cursor: pointer; 
+    cursor: hand;
+} 
+
+.collumEle{
+    display:inherit;
+    padding:0.5rem;
+    position:relative;
+    background-color:#FFFFFF;
+    margin-top:3rem;
+    border-radius:0.25rem;
+    border: 1px solid #B8B8B8;
+    overflow:auto;
+    max-height:15rem;
+}
+
+.leftCollumBody{
+    float:left;
+    padding-left:3rem;
+    width: calc(100% - 448px - 6rem);
+}
+
+.rightCollumBody{
+    width:25rem;
+    float:right;
+    padding-right:3rem;
+}
+
+/*@media (max-width: 50rem){
+    
+    .rightCollumBody{
+        display:none;
+    }
+    
+    .leftCollumBody{
+        width: calc(100% - 6rem);
+    }
+} */
+
+.sectionName {
+    margin-top:0;
+}
+
+.login{
+    float:right;
+    margin-right:1rem;
+    position:relative;
+    bottom:2rem;
+    display:inline-block;
+    clear:both;
+}
+
+.numberSelect{
+    width:5rem;
+}
+
+.inputField{
+    margin:0.125rem 0;
+}
+
+.infoBG{
+    background-color:rgba(50,50,50,0.5);
+    right:0;
+    left:0;
+    top:0;
+    bottom:0;
+    position:absolute;
+    z-index:-1;
+    width:100%;
+}
+.infoGroup{
+    background-color:rgba(50,50,50,0);
+    display:flex;
+    right:0;
+    left:0;
+    top:0;
+    bottom:0;
+    z-index:9000; 
+    position: fixed;
+}
+
+.infoBody{
+    background-color:#FFFFFF;
+    margin:auto;
+    padding:1rem;
+    border-radius:0.5rem;
+    border: 0.125rem solid #006600;
+    z-index:+1;
+}
+
+.alertOk{
+    height:2rem;
+    width:5rem;
+    border-radius:0.5rem;
+    float:right;
+    display:block;
+    clear:both;
+    margin-top:0.5rem;
+}
+
+.clickyBox{
+    padding:0.25rem;
+    background-color:#000000;
+    overflow:hidden;
+}
+
+.noteBox{
+    display:block;
+}
+
+.testNote{
+    width:20px;
+    height:20px;
+    background-color:#B8B8B8;
+    margin:2px 2px 2px 2px;
+    float:left;
+}
+
+.note{
+    width:20px;
+    height:20px;
+    background-color:#B8B8B8;
+    margin:3px 0 0 3px;
+    float:left;
+}
+
+.note:hover{
+    background-color:#696969;
+}
+
+.note16{
+    background-color:#006600;
+}
+
+.note16:hover{
+    background-color:#003300;
+}
+
+.selected{
+    background-color:#FFFFFF;
+}
+
+.selected:hover{
+    background-color:#CFCFCF;
+}
+
+.playing{
+    background-color:#969696;
+}
+
+.scaleInput{
+    width: 50px;
+    display:inline-block;
+    float: left;
+    margin-top: 2px;
+    margin-right: 5px;
+}
+
+.volumeKeyframe{
+    transform: rotate(270deg);
+    width:300px;
+    margin-top: 145px;
+    margin-left: -138px;
+    margin-right: -139px;
+}
+
+.keyframeSelect{
+    display: inline-block;
+    margin-left: 7px;  
+    margin-top: 15px;
+}
+
+.sliderBlock{
+    display:inline-block;
+    float:left;
+}
+
+.floatClear{
+    clear:both;
+}
+
+.songBody{
+    position: relative;
+    top: 190px;
+}
+
+.track{
+    margin-left:25px;
+    margin-top:15px;
+}
+
+.trackTools{
+    float: left;
+    width: 73px;
+    height:371px;
+    background-color: #006600;
+    display:inline;
+}
+
+.matrixBox{
+    background-color:#000000;
+    height:371px;
+    float:left;
+    display:inline;
+}
+
+.controllButtons{
+    cursor: pointer; 
+    cursor: hand;
+    margin-top:10px;
+    margin-left:5px;
+}
+
+.controllBar{
+    margin-left:25px;
+    position: fixed;
+    top: 100px;
+    z-index+10;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #E6E6E6
+}
+
+.otherBar{
+    position: fixed;
+    top: 100px;
+    z-index+10;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #E6E6E6;
+    right:25px;
+}
+
+.iframe{
+    height: 210px;
+    border: hidden;
+}
+
+.dropdownBox{
+    display:inline-block;
+    margin-top:2px;
+    margin-bottom:7px;
+}
+
+.toolBarButtons{
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    cursor: hand;
+    margin-left: 14px;
+    margin-top: 14px;
+}
+
+.hide{
+    display:none;
+}
+
+#banner{
+    width:100%;
+    
+    background-color:#006600;
+    display:block;
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:+10;
+}
+
+#mainbody{
+    width:100%;
+    position:relative;
+    top: 5.25rem;
+}
+
+#scale{
+    cursor: pointer; 
+    cursor: hand;
+    float:right;
+    display:inline-block;
+    width:5rem;
+    height:5rem;
+    border: 1px solid #B8B8B8;
+    padding:0.25rem;
+}
+
+#timeLine{
+    display: block;
+    position: absolute;
+    left: 104px;
+    top:-32px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    border: 11px solid rgb(68, 68, 68);
+    border-right: 0px;
+    border-left: 0px;
+    height: 4px
+}
+
+#presetSelector{
+    margin-top:2px;
+}
+
+.presetLable{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.instrumentSelector{
+    margin-top:2px;
+    margin-left: 23px;
+}
+
+#loopButton{
+    position:relative;
+    display:inline-block;
+}
+
+#looperNumber{
+    position: absolute; 
+    z-index: +2; 
+    bottom: -7px; 
+    right: 7px; 
+    text-align:right;
+}
+
+#looperCover{
+    position:absolute;
+    top:0;
+    left:0;
+}
+
+/*
+work in progress highlighting stuff
+*/
+
+.strech{
+    color:#aaa;
+    height:30rem;
+}
