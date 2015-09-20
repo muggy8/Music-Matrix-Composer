@@ -109,6 +109,7 @@
         <div id="songBody" class="hide">
             <div id="buttonHolder" class="controllBar">
                 <img src="img/icons/Play.png" width="48" height="48" alt="play Button" class="controllButtons" onclick="playSong(this)">
+                <img src="img/icons/Rewind.png" width="48" height="48" alt="Rewind to Start Button" class="controllButtons" onclick="rewind()">
                 <img src="img/icons/Save.png" width="48" height="48" alt="save Button" class="controllButtons" onclick="saveSong()">
                 <div class="controllButtons" id="loopButton" onclick="looper()">
                     <img src="img/icons/Looper.png" width="48" height="48" alt="looper Button">

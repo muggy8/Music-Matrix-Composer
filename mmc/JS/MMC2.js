@@ -157,7 +157,7 @@ function logout(){
     if (loginCookie[prompt !== undefined]){
         newCookie["prompt"] = loginCookie[prompt];
     }
-    document.cookie=JSON.stringify(newCookie);
+    document.cookie='{"uName":"","sessionID":0,"prompt":true}';
     location.reload();
 }
 
@@ -669,17 +669,17 @@ function playerIntervalSetter(){
 var songName = "";
 var trackCount = 0;
 function initializeSong(){
-    var mq = window.matchMedia( "(max-width: 50rem)" );
-    var initializeAnyways = true;
-    if (mq && loginCookie[prompt] == true){
+    var windowWidth = $(window).width();
+    var initializeAnyways = false;
+    
+    if (windowWidth <= 800){
         initializeAnyways = confirm("We have detected that your screen is small and is, therefore, likely that you are using a mobile browser. If you are using a mobile browser, it is likely that nothing will work and your browser may shutdown. Are you sure you want to continue?");
-    }
-    if (! initializeAnyways){
-        return;
+        if (!initializeAnyways){
+            return false;
+        }
     }
     else{
-        loginCookie["prompt"] = true;
-        document.cookie = JSON.stringify(loginCookie)
+        initializeAnyways = true;
     }
     
     if (document.getElementById("songName").value != ""){
@@ -720,7 +720,7 @@ function initializeSong(){
             }, 100);
         }
         else{
-            messageOn("<p>Due to technical restraints, you can only have 16 tracks. Sorry about this. </p>")
+            messageOn("<p>Due to technical restraints, you can only have 16 tracks. Sorry about this. </p>");
         }
     }
     else{
@@ -1632,6 +1632,12 @@ document.getHTML= function(who, deep){
 
 function clearMidiXML(){
     $("#xmlMidi").remove();
+}
+
+function rewind(){
+    var slider = document.getElementById("timeLine");
+    slider.value = 0;
+    sliderUpdate(slider);
 }
 
 // ---------------------------------------------------------------
