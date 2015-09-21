@@ -550,6 +550,12 @@ function infoMaker(){
     }
     
     info = info + '</select></div>';
+	
+	info = info + '<div class="dropdownBox">';
+	
+	info = info + '<img src="img/icons/volume.png" width="48" height="48" alt="Test Scale" class="controllButtons instrumentSelector" onclick="testScale()">';
+	
+	info = info + "</div>";
     
     info = info + '<div class="clickyBox">';
     
