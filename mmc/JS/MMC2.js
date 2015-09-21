@@ -213,7 +213,7 @@ var instruments = [ // use instruments.indexOf(nameOfInstrument);
     "guitar_fret_noise", "breath_noise", "seashore", "bird_tweet", "telephone_ring", "helicopter", "applause", "gunshot" // sound effects
 ]
 
-var baseVelocetys = [127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,25]
+var baseVelocetys = [127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,15]
 
 var presets =[//matrix presets
         {"preset": "Music Matrix A", "data":{"T1":73,"T2":70,"T3":68,"T4":66,"T5":63,"T6":61,"T7":58,"T8":56,"T9":54,"T10":51,"T11":49,"T12":46,"T13":44,"T14":42,"T15":39,"T16":37, "vol":127}},
@@ -481,10 +481,12 @@ function instrumentChange(){
     if (eval("MIDI.Soundfont." + choice) == undefined){ // instrument not found
         loadInstrument(choice, function(){
             MIDI.programChange(0, instruments.indexOf(choice));
+			testScale();
         });
     }
     else{ // instrument is found
         MIDI.programChange(0, instruments.indexOf(choice));
+		testScale();
     }
     scale.vol = baseVelocetys[instruments.indexOf($('.instrumentSelector').find(":selected")[0].value)]; // sets the volume of the scale to the proper number as listed by the baseVelocetys variable.
 }
@@ -499,7 +501,11 @@ function presetChange(){
         noteInfo.onchange();
     }
     scale.vol = baseVelocetys[instruments.indexOf($('.instrumentSelector').find(":selected")[0].value)]; // sets the volume of the scale to the proper number as listed by the baseVelocetys variable.
+	testScale();
+}
 
+function testScale(){
+	playerIntervalSetter();
 }
 
 function scaleInfo(){
@@ -631,20 +637,23 @@ var targetNote = 1;
 function noteTest(){
     if (status=="scale"){
         if (targetNote > 16){
-            targetNote = 1;
+            targetNote = 0;
+			clearInterval(playerInterval);
         }
-        for (var i = 0; i < testNoteArray[targetNote].length; i++){
-            // play the note if it wasn't there on the last collum
-            if (testNoteArray[targetNote-1].indexOf(testNoteArray[targetNote][i]) == -1){
-                MIDI.noteOn(0,eval("scale." + testNoteArray[targetNote][i]), scale.vol, 0);
-            }
-        }
-        for (var i = 0; i < testNoteArray[targetNote-1].length; i++){
-            // stop the note if it isn't here on the this collum
-            if (testNoteArray[targetNote].indexOf(testNoteArray[targetNote-1][i]) == -1){
-                MIDI.noteOff(0,eval("scale." + testNoteArray[targetNote-1][i]), 0);
-            }
-        }
+		else{
+			for (var i = 0; i < testNoteArray[targetNote].length; i++){
+				// play the note if it wasn't there on the last collum
+				if (testNoteArray[targetNote-1].indexOf(testNoteArray[targetNote][i]) == -1){
+					MIDI.noteOn(0,eval("scale." + testNoteArray[targetNote][i]), scale.vol, 0);
+				}
+			}
+			for (var i = 0; i < testNoteArray[targetNote-1].length; i++){
+				// stop the note if it isn't here on the this collum
+				if (testNoteArray[targetNote].indexOf(testNoteArray[targetNote-1][i]) == -1){
+					MIDI.noteOff(0,eval("scale." + testNoteArray[targetNote-1][i]), 0);
+				}
+			}
+		}
         targetNote++;
     }
 }
