@@ -335,7 +335,8 @@ input[type=submit]{
     border: 11px solid rgb(68, 68, 68);
     border-right: 0px;
     border-left: 0px;
-    height: 4px
+    height: 4px;
+	z-index: +10;
 }
 
 #presetSelector{
