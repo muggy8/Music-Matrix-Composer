@@ -39,11 +39,11 @@ input[type=submit]{
 .leftCollumBody{
     float:left;
     padding-left:3rem;
-    width: calc(100% - 448px - 6rem);
+    width:25rem;
 }
 
 .rightCollumBody{
-    width:25rem;
+    width: calc(100% - 448px - 6rem);
     float:right;
     padding-right:3rem;
 }
