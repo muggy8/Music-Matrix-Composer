@@ -852,22 +852,6 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
 	toolBar.setAttribute("onmouseout", "colorFade(this)");
     trackBody.appendChild(toolBar);
     
-    var volumeSwitch = document.createElement("img");
-    volumeSwitch.id=trackname + "volumeSwitch";
-    volumeSwitch.src = "img/icons/levels.png";
-    volumeSwitch.className = "toolBarButtons";
-    volumeSwitch.alt = "Control levels on " + trackname;
-    volumeSwitch.setAttribute("onclick", "manageLevels(this, '" + trackname + "')");
-    toolBar.appendChild(volumeSwitch);
-    
-    var trackSettings = document.createElement("img");
-    trackSettings.id=trackname + "settings";
-    trackSettings.src = "img/icons/Settings.png";
-    trackSettings.className = "toolBarButtons";
-    trackSettings.alt = "Advanced settings for " + trackname;
-    trackSettings.setAttribute("onclick", "trackSettings('" + trackname + "')");
-    toolBar.appendChild(trackSettings);
-    
     var matrixBox = document.createElement("div");
     matrixBox.id= trackname + "-MatrixBox";
     matrixBox.className="matrixBox";
@@ -919,6 +903,32 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     
     // build box interface structure
     populateBox(trackname, duration*pacing, matrixBox);
+	
+	// at the end, add the track's title to the toolbar
+	var trackTitle = document.createElement("p");
+	console.log(trackname);
+	trackTitle.innerHTML = replaceAll("_", " ", song[trackname].instrument);
+	trackTitle.className = "trackTitle";
+	trackTitle.id = trackname + "-Title";
+	toolBar.appendChild(trackTitle);
+    
+	// make the volume switch after the title
+    var volumeSwitch = document.createElement("img");
+    volumeSwitch.id=trackname + "volumeSwitch";
+    volumeSwitch.src = "img/icons/levels.png";
+    volumeSwitch.className = "toolBarButtons";
+    volumeSwitch.alt = "Control levels on " + trackname;
+    volumeSwitch.setAttribute("onclick", "manageLevels(this, '" + trackname + "')");
+    toolBar.appendChild(volumeSwitch);
+    
+	// then add the track settings
+    var trackSettings = document.createElement("img");
+    trackSettings.id=trackname + "settings";
+    trackSettings.src = "img/icons/Settings.png";
+    trackSettings.className = "toolBarButtons";
+    trackSettings.alt = "Advanced settings for " + trackname;
+    trackSettings.setAttribute("onclick", "trackSettings('" + trackname + "')");
+    toolBar.appendChild(trackSettings);
 }
 
 function populateBox(trackName, number, container){ // this is where the track gets made
