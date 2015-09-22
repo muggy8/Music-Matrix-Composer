@@ -1215,7 +1215,7 @@ function playSong(ele){
         song["track" + i].lastVolKey = 0.5;
     }
     
-    songInterval = setInterval(songPlayer, 1000/song.metaData.nps);
+    IntervalManager.set(1, songPlayer, 1000/song.metaData.nps);
     
     ele.src="img/icons/Stop.png";
     ele.setAttribute("onclick", "stopSong(this)");
