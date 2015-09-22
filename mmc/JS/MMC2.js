@@ -522,6 +522,12 @@ function scaleInfo(){
 function infoMaker(){
     var info = "";
     
+	info = info + '<div class="dropdownBox">';
+	
+	info = info + '<img src="img/icons/Play.png" width="48" height="48" alt="Test Scale" class="controllButtons instrumentSelector" onclick="testScale()">';
+	
+	info = info + "</div>";
+	
     info = info + '<div class="dropdownBox"><h4 class="presetLable">Select Preset:</h4><select id="presetSelector" onchange="presetChange()">';
     for (var i = 0; i < presets.length; i++){
         if (i == presetUsed){
@@ -550,12 +556,6 @@ function infoMaker(){
     }
     
     info = info + '</select></div>';
-	
-	info = info + '<div class="dropdownBox">';
-	
-	info = info + '<img src="img/icons/volume.png" width="48" height="48" alt="Test Scale" class="controllButtons instrumentSelector" onclick="testScale()">';
-	
-	info = info + "</div>";
     
     info = info + '<div class="clickyBox">';
     
