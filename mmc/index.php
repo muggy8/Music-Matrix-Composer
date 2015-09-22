@@ -55,19 +55,7 @@
             </div>
         </div>
         <div id="mainbody">
-            <div id="rightCollum" class="rightCollumBody">
-                <div id="newUser" class="collumEle">
-                    <form action="#banner" method="post" onsubmit="return registerAcc()">
-                        <h2 class="sectionName">New Account</h2>
-                        <label for="desiredName">Desired Username: </label>
-                        <input type="text" name="desiredName" id="desiredName" placeholder="Desired username" class="inputField"><br>
-                        <lable for="pass1">New Password: </lable>
-                        <input type="password" name="pass1" id="pass1" placeholder="Password" class="inputField" required><br>
-                        <lable for="pass2">Re-enter Password: </lable>
-                        <input type="password" name="pass2" id="pass2" placeholder="Re-type password" class="inputField" required><br>
-                        <input type="submit" name="register" value="register" class="inputField">
-                    </form>
-                </div>
+            <div id="rightCollum" class="leftCollumBody">
                 <div id="newSong" class="collumEle">
                     <h2 class="sectionName">New Song</h2>
                     <form action="#" method="post" onsubmit="return initializeSong()">
@@ -82,16 +70,27 @@
                         <input type="submit" value="create" class="inputField">
                     </form>
                 </div>
+                <div id="newUser" class="collumEle">
+                    <form action="#banner" method="post" onsubmit="return registerAcc()">
+                        <h2 class="sectionName">New Account</h2>
+                        <label for="desiredName">Desired Username: </label>
+                        <input type="text" name="desiredName" id="desiredName" placeholder="Desired username" class="inputField"><br>
+                        <lable for="pass1">New Password: </lable>
+                        <input type="password" name="pass1" id="pass1" placeholder="Password" class="inputField" required><br>
+                        <lable for="pass2">Re-enter Password: </lable>
+                        <input type="password" name="pass2" id="pass2" placeholder="Re-type password" class="inputField" required><br>
+                        <input type="submit" name="register" value="register" class="inputField">
+                    </form>
+                </div>
                 <div id="returningUser" class="collumEle hide">
-                    <!-- the saved songs go here -->
-                    <h2 class="sectionName">Your saved songs:<h2>
+                    <h2 class="sectionName">Your saved songs:</h2>
                 </div>
                 <div id="credits" class="collumEle">
                     <h2>Special thanks to:</h2>
                     <button class="alertOk" onclick="acknowledgements();" style="float:none; width:auto;">Acknowledgements</button>
                 </div>
             </div>
-            <div id="leftCollum" class="leftCollumBody">
+            <div id="leftCollum" class="rightCollumBody">
                 <div class="collumEle strech">
                     <h2 class="sectionName">
                         Under construction
