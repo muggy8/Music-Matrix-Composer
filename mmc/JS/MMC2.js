@@ -1803,6 +1803,7 @@ function acknowledgements(){
     displayText += "Eligrey: <a href='https://github.com/eligrey/FileSaver.js/'>FileSaver.js</a><br>";
     displayText += "Eligrey: <a href='https://github.com/eligrey/Blob.js'>Blobs.js</a><br>";
     displayText += "Valentin Schmidt: <a href='http://valentin.dasdeck.com/php/midi/'>PHP Midi</a><br>";
+	displayText += "Sterling Isfine: <a href='http://www.webdeveloper.com/forum/showthread.php?233448-Is-there-a-way-to-find-if-any-intervals-are-still-open'>Interval Manager</a><br>";
     displayText += "JQuery Community: <a href='https://jquery.com/'>All of JQuery</a><br>";
     displayText += "Tonematrix Audiotool: <a href='http://tonematrix.audiotool.com/'>Inspiration</a><br><br>";
     
