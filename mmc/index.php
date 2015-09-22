@@ -108,17 +108,17 @@
         </div>
         <div id="songBody" class="hide">
             <div id="buttonHolder" class="controllBar">
-                <img src="img/icons/Play.png" width="48" height="48" alt="play Button" class="controllButtons" onclick="playSong(this)">
-                <img src="img/icons/Rewind.png" width="48" height="48" alt="Rewind to Start Button" class="controllButtons" onclick="rewind()">
-                <img src="img/icons/Save.png" width="48" height="48" alt="save Button" class="controllButtons" onclick="saveSong()">
-                <div class="controllButtons" id="loopButton" onclick="looper()">
+                <img src="img/icons/Play.png" width="48" height="48" alt="play Button" class="controllButtons" onclick="playSong(this)" title="Play/Pause">
+                <img src="img/icons/Rewind.png" width="48" height="48" alt="Rewind to Start Button" class="controllButtons" onclick="rewind()" title="Rewind to Start">
+                <img src="img/icons/Save.png" width="48" height="48" alt="save Button" class="controllButtons" onclick="saveSong()" title="Save Song (login required)">
+                <div class="controllButtons" id="loopButton" onclick="looper()" title="Looper Tool (right click to use when active)">
                     <img src="img/icons/Looper.png" width="48" height="48" alt="looper Button">
                     <p id="looperNumber">16</p>
                     <img src="img/icons/clear.png" id="looperCover" width="48" height="48" alt="looper Button Cover">
                 </div>
-                <img src="img/icons/+.png" width="48" height="48" alt="new track Button" class="controllButtons" onclick="addTrack()">
-                <img src="img/icons/Export.png" width="48" height="48" alt="home Button" class="controllButtons" onclick="exportSong()">
-                <img src="img/icons/Home.png" width="48" height="48" alt="home Button" class="controllButtons" onclick="homeButton()">
+                <img src="img/icons/+.png" width="48" height="48" alt="new track Button" class="controllButtons" onclick="addTrack()" title="New Track (max 16)">
+                <img src="img/icons/Export.png" width="48" height="48" alt="home Button" class="controllButtons" onclick="exportSong()" title="Export Song">
+                <img src="img/icons/Home.png" width="48" height="48" alt="home Button" class="controllButtons" onclick="homeButton()" title="Return to Home Screen">
             </div>
             
             <div id="imglessButtons" class="otherBar">
