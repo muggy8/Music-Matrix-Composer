@@ -961,7 +961,12 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
 	// at the end, add the track's title to the toolbar
 	var trackTitle = document.createElement("p");
 	console.log(trackname);
-	trackTitle.innerHTML = toTitleCase(replaceAll("_", " ", song[trackname].instrument));
+	if (song[trackname].instrument != "gunshot"){
+		trackTitle.innerHTML = toTitleCase(replaceAll("_", " ", song[trackname].instrument));
+	}
+	else{
+		trackTitle.innerHTML = "Drum Kit";
+	}
 	trackTitle.className = "trackTitle";
 	trackTitle.id = trackname + "-Title";
 	toolBar.appendChild(trackTitle);
