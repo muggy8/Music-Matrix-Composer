@@ -907,7 +907,7 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
 	// at the end, add the track's title to the toolbar
 	var trackTitle = document.createElement("p");
 	console.log(trackname);
-	trackTitle.innerHTML = replaceAll("_", " ", song[trackname].instrument);
+	trackTitle.innerHTML = toTitleCase(replaceAll("_", " ", song[trackname].instrument));
 	trackTitle.className = "trackTitle";
 	trackTitle.id = trackname + "-Title";
 	toolBar.appendChild(trackTitle);
@@ -1015,7 +1015,9 @@ function drag(ele, e){
     }
 }
 
-
+function toTitleCase(str){
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
 
 // ---------------------------------------------------------------
 // song composing methods
