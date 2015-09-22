@@ -1694,9 +1694,11 @@ $(function() { // horizontal scrolling provided by http://css-tricks.com/
 			//console.log(this.scrollLeft);
 			if(this.scrollLeft > 35){
 				$(".trackTools").css("left", this.scrollLeft-35);
+				$(".trackTools").css("opacity", 0.7);
 			}
 			else{
 				$(".trackTools").css("left", 0);
+				$(".trackTools").css("opacity", 1);
 			}
         }
         //console.log($( window ).scrollTop());
