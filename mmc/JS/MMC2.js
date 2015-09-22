@@ -524,7 +524,7 @@ function infoMaker(){
     
 	info = info + '<div class="dropdownBox">';
 	
-	info = info + '<img src="img/icons/Play.png" width="48" height="48" alt="Test Scale" class="controllButtons instrumentSelector" onclick="testScale()">';
+	info = info + '<img src="img/icons/Play.png" width="48" height="48" alt="Test Scale" class="controllButtons" onclick="testScale()" style="margin-right: 23px">';
 	
 	info = info + "</div>";
 	
