@@ -130,12 +130,17 @@ function renameStart(target){
 }
 
 function renameSong(target){
-    savedSongs[target].name =  document.getElementById("newName").value;
-    document.getElementById(target + "-title").innerHTML = document.getElementById("newName").value
-    $.post("services/saveSong.php", {name:loginCookie.uName, sessionID:loginCookie.sessionID, data: JSON.stringify(savedSongs[target])}, function(data){
-        //console.log(data);
-        messageOff();
-    });
+	if (document.getElementById("newName").value != ""){
+		savedSongs[target].name =  document.getElementById("newName").value;
+		document.getElementById(target + "-title").innerHTML = document.getElementById("newName").value
+		$.post("services/saveSong.php", {name:loginCookie.uName, sessionID:loginCookie.sessionID, data: JSON.stringify(savedSongs[target])}, function(data){
+			//console.log(data);
+			messageOff();
+		});
+	}
+	else{
+		messageOn("You cant use an empty title...");
+	}
 }
 
 function delConfirm(songID){
@@ -642,6 +647,7 @@ var testNoteArray = [["T1"],["T16"], ["T15"], ["T14"], ["T13"], ["T12"], ["T11"]
 var targetNote = 1;
 function noteTest(){
     if (status=="scale"){
+		console.log(targetNote);
         if (targetNote > 16){
             targetNote = 0;
 			clearInterval(playerInterval);
@@ -850,6 +856,7 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     toolBar.className = "trackTools";
 	toolBar.setAttribute("onmouseover", "colorSolid(this)");
 	toolBar.setAttribute("onmouseout", "colorFade(this)");
+	toolBar.setAttribute("style", "opacity:1.0;");
     trackBody.appendChild(toolBar);
     
     var matrixBox = document.createElement("div");
@@ -1354,6 +1361,8 @@ function trackUpdate(trackName){
     var trackIndex = parseInt(trackName.replace("track", ""));
     MIDI.programChange(trackIndex, instruments.indexOf(song[trackName].instrument));
     messageOff();
+	
+	document.getElementById(trackName + "-Title").innerHTML = toTitleCase(replaceAll("_", " ", song[trackName].instrument));
 }
 
 function saveSong(){
