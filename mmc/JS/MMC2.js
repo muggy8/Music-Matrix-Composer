@@ -1691,6 +1691,13 @@ $(function() { // horizontal scrolling provided by http://css-tricks.com/
         if (scrollMode == "horiz"){
     	    this.scrollLeft -= (delta * 30);
     	    event.preventDefault();
+			//console.log(this.scrollLeft);
+			if(this.scrollLeft > 35){
+				$(".trackTools").css("left", this.scrollLeft-35);
+			}
+			else{
+				$(".trackTools").css("left", 0);
+			}
         }
         //console.log($( window ).scrollTop());
         setTimeout(function (){
