@@ -223,7 +223,7 @@ input[type=submit]{
 	left: 0;
 	z-index: +1;
 	-webkit-transition: opacity 1s;
-    transition: opacity 0.5s;
+    transition: opacity 0.7s;
 }
 
 .matrixBox{
