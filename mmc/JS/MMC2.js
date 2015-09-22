@@ -894,8 +894,8 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     var trackBody = document.createElement("div");
     trackBody.id = trackname;
     trackBody.className = "track";
+	trackBody.setAttribute( "style", "top: " + (15 + parseInt(trackname.replace("track", ""))*(371+15)) + "px;");
     trackBody.style.width= (duration*pacing*23)+3+100 + "px";
-	trackBody.style.margin-top = 15 + parseInt(trackname.replace("track", ""))*(371+15) + "px";
     document.getElementById("songBody").appendChild(trackBody);
     
     var toolBar = document.createElement("div");
@@ -1410,8 +1410,12 @@ function trackUpdate(trackName){
     var trackIndex = parseInt(trackName.replace("track", ""));
     MIDI.programChange(trackIndex, instruments.indexOf(song[trackName].instrument));
     messageOff();
-	
-	document.getElementById(trackName + "-Title").innerHTML = toTitleCase(replaceAll("_", " ", song[trackName].instrument));
+	if (song[trackName].instrument != gunshot){
+		document.getElementById(trackName + "-Title").innerHTML = toTitleCase(replaceAll("_", " ", song[trackName].instrument));
+	}
+	else{
+		document.getElementById(trackName + "-Title").innerHTML = "Drum Kit";
+	}
 	IntervalManager.clearAll();
 }
 
