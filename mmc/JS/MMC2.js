@@ -4,7 +4,7 @@ function messageOff(){
     $("#infoGroup")[0].setAttribute("style", "display:none")
     document.getElementById("messageBody").innerHTML="";
     status="main";
-    clearInterval(playerInterval);
+    IntervalManager.clearAll();
     targetNote = 1;
     if (song.track0.instrument!=""){
         MIDI.programChange(0, instruments.indexOf(song.track0.instrument))
@@ -482,6 +482,7 @@ function loadInstrument(inst, success){
 
 var choice = "acoustic_grand_piano"; // instrument of choice;
 function instrumentChange(){
+	IntervalManager.clearAll();
     choice = $('.instrumentSelector').find(":selected")[0].value;
     if (eval("MIDI.Soundfont." + choice) == undefined){ // instrument not found
         loadInstrument(choice, function(){
@@ -498,6 +499,7 @@ function instrumentChange(){
 
 var presetUsed = 0;
 function presetChange(){
+	IntervalManager.clearAll();;
     presetUsed = parseInt($('#presetSelector').find(":selected")[0].value);
     scale = jQuery.extend(true, {}, presets[presetUsed].data) ;
     for (var i = 1; i <= 16; i++){
@@ -647,10 +649,10 @@ var testNoteArray = [["T1"],["T16"], ["T15"], ["T14"], ["T13"], ["T12"], ["T11"]
 var targetNote = 1;
 function noteTest(){
     if (status=="scale"){
-		console.log(targetNote);
+		//console.log(targetNote);
         if (targetNote > 16){
             targetNote = 0;
-			clearInterval(playerInterval);
+			IntervalManager.clearAll();
         }
 		else{
 			for (var i = 0; i < testNoteArray[targetNote].length; i++){
@@ -680,7 +682,51 @@ function lightTestNotes(){
 
 var playerInterval;
 function playerIntervalSetter(){
-    playerInterval = setInterval(noteTest, 1000/nps);
+    IntervalManager.set(0, noteTest, 1000/nps);
+}
+
+var IntervalManager ={
+   
+ intervals : [/*28432953637269707465726C61746976652E636F6D*/],
+   
+ set : function( intervalID, funcRef, period )
+ {
+  if( !this.intervals[ intervalID ] )  
+   this.intervals[ intervalID ] = setInterval( funcRef, period );
+  else
+   console.log("Attempted to set " + intervalID + ' more than once.');
+ },  
+   
+ clear : function( id )
+ {
+  clearInterval( this.intervals[ id ] );  
+  delete this.intervals[ id ];  
+ },
+ 
+ clearAll : function()
+ {
+  var table = this.intervals;  
+    
+  for( var i in table )
+  {
+   clearInterval( table[ i ] );
+   delete table[ i ];  
+  }      
+ },
+ 
+ any : function()
+ {
+  var table = this.intervals, found = false;  
+  
+  for( var i in table )
+   if( table[ i ] !== null )
+   {
+    found = table[ i ];  
+    break;  
+   }
+    
+  return found;
+ }   
 }
 
 // ---------------------------------------------------------------
@@ -1174,7 +1220,7 @@ function playSong(ele){
 }
 
 function stopSong(ele){
-    clearInterval(songInterval);
+    IntervalManager.clearAll();
     
     ele.src="img/icons/Play.png";
     ele.setAttribute("onclick", "playSong(this)");
@@ -1363,6 +1409,7 @@ function trackUpdate(trackName){
     messageOff();
 	
 	document.getElementById(trackName + "-Title").innerHTML = toTitleCase(replaceAll("_", " ", song[trackName].instrument));
+	IntervalManager.clearAll();
 }
 
 function saveSong(){
