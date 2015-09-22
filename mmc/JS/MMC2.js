@@ -895,6 +895,7 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     trackBody.id = trackname;
     trackBody.className = "track";
     trackBody.style.width= (duration*pacing*23)+3+100 + "px";
+	trackBody.style.margin-top = 15 + parseInt(trackname.replace("track", ""))*(371+15) + "px";
     document.getElementById("songBody").appendChild(trackBody);
     
     var toolBar = document.createElement("div");
