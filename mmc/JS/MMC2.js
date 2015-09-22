@@ -972,6 +972,7 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     volumeSwitch.className = "toolBarButtons";
     volumeSwitch.alt = "Control levels on " + trackname;
     volumeSwitch.setAttribute("onclick", "manageLevels(this, '" + trackname + "')");
+	volumeSwitch.title = "Levels Adjuster";
     toolBar.appendChild(volumeSwitch);
     
 	// then add the track settings
@@ -981,6 +982,7 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     trackSettings.className = "toolBarButtons";
     trackSettings.alt = "Advanced settings for " + trackname;
     trackSettings.setAttribute("onclick", "trackSettings('" + trackname + "')");
+	trackSettings.title="Advanced Track Settings";
     toolBar.appendChild(trackSettings);
 }
 
