@@ -1747,6 +1747,7 @@ function rewind(){
     var slider = document.getElementById("timeLine");
     slider.value = 0;
     sliderUpdate(slider);
+	$("body").animate({scrollLeft: }, 2000);
 }
 
 // ---------------------------------------------------------------
