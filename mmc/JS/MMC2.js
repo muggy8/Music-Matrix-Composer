@@ -848,6 +848,8 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     var toolBar = document.createElement("div");
     toolBar.id = trackname + "-ToolBar";
     toolBar.className = "trackTools";
+	toolBar.setAttribute("onmouseover", "colorSolid(this)");
+	toolBar.setAttribute("onmouseout", "colorFade(this)");
     trackBody.appendChild(toolBar);
     
     var volumeSwitch = document.createElement("img");
@@ -1242,6 +1244,18 @@ function loopToggle(ele){
 // ---------------------------------------------------------------
 // control button functions
 // ---------------------------------------------------------------
+
+function colorSolid(ele){
+	var eleCSS = ele.getAttribute("style");
+	ele.setAttribute("style",eleCSS.replace("0.7", "1"));
+}
+
+function colorFade(ele){
+	var eleCSS = ele.getAttribute("style");
+	if (scrollLeftDist > 35){
+		ele.setAttribute("style",eleCSS.replace("1", "0.7"));
+	}
+}
 
 function homeButton(){
     messageOn("<p>Unsaved work will be lost.</p><p>click the dark region to return to your work, click ok to continue</p>", "location.reload()", true, "Got it!");
@@ -1686,10 +1700,12 @@ $(document).mouseup(function(){
     dragging = false;
 });
 
+var scrollLeftDist = 0; 
 $(function() { // horizontal scrolling provided by http://css-tricks.com/
    $("body").mousewheel(function(event, delta) {
         if (scrollMode == "horiz"){
     	    this.scrollLeft -= (delta * 30);
+			scrollLeftDist = this.scrollLeft;
     	    event.preventDefault();
 			//console.log(this.scrollLeft);
 			if(this.scrollLeft > 35){
