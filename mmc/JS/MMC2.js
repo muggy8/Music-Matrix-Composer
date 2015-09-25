@@ -891,18 +891,6 @@ function loadSong(songID){
     });
 }
 
-function songLengthDialogue(){
-	var info = "";
-	
-	info += "<p>Your song \"" + song.metaData.name + "\" had <strong id='totalNotesCur'>" + song.metaData.nps*song.metaData.length + "</strong> collums of notes of track space playing at a maximum of <strong>" + song.metaData.nps + " notes per second.</strong> for <strong>" + Math.floor(song.metaData.length/60) + " minutes and " + song.metaData.length%60 + " second</strong>.";
-	
-	info += '<p>You can change your song to play at <input id="newNPS" type="number" class="scaleInput" value="' + song.metaData.nps + '"  min="2" max="32" onchange="recalcLength()" style="float:none;"> notes per seconds max for <input id="newDurationMin" type="number" class="scaleInput" value="' + Math.floor(song.metaData.length/60) + '" min="0" style="float:none;" onchange="updatePrediction()"> minutes and <input id="newDurationSec" type="number" class="scaleInput" value="' + song.metaData.length%60 + '"  min="0" style="float:none;" onchange="updatePrediction()"> seconds.</p>';
-	
-	info += '<p>This will result in your song "' + song.metaData.name + '" to have a total of <strong id="predictedWorkspace">' + song.metaData.nps*song.metaData.length + '</strong> collums of notes to work with.</p>'; 
-	
-	messageOn(info);
-}
-
 function trackRetime(newDuration, newNPS){
 	//var newDuration;
 	//var newNPS;
@@ -1545,6 +1533,26 @@ function trackSave(trackNumber){
            trackSave(trackNumber+1);
         });
     }
+}
+
+function songLengthDialogue(){
+	var info = "";
+	
+	info += "<p>Your song \"" + song.metaData.name + "\" had <strong id='totalNotesCur'>" + song.metaData.nps*song.metaData.length + "</strong> collums of notes of track space playing at a maximum of <strong>" + song.metaData.nps + " notes per second.</strong> for <strong>" + Math.floor(song.metaData.length/60) + " minutes and " + song.metaData.length%60 + " second</strong>.";
+	
+	info += '<p>You can change your song to play at <input id="newNPS" type="number" class="scaleInput" value="' + song.metaData.nps + '"  min="2" max="32" onchange="recalcLength()" style="float:none;"> notes per seconds max for <input id="newDurationMin" type="number" class="scaleInput" value="' + Math.floor(song.metaData.length/60) + '" min="0" style="float:none;" onchange="updatePrediction()"> minutes and <input id="newDurationSec" type="number" class="scaleInput" value="' + song.metaData.length%60 + '"  min="0" style="float:none;" onchange="updatePrediction()"> seconds.</p>';
+	
+	info += '<p>This will result in your song "' + song.metaData.name + '" to have a total of <strong id="predictedWorkspace">' + song.metaData.nps*song.metaData.length + '</strong> collums of notes to work with.</p>'; 
+	
+	messageOn(info);
+}
+
+function updatePrediction(){
+	
+}
+
+function recalcLength(){
+	
 }
 
 function exportSong(){
