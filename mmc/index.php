@@ -115,7 +115,7 @@
                     <p id="looperNumber">16</p>
                     <img src="img/icons/clear.png" id="looperCover" width="48" height="48" alt="looper Button Cover">
                 </div>
-                <img src="img/icons/+.png" width="48" height="48" alt="new track Button" class="controllButtons" onclick="addTrack()" title="New Track (max 16)">
+                <img src="img/icons/+.png" width="48" height="48" alt="New track button" class="controllButtons" onclick="addTrack()" title="New Track (max 16)"><img src="img/icons/retime.png" width="48" height="48" alt="Edit song length button" class="controllButtons" onclick="songLengthDialogue()" title="Modify song length">
                 <img src="img/icons/Export.png" width="48" height="48" alt="home Button" class="controllButtons" onclick="exportSong()" title="Export Song">
                 <img src="img/icons/Home.png" width="48" height="48" alt="home Button" class="controllButtons" onclick="homeButton()" title="Return to Home Screen">
             </div>

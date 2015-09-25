@@ -888,6 +888,10 @@ function loadSong(songID){
     });
 }
 
+function songLengthDialogue(){
+	
+}
+
 function trackRetime(newDuration, newNPS){
 	//var newDuration;
 	//var newNPS;
