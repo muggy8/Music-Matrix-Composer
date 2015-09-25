@@ -897,7 +897,36 @@ function trackRetime(newDuration, newNPS){
 	
 	if (newDuration*newNPS < preEditSong.metaData.length*preEditSong.metaData.nps){
 		if (confirm("You have choose to shorten your song. You might lose part of your song if you do. Are you sure you want to do this?")){
+			// clear data in song
+			var song={
+				"track0":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+				"track1":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+				"track2":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+				"track3":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+				"track4":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+				"track5":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+				"track6":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+				"track7":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+				"track8":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+				"track9":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+				"track10":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+				"track11":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5},
+				"track12":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+				"track13":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+				"track14":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+				"track15":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+				"metaData":{"length":"", "name":"", "nps":"", "songID":""}
+			};
 			
+			// remove the tracks from the work area.
+			$(".track").remove();
+			var numberOfTracks = Object.keys(preEditSong).length -1;
+			
+			// build metadata of the track
+			song.metaData.length = newDuration; // seconds
+			song.metaData.nps = newNPS;
+			song.metaData.name = preEditSong.metaData.name;
+			song.metaData.songID = preEditSong.metaData.songID;
 		}
 	}
 }
