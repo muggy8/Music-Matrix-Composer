@@ -888,6 +888,20 @@ function loadSong(songID){
     });
 }
 
+function trackRetime(newDuration, newNPS){
+	//var newDuration;
+	//var newNPS;
+	
+	var preEditSong = jQuery.extend(true, {}, song);
+	messageOn("<p>Loading please wait</p>", "", false, "Ok");
+	
+	if (newDuration*newNPS < preEditSong.metaData.length*preEditSong.metaData.nps){
+		if (confirm("You have choose to shorten your song. You might lose part of your song if you do. Are you sure you want to do this?")){
+			
+		}
+	}
+}
+
 var tracksLoaded = 0;
 function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     // build the interface representation of the track
