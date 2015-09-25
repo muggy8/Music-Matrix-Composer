@@ -821,8 +821,11 @@ function loadCollum(targetTrack, collumNotes, collumOn){
 function loadCollumAdvanced(targetTrack, collumNotes, collumOn){
     for (var i = 1; i < collumNotes.length; i++){
         var preID = {"ParentTrack":targetTrack, "tone": parseInt(collumNotes[i].substring(1)), "collum":collumOn};
-        //console.log(document.getElementById(JSON.stringify(preID)));
-        toggle(document.getElementById(JSON.stringify(preID)));
+		console.log(document.getElementById(JSON.stringify(preID)));
+		if ( document.getElementById(JSON.stringify(preID)) != undefined){
+			//console.log(document.getElementById(JSON.stringify(preID)));
+			toggle(document.getElementById(JSON.stringify(preID)));
+		}
     }
     //console.log(targetTrack, collumNotes[0], collumOn);
     levelsKeyframe(targetTrack, collumNotes[0], collumOn);
@@ -889,7 +892,15 @@ function loadSong(songID){
 }
 
 function songLengthDialogue(){
+	var info = "";
 	
+	info += "<p>Your song \"" + song.metaData.name + "\" had <strong id='totalNotesCur'>" + song.metaData.nps*song.metaData.length + "</strong> collums of notes of track space playing at a maximum of <strong>" + song.metaData.nps + " notes per second.</strong> for <strong>" + Math.floor(song.metaData.length/60) + " minutes and " + song.metaData.length%60 + " second</strong>.";
+	
+	info += '<p>You can change your song to play at <input id="newNPS" type="number" class="scaleInput" value="' + song.metaData.nps + '"  min="2" max="32" onchange="recalcLength()" style="float:none;"> notes per seconds max for <input id="newDurationMin" type="number" class="scaleInput" value="' + Math.floor(song.metaData.length/60) + '" min="0" style="float:none;" onchange="updatePrediction()"> minutes and <input id="newDurationSec" type="number" class="scaleInput" value="' + song.metaData.length%60 + '"  min="0" style="float:none;" onchange="updatePrediction()"> seconds.</p>';
+	
+	info += '<p>This will result in your song "' + song.metaData.name + '" to have a total of <strong id="predictedWorkspace">' + song.metaData.nps*song.metaData.length + '</strong> collums of notes to work with.</p>'; 
+	
+	messageOn(info);
 }
 
 function trackRetime(newDuration, newNPS){
