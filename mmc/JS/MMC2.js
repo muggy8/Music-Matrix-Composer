@@ -878,7 +878,7 @@ function loadSong(songID){
             loadTune(trackName, tracks[trackName].songData);
             trackCount++;
         }
-        totalTracksToLoad = numberOfTracks;
+        totalTracksToLoad = numberOfTracks; // helps with telling the program when to turn off the loading sign
         clickSound = true;
         
         // slider stuff
@@ -927,6 +927,30 @@ function trackRetime(newDuration, newNPS){
 			song.metaData.nps = newNPS;
 			song.metaData.name = preEditSong.metaData.name;
 			song.metaData.songID = preEditSong.metaData.songID;
+			
+			//disable looper to prevent bad loading
+			loop = 0;
+			document.getElementById("looperNumber").innerHTML = loop;
+			
+			// get rid of clicksounds to not sound annoying.
+			clickSound = false;
+			
+			// clean up trackcount so the program doesn't go overboard with thinking it has too may tracks
+			trackCount = 0;
+			// dropped this in from load song with a twist
+			for (var i = 0; i < numberOfTracks; i++){
+				var trackName = "track"+i;
+				buildTrack(trackName, newDuration, newNPS , preEditSong[trackName].instrument, preEditSong[trackName].scale, parseInt(preEditSong[trackName].id));
+				//console.log(tracks[trackName].songData);
+				loadTune(trackName, preEditSong[trackName].songData);
+				trackCount++;
+			}
+			totalTracksToLoad = numberOfTracks; // helps with telling the program when to turn off the loading sign
+			clickSound = true;
+			
+			var slider = document.getElementById("timeLine");
+			slider.style.width = (songSec*nps*23)-13 + "px";
+			slider.setAttribute("max", (songSec*nps).toString());
 		}
 	}
 }
