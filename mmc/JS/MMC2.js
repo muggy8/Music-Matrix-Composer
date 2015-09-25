@@ -821,7 +821,7 @@ function loadCollum(targetTrack, collumNotes, collumOn){
 function loadCollumAdvanced(targetTrack, collumNotes, collumOn){
     for (var i = 1; i < collumNotes.length; i++){
         var preID = {"ParentTrack":targetTrack, "tone": parseInt(collumNotes[i].substring(1)), "collum":collumOn};
-		console.log(document.getElementById(JSON.stringify(preID)));
+		//console.log(document.getElementById(JSON.stringify(preID)));
 		if ( document.getElementById(JSON.stringify(preID)) != undefined){
 			//console.log(document.getElementById(JSON.stringify(preID)));
 			toggle(document.getElementById(JSON.stringify(preID)));
