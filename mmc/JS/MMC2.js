@@ -894,65 +894,68 @@ function trackRetime(newDuration, newNPS){
 	
 	var preEditSong = jQuery.extend(true, {}, song);
 	messageOn("<p>Loading please wait</p>", "", false, "Ok");
+	//console.log(song);
 	
 	if (newDuration*newNPS < preEditSong.metaData.length*preEditSong.metaData.nps){
-		if (confirm("You have choose to shorten your song. You might lose part of your song if you do. Are you sure you want to do this?")){
-			// clear data in song
-			var song={
-				"track0":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
-				"track1":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
-				"track2":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
-				"track3":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
-				"track4":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
-				"track5":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
-				"track6":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
-				"track7":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
-				"track8":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
-				"track9":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
-				"track10":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
-				"track11":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5},
-				"track12":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
-				"track13":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
-				"track14":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
-				"track15":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
-				"metaData":{"length":"", "name":"", "nps":"", "songID":""}
-			};
-			
-			// remove the tracks from the work area.
-			$(".track").remove();
-			var numberOfTracks = Object.keys(preEditSong).length -1;
-			
-			// build metadata of the track
-			song.metaData.length = newDuration; // seconds
-			song.metaData.nps = newNPS;
-			song.metaData.name = preEditSong.metaData.name;
-			song.metaData.songID = preEditSong.metaData.songID;
-			
-			//disable looper to prevent bad loading
-			loop = 0;
-			document.getElementById("looperNumber").innerHTML = loop;
-			
-			// get rid of clicksounds to not sound annoying.
-			clickSound = false;
-			
-			// clean up trackcount so the program doesn't go overboard with thinking it has too may tracks
-			trackCount = 0;
-			// dropped this in from load song with a twist
-			for (var i = 0; i < numberOfTracks; i++){
-				var trackName = "track"+i;
-				buildTrack(trackName, newDuration, newNPS , preEditSong[trackName].instrument, preEditSong[trackName].scale, parseInt(preEditSong[trackName].id));
-				//console.log(tracks[trackName].songData);
-				loadTune(trackName, preEditSong[trackName].songData);
-				trackCount++;
-			}
-			totalTracksToLoad = numberOfTracks; // helps with telling the program when to turn off the loading sign
-			clickSound = true;
-			
-			var slider = document.getElementById("timeLine");
-			slider.style.width = (songSec*nps*23)-13 + "px";
-			slider.setAttribute("max", (songSec*nps).toString());
+		if (!confirm("You have choose to reduce the number of notes you have to work with. You might lose part of your song if you do continue with this opperation. It is suggested that you save before continueing. Are you sure you want to do this?")){
+			return;
 		}
 	}
+			
+	// clear data in song
+	song={
+		"track0":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+		"track1":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+		"track2":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+		"track3":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+		"track4":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+		"track5":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+		"track6":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+		"track7":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+		"track8":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+		"track9":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+		"track10":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+		"track11":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5},
+		"track12":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+		"track13":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+		"track14":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+		"track15":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
+		"metaData":{"length":"", "name":"", "nps":"", "songID":""}
+	};
+	
+	// remove the tracks from the work area.
+	$(".track").remove();
+	var numberOfTracks = trackCount;
+	
+	// build metadata of the track
+	song.metaData.length = newDuration; // seconds
+	song.metaData.nps = newNPS;
+	song.metaData.name = preEditSong.metaData.name;
+	song.metaData.songID = preEditSong.metaData.songID;
+	
+	//disable looper to prevent bad loading
+	loop = 0;
+	document.getElementById("looperNumber").innerHTML = loop;
+	
+	// get rid of clicksounds to not sound annoying.
+	clickSound = false;
+	
+	// clean up trackcount so the program doesn't go overboard with thinking it has too may tracks
+	trackCount = 0;
+	// dropped this in from load song with a twist
+	for (var i = 0; i < numberOfTracks; i++){
+		var trackName = "track"+i;
+		buildTrack(trackName, newDuration, newNPS , preEditSong[trackName].instrument, preEditSong[trackName].scale, parseInt(preEditSong[trackName].id));
+		//console.log(tracks[trackName].songData);
+		loadTune(trackName, preEditSong[trackName].songData);
+		trackCount++;
+	}
+	totalTracksToLoad = numberOfTracks; // helps with telling the program when to turn off the loading sign
+	clickSound = true;
+	
+	var slider = document.getElementById("timeLine");
+	slider.style.width = (newDuration*newNPS*23)-13 + "px";
+	slider.setAttribute("max", (newDuration*newNPS).toString());
 }
 
 var tracksLoaded = 0;
