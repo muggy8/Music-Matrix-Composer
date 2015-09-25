@@ -891,9 +891,9 @@ function loadSong(songID){
     });
 }
 
-function trackRetime(newDuration, newNPS){
-	//var newDuration;
-	//var newNPS;
+function trackRetime(){
+	var newNPS = parseInt(document.getElementById("newNPS").value);
+	var newDuration = parseInt(document.getElementById("newDurationMin").value)*60 + parseInt(document.getElementById("newDurationSec").value);
 	
 	var preEditSong = jQuery.extend(true, {}, song);
 	messageOn("<p>Loading please wait</p>", "", false, "Ok");
@@ -1544,15 +1544,27 @@ function songLengthDialogue(){
 	
 	info += '<p>This will result in your song "' + song.metaData.name + '" to have a total of <strong id="predictedWorkspace">' + song.metaData.nps*song.metaData.length + '</strong> collums of notes to work with.</p>'; 
 	
-	messageOn(info);
+	messageOn(info, "trackRetime()", true, "Change");
 }
 
 function updatePrediction(){
+	var newNPS = parseInt(document.getElementById("newNPS").value);
+	var newDurationSec = parseInt(document.getElementById("newDurationMin").value)*60 + parseInt(document.getElementById("newDurationSec").value);
 	
+	document.getElementById("predictedWorkspace").innerHTML = newNPS*newDurationSec;
 }
 
 function recalcLength(){
+	console.log("recalcing");
+	var newNPS = parseInt(document.getElementById("newNPS").value);
+	var newDurationMin = document.getElementById("newDurationMin").value;
+	var newDurationSec = document.getElementById("newDurationSec").value;
 	
+	var newTotalDurationSec = (song.metaData.nps*song.metaData.length)/newNPS;
+	document.getElementById("newDurationMin").value = Math.floor(newTotalDurationSec/60);
+	document.getElementById("newDurationSec").value = Math.ceil(newTotalDurationSec%60);
+	
+	updatePrediction();
 }
 
 function exportSong(){
