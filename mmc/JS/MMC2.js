@@ -1067,12 +1067,12 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
 
 function populateBox(trackName, number, container){ // this is where the track gets made
     for (var i = 1; i <=16; i++){
-        var row = document.createElement("div");
+        /*var row = document.createElement("div");
         row.id = trackName + "-R" + i;
 		row.className="toneRow";
-        container.appendChild(row);
+        container.appendChild(row);*/
         
-        populateRow(number, row, i, trackName); //create rows
+        populateRow(number, container, i, trackName); //create rows
     }
 }
 
@@ -1541,6 +1541,17 @@ function trackSave(trackNumber){
            trackSave(trackNumber+1);
         });
     }
+}
+
+phraseCreate = false;
+function phraseCreater(){
+	$('img[src="img/icons/grid.png"]').click();
+	if (phraseCreate){
+		$(".matrixBox:not(.hide)").selectable("destroy");
+	}
+	else{
+		$(".matrixBox:not(.hide)").selectable();
+	}
 }
 
 function songLengthDialogue(){
