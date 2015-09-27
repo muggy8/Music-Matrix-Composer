@@ -1209,50 +1209,51 @@ function toggleClickSound(){
 }
 
 function toggle(ele, looping, e){
-    if (typeof e == "undefined" || e.button != 1){
-        var information = JSON.parse(ele.id);
-        var toneExists = song[information.ParentTrack].songData[information.collum].indexOf("T" + information.tone);
-        if ( toneExists == -1){ // cant find the tone in the current data structure
-            song[information.ParentTrack].songData[information.collum].push("T" + information.tone); //adding the tone to the data structure.
-            ele.className = ele.className + " selected";
-            if (information.collum == (song[information.ParentTrack].songData.length-1)){ //if this is somehow the final note in the array
-                song[information.ParentTrack].songData[0].push("T" + information.tone);
-            }
-            if (clickSound){
-                var trackIndex = parseInt(information.ParentTrack.replace("track", ""));
-                MIDI.noteOn(trackIndex, song[information.ParentTrack].scale["T" + information.tone], 127, 0);
-                MIDI.noteOff(trackIndex, song[information.ParentTrack].scale["T" + information.tone], 0.1);
-            }
-        }
-        else{ // cut the tone out of the data structure
-            song[information.ParentTrack].songData[information.collum].splice(toneExists, 1);
-            if (ele.className.indexOf(" selected") > -1){
-                ele.className = ele.className.replace(" selected", "");
-            }
-            if (information.collum == (song[information.ParentTrack].songData.length-1)){ //if this is somehow the final note in the array
-                song[information.ParentTrack].songData[0].splice(toneExists, 1);
-            }
-        }
-        if (typeof e != "undefined" && e.button == 2){
-            e.preventDefault();
-            if (loop > 1 && typeof looping == "undefined" ){
-                looping = true;
-            }
-            if (loop == 0 || loop == 1){
-                looping = false;
-            }
-            if (looping){
-                clickSound = false;
-                for (var i = (information.collum + loop) ; i  < song[information.ParentTrack].songData.length; i = i+loop){
-                    information.collum = i;
-                    toggle(document.getElementById(JSON.stringify(information)), false);
-                }
-                clickSound = true;
-            }
-        }
-    }
+	if (!phraseCreate){
+		if (typeof e == "undefined" || e.button != 1){
+			var information = JSON.parse(ele.id);
+			var toneExists = song[information.ParentTrack].songData[information.collum].indexOf("T" + information.tone);
+			if ( toneExists == -1){ // cant find the tone in the current data structure
+				song[information.ParentTrack].songData[information.collum].push("T" + information.tone); //adding the tone to the data structure.
+				ele.className = ele.className + " selected";
+				if (information.collum == (song[information.ParentTrack].songData.length-1)){ //if this is somehow the final note in the array
+					song[information.ParentTrack].songData[0].push("T" + information.tone);
+				}
+				if (clickSound){
+					var trackIndex = parseInt(information.ParentTrack.replace("track", ""));
+					MIDI.noteOn(trackIndex, song[information.ParentTrack].scale["T" + information.tone], 127, 0);
+					MIDI.noteOff(trackIndex, song[information.ParentTrack].scale["T" + information.tone], 0.1);
+				}
+			}
+			else{ // cut the tone out of the data structure
+				song[information.ParentTrack].songData[information.collum].splice(toneExists, 1);
+				if (ele.className.indexOf(" selected") > -1){
+					ele.className = ele.className.replace(" selected", "");
+				}
+				if (information.collum == (song[information.ParentTrack].songData.length-1)){ //if this is somehow the final note in the array
+					song[information.ParentTrack].songData[0].splice(toneExists, 1);
+				}
+			}
+			if (typeof e != "undefined" && e.button == 2){
+				e.preventDefault();
+				if (loop > 1 && typeof looping == "undefined" ){
+					looping = true;
+				}
+				if (loop == 0 || loop == 1){
+					looping = false;
+				}
+				if (looping){
+					clickSound = false;
+					for (var i = (information.collum + loop) ; i  < song[information.ParentTrack].songData.length; i = i+loop){
+						information.collum = i;
+						toggle(document.getElementById(JSON.stringify(information)), false);
+					}
+					clickSound = true;
+				}
+			}
+		}
+	}
 }
-
 function levelKeyframe(ele, target, index){
     slider = document.getElementById(target);
     if (slider.className.indexOf(" hide") > -1){ // slider is hidden
