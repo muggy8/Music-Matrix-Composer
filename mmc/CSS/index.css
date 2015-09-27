@@ -162,6 +162,10 @@ input[type=submit]{
     background-color:#FFFFFF;
 }
 
+.ui-selected{
+	box-shadow: 0px 0px 5px #fff;
+}
+
 .selected:hover{
     background-color:#CFCFCF;
 }
