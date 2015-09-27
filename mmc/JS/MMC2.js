@@ -1553,6 +1553,7 @@ function phraseCreater(){
 	else{
 		$(".matrixBox:not(.hide)").selectable();
 	}
+	phraseCreate = !phraseCreate;
 }
 
 function songLengthDialogue(){
