@@ -1069,6 +1069,7 @@ function populateBox(trackName, number, container){ // this is where the track g
     for (var i = 1; i <=16; i++){
         var row = document.createElement("div");
         row.id = trackName + "-R" + i;
+		row.className="toneRow";
         container.appendChild(row);
         
         populateRow(number, row, i, trackName); //create rows
