@@ -1088,9 +1088,16 @@ function populateRow(count, target, virtNumber, trackName){
 function box(x, y, trackName){ // this is where each block gets made
     var box = document.createElement("div");
     box.className = "note";
-    if (x % 16 == 1){
-        box.className = box.className + " note16";
-    }
+	if (x % song.metaData.nps == 1){
+		if (x % (song.metaData.nps*2) == 1){ // make green bar once per bar
+			box.className = box.className + " note16";
+		}
+		else{
+			if(y == 16 || y == 1){
+				box.className = box.className + " note16";
+			}
+		}
+	}
     var information = {"ParentTrack":trackName, "tone":y, "collum":x};
     box.id = JSON.stringify(information);
     box.setAttribute("onmousedown","toggle(this, true, event)");
