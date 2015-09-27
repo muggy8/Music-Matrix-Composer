@@ -99,8 +99,7 @@
                         There are some more features that would be happening in this space but will be added at a later date...
                     </p>
                     <p>
-                        If you are on a mobile browser, then we are sorry to inform you that your browser is not supported. Until mobile browsers support Midi, it is unlikely that you will be able to compose music from your phone or tablet. Sorry for the inconvenience. 
-                    </p>
+                        If you are on a mobile browser, please make sure you're using the latest version of chrome as that would show the most amount of results. Hoever even if this site works on chrome for mobile, there will be various other bugs and playback issues. Remember to export your song as a Midi file every so often to hear it at full quality if you are working from a mobile device. 
                 </div>
             </div>
             <div class="floatClear"></div>
