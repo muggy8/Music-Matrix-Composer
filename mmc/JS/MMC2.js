@@ -1552,6 +1552,7 @@ function comboToggle(){
 	$('img[src="img/icons/grid.png"]').click();
 	if (phraseCreate){
 		$(".matrixBox:not(.hide)").selectable("destroy");
+		$(".ui-selected").removeClass("ui-selected")
 	}
 	else{
 		$(".matrixBox:not(.hide)").selectable();
