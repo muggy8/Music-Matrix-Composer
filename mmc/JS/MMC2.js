@@ -1185,6 +1185,9 @@ var song={
     "metaData":{"length":"", "name":"", "nps":"", "songID":""}
 };
 
+var combos = [];
+var comboTemplate = {"id": "", "comboName":"" ,"width": "", "height": "", "noteDeltas": []};
+
 var loop = 16;
 function looper(){
     if (loop < 2){
@@ -1545,7 +1548,7 @@ function trackSave(trackNumber){
 }
 
 phraseCreate = false;
-function phraseCreater(){
+function comboToggle(){
 	$('img[src="img/icons/grid.png"]').click();
 	if (phraseCreate){
 		$(".matrixBox:not(.hide)").selectable("destroy");
