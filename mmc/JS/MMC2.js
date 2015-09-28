@@ -888,6 +888,15 @@ function loadSong(songID){
         var slider = document.getElementById("timeLine");
         slider.style.width = (songSec*nps*23)-13 + "px";
         slider.setAttribute("max", (songSec*nps).toString());
+        
+        loadQuotes(songID);
+    });
+}
+
+function loadQuotes(songID){
+    $.post("services/songQuotes.php", {name:loginCookie.uName, sessionID:loginCookie.sessionID, songID: savedSongs[songID].songID}, function(data){
+        //console.log(JSON.parse(data));
+        combos = JSON.parse(data);
     });
 }
 
@@ -1033,7 +1042,7 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
 	
 	// at the end, add the track's title to the toolbar
 	var trackTitle = document.createElement("p");
-	console.log(trackname);
+	//console.log(trackname);
 	if (song[trackname].instrument != "gunshot"){
 		trackTitle.innerHTML = toTitleCase(replaceAll("_", " ", song[trackname].instrument));
 	}
@@ -1554,7 +1563,8 @@ function saveSong(){
 
 function trackSave(trackNumber){
     if (trackNumber >= 16){
-        messageOn("<p>Save complete.</p>");
+        //messageOn("<p>Save complete.</p>");
+        quoteSave(0);
         return;
     }
     if (song["track" + trackNumber].songData.length == 0){
@@ -1572,6 +1582,19 @@ function trackSave(trackNumber){
            trackSave(trackNumber+1);
         });
     }
+}
+
+function quoteSave(quoteNumber){
+    if (quoteNumber == combos.length){
+        messageOn("<p>Save complete.</p>");
+        return;
+    }
+    $.post("services/quoteSave.php", {name:loginCookie.uName, sessionID:loginCookie.sessionID, songID: song.metaData.songID, data:JSON.stringify(combos[quoteNumber])}, function (data){
+        //console.log(data);
+        var dataStorage = JSON.parse(data);
+        combos[quoteNumber].id=dataStorage.quoteID;
+        quoteSave(quoteNumber + 1);
+    });
 }
 
 phraseCreate = false;
@@ -1815,6 +1838,14 @@ function comboListToggle(){
 
 var quoteCombo = -1;
 function useCombo(ele, comboIndex){
+    if (!phraseCreate){
+		messageOn('<p>You must be in Quote mode to use this function.</p><p>To enter quote mode click on the <img src="img/icons/quote.png" width="48" height="48" alt="Enter/Exit quote mode button" onclick="comboToggle(); messageOff();" title="Toggle quote mode" style="display:inline;cursor:hand;cursor:pointer"> button</p>');
+		
+		$(".quoteUseOptions").remove();
+		
+		return;
+	}
+    
 	//quoteCombo = comboIndex;
 	//comboListToggle();
 	if (quoteCombo == -1){
