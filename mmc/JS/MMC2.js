@@ -1612,8 +1612,23 @@ function createCombo(){
 			return;
 		}
 	}
+	combo.comboName = askForComboName();
+	if (combo.comboName === null){
+		return;
+	}
 	
 	combos.push(combo);
+}
+
+function askForComboName(){
+	var name = prompt("Please enter the name name of this quote, It cannot be empty:", "");
+	
+	if (name !== ""){
+		return name;
+	}
+	else{
+		return askForComboName();
+	}
 }
 
 function deepCompare () { // from: http://stackoverflow.com/questions/1068834/object-comparison-in-javascript
