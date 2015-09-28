@@ -264,11 +264,13 @@ input[type=submit]{
     list-style-type: none;
     padding: 0;
     margin: 0;
+	width: 54px;
+    height: 58px;
 }
 
 .quoteUseOptions{
-	position: absolute;
-	z-index: +1;
+	float: left;
+	color: #006600;
 }
 
 .controllBar{

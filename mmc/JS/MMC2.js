@@ -1621,6 +1621,8 @@ function createCombo(){
 	}
 	
 	combos.push(combo);
+	comboListToggle();
+	comboListToggle();
 }
 
 function askForComboName(){
@@ -1752,6 +1754,16 @@ function deepCompare () { // from: http://stackoverflow.com/questions/1068834/ob
 function comboListToggle(){
 	if ($(".quoteUseOptions").length == 0){
 		listButton = $(".controllUL");
+		
+		// get the list of quotes you have already made
+		for (var i = 0; i < combos.length; i++){
+			var quoteLi = document.createElement("Li");
+			quoteLi.innerHTML = combos[i].comboName;
+			quoteLi.className = "quoteUseOptions";
+			listButton.append(quoteLi);
+			
+			quoteLi.innerHTML += ' <button onclick="useCombo(' + i + ')">Use</button>';
+		}
 		
 		// make the li to host the button to make quotes
 		var quoteButtonLi = document.createElement("Li");
