@@ -115,7 +115,11 @@
                     <img src="img/icons/clear.png" id="looperCover" width="48" height="48" alt="looper Button Cover">
                 </div>
 				<img src="img/icons/quote.png" width="48" height="48" alt="Enter/Exit quote mode button" class="controllButtons" onclick="comboToggle()" title="Toggle quote mode">
-				<img src="img/icons/useQuote.png" width="48" height="48" alt="Use/Make quotes button" class="controllButtons" onclick="comboListToggle(this)" title="Use/Make quotes">
+				<ul class="controllUL">
+					<li>
+						<img src="img/icons/useQuote.png" width="48" height="48" alt="Use/Make quotes button" class="controllButtons" onclick="comboListToggle()" title="Use/Make quotes">
+					</li>
+				</ul>
                 <img src="img/icons/+.png" width="48" height="48" alt="New track button" class="controllButtons" onclick="addTrack()" title="New Track (max 16)"><img src="img/icons/retime.png" width="48" height="48" alt="Edit song length button" class="controllButtons" onclick="songLengthDialogue()" title="Modify song length">
                 <img src="img/icons/Export.png" width="48" height="48" alt="home Button" class="controllButtons" onclick="exportSong()" title="Export Song">
                 <img src="img/icons/Home.png" width="48" height="48" alt="home Button" class="controllButtons" onclick="homeButton()" title="Return to Home Screen">

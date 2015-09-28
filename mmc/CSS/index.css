@@ -255,6 +255,13 @@ input[type=submit]{
     margin-left:5px;
 }
 
+.controllUL{
+    display: inline-block;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
 .controllBar{
 	z-index: +100;
     margin-left:25px;
