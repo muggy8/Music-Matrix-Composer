@@ -270,7 +270,11 @@ input[type=submit]{
 
 .quoteUseOptions{
 	float: left;
-	color: #006600;
+	background-color: #fff;
+    padding: 2px;
+    border-radius: 4px;
+    margin-top: 5px;
+    margin-left: 5px;
 }
 
 .controllBar{
