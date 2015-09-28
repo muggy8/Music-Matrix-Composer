@@ -232,6 +232,10 @@ input[type=submit]{
     transition: opacity 0.7s;
 }
 
+.quoteMode{
+	background-color: #000000;
+}
+
 .trackTitle{
 	margin: 0;
     margin-left: 5px;

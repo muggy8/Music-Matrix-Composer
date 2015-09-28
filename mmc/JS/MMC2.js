@@ -1552,10 +1552,12 @@ function comboToggle(){
 	$('img[src="img/icons/grid.png"]').click();
 	if (phraseCreate){
 		$(".matrixBox:not(.hide)").selectable("destroy");
-		$(".ui-selected").removeClass("ui-selected")
+		$(".ui-selected").removeClass("ui-selected");
+		$(".trackTools").removeClass("quoteMode");
 	}
 	else{
 		$(".matrixBox:not(.hide)").selectable();
+		$(".trackTools").addClass("quoteMode");
 	}
 	phraseCreate = !phraseCreate;
 }
