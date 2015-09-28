@@ -1763,8 +1763,9 @@ function comboListToggle(){
 				quoteLi.className = "quoteUseOptions";
 				listButton.append(quoteLi);
 				
-				quoteLi.innerHTML += '<button onclick="useCombo(' + i + ')">Use' + combos[i].comboName + '</button>';
-				quoteLi.innerHTML +='<button onclick="delCombo(' + i + ')">Delete ' + combos[i].comboName + '</button>';
+				quoteLi.innerHTML += '<button onclick="useCombo(' + i + ')">Use</button>';
+				quoteLi.innerHTML += '<button onclick="renameCombo(' + i + ')">Rename</button>';
+				quoteLi.innerHTML +='<button onclick="delCombo(' + i + ')">Delete</button>';
 			}
 		}
 		
@@ -1788,7 +1789,16 @@ function useCombo(comboIndex){
 }
 
 function delCombo(comboIndex){
+	combo[comboIndex].inUse = false;
 	
+	comboListToggle();
+	comboListToggle();
+}
+
+function renameCombo(comboIndex){
+	combo[comboIndex].comboName = askForComboName();
+	comboListToggle();
+	comboListToggle();
 }
 
 function songLengthDialogue(){
