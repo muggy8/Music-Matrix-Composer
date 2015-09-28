@@ -1610,7 +1610,7 @@ function createCombo(){
 	}
 	
 	for (var i = 0; i < combos.length; i++){
-		if (deepCompare( combos[i].noteDeltas,combo.noteDeltas) ){
+		if (combos[i].inUse && deepCompare( combos[i].noteDeltas,combo.noteDeltas)){
 			messageOn("<p>This selection is the same as the selection <strong>" + combos[i].comboName + "</strong>. You sould use that one instead of making a new one.</p>");
 			return;
 		}
