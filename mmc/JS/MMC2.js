@@ -1590,7 +1590,7 @@ function createCombo(){
 	});
 	
 	if (paturnHighlighted.length == 0){
-		messageOn("<p>Please make a selection first</p>");
+		messageOn("<p>Please make a selection first by clicking and dragging to select some notes below.</p>");
 		return;
 	}
 	// get the name of the combo
@@ -1605,6 +1605,14 @@ function createCombo(){
 		var comboNote = {"toneOffset": currentNoteData.tone-startingData.tone, "collumOffset": currentNoteData.collum - startingData.collum};
 		combo.noteDeltas.push(comboNote);
 	}
+	
+	for (var i = 0; i < combos.length; i++){
+		if (combos[i].noteDeltas == combo.noteDeltas){
+			messageOn("<p>This selection is the same as the selection <strong>" + combos[i].comboName + "</strong>. You sould use that one instead of making a new one.</p>");
+			return;
+		}
+	}
+	
 	combos.push(combo);
 }
 
