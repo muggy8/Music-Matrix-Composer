@@ -262,6 +262,11 @@ input[type=submit]{
     margin: 0;
 }
 
+.quoteUseOptions{
+	position: absolute;
+	z-index: +1;
+}
+
 .controllBar{
 	z-index: +100;
     margin-left:25px;
