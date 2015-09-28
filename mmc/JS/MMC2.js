@@ -1563,6 +1563,10 @@ function createCombo(){
 	
 }
 
+function useCombo(comboIndex){
+	
+}
+
 function songLengthDialogue(){
 	var info = "";
 	
