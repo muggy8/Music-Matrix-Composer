@@ -1559,6 +1559,10 @@ function comboToggle(){
 	phraseCreate = !phraseCreate;
 }
 
+function createCombo(){
+	
+}
+
 function songLengthDialogue(){
 	var info = "";
 	
