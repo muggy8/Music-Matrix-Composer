@@ -1598,8 +1598,18 @@ function createCombo(){
 	combos.push(combo);
 }
 
-function comboListToggle(ele){
-	
+function comboListToggle(){
+	if ($(".quoteUseOptions").length == 0){
+		listButton = $(".controllUL");
+		
+		var quoteButtonLi = document.createElement("Li");
+		listButton.append(quoteButtonLi);
+		quoteButtonLi.className = "quoteUseOptions";
+		quoteButtonLi.innerHTML="Testing";
+	}
+	else{
+		$(".quoteUseOptions").remove();
+	}
 }
 
 function useCombo(comboIndex){
