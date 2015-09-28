@@ -1561,7 +1561,13 @@ function comboToggle(){
 
 function createCombo(){
 	//var highlighted = $(".ui-selected");
-	
+	if (!phraseCreate){
+		messageOn('<p>You must be in Quote mode to use this function.</p><p>To enter quote mode click on the <img src="img/icons/quote.png" width="48" height="48" alt="Enter/Exit quote mode button" onclick="comboToggle(); messageOff();" title="Toggle quote mode" style="display:inline;cursor:hand;cursor:pointer"> button</p><p>If you are already in quote mode, please make a selection first</p>');
+		
+		$(".quoteUseOptions").remove();
+		
+		return;
+	}
 	var paturnHighlighted = $(".ui-selected.selected").sort(function (a,b){
 		var noteAData = JSON.parse(a.id);
 		var noteBData = JSON.parse(b.id);
@@ -1583,6 +1589,10 @@ function createCombo(){
 		return 0;
 	});
 	
+	if (paturnHighlighted.length == 0){
+		messageOn("<p>Please make a selection first</p>");
+		return;
+	}
 	// get the name of the combo
 	
 	// create combo object
@@ -1602,10 +1612,15 @@ function comboListToggle(){
 	if ($(".quoteUseOptions").length == 0){
 		listButton = $(".controllUL");
 		
+		// make the li to host the button to make quotes
 		var quoteButtonLi = document.createElement("Li");
 		listButton.append(quoteButtonLi);
 		quoteButtonLi.className = "quoteUseOptions";
-		quoteButtonLi.innerHTML="Testing";
+		
+		var makeQuoteButton = document.createElement("button");
+		makeQuoteButton.innerHTML="Create quote from current selection"
+		makeQuoteButton.setAttribute("onclick","createCombo()");
+		quoteButtonLi.appendChild(makeQuoteButton);
 	}
 	else{
 		$(".quoteUseOptions").remove();
