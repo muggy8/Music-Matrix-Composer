@@ -1598,6 +1598,10 @@ function createCombo(){
 	combos.push(combo);
 }
 
+function comboListToggle(){
+	
+}
+
 function useCombo(comboIndex){
 	
 }
