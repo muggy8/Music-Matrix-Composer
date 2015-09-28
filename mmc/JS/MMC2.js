@@ -1156,7 +1156,7 @@ function drag(ele, e){
         var noteNumber = song[jsonData.ParentTrack].scale["T" + tone];
         ele.setAttribute("title", noteToKey[noteNumber]);
     }
-	if (phraseCreate){
+	if (quoteCombo >= 0){
 		$(".comboTrial").removeClass("comboTrial");
 		for (var i = 0; i < combos[quoteCombo].noteDeltas.length; i++){
 			var targetData = JSON.parse(ele.id);
@@ -1278,6 +1278,10 @@ function toggle(ele, looping, e){
 		phraseCreate = !phraseCreate;
 		clickSound = !clickSound
 		actualCombo.removeClass("comboTrial");
+		//console.log(e.button);
+		/*if (typeof e == "undefined" || e.button != 1){
+			
+		}*/
 	}
 }
 function levelKeyframe(ele, target, index){
@@ -1578,6 +1582,7 @@ function comboToggle(){
 		$(".ui-selected").removeClass("ui-selected");
 		$(".trackTools").removeClass("quoteMode");
 		quoteCombo = -1;
+		$(".comboTrial").removeClass("comboTrial");
 	}
 	else{
 		$(".matrixBox:not(.hide)").selectable();
