@@ -1279,9 +1279,9 @@ function toggle(ele, looping, e){
 		clickSound = !clickSound
 		actualCombo.removeClass("comboTrial");
 		//console.log(e.button);
-		/*if (typeof e == "undefined" || e.button != 1){
-			
-		}*/
+		if (e.button == 0){
+			quoteCombo = -1;
+		}
 	}
 }
 function levelKeyframe(ele, target, index){
@@ -1792,7 +1792,7 @@ function comboListToggle(){
 				quoteLi.className = "quoteUseOptions";
 				listButton.append(quoteLi);
 				
-				quoteLi.innerHTML += '<button onclick="useCombo(' + i + ')">Use</button>';
+				quoteLi.innerHTML += '<button onclick="useCombo(this, ' + i + ')">Toggle Use</button>';
 				quoteLi.innerHTML += '<button onclick="renameCombo(' + i + ')">Rename</button>';
 				quoteLi.innerHTML +='<button onclick="delCombo(' + i + ')">Delete</button>';
 			}
@@ -1814,9 +1814,18 @@ function comboListToggle(){
 }
 
 var quoteCombo = -1;
-function useCombo(comboIndex){
-	quoteCombo = comboIndex;
-	comboListToggle();
+function useCombo(ele, comboIndex){
+	//quoteCombo = comboIndex;
+	//comboListToggle();
+	if (quoteCombo == -1){
+		quoteCombo = comboIndex;
+		comboListToggle();
+	}
+	else{
+		quoteCombo = -1;
+		comboListToggle();
+		$(".comboTrial").removeClass("comboTrial");
+	}
 }
 
 function delCombo(comboIndex){
