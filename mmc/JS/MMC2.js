@@ -1598,7 +1598,7 @@ function createCombo(){
 	combos.push(combo);
 }
 
-function comboListToggle(){
+function comboListToggle(ele){
 	
 }
 
