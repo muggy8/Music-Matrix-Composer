@@ -1142,6 +1142,7 @@ function addLevelsField(target){
 }
 
 var dragging = false;
+//var quotePotential = [];
 function drag(ele, e){
     //console.log(e);
     if (dragging){
@@ -1155,6 +1156,17 @@ function drag(ele, e){
         var noteNumber = song[jsonData.ParentTrack].scale["T" + tone];
         ele.setAttribute("title", noteToKey[noteNumber]);
     }
+	if (phraseCreate){
+		$(".comboTrial").removeClass("comboTrial");
+		for (var i = 0; i < combos[quoteCombo].noteDeltas.length; i++){
+			var targetData = JSON.parse(ele.id);
+			targetData.tone += combos[quoteCombo].noteDeltas[i].toneOffset;
+			targetData.collum += combos[quoteCombo].noteDeltas[i].collumOffset;
+			var queryString = "div[id*='" + JSON.stringify(targetData) + "']";
+			//console.log(queryString);
+			$(queryString).addClass("comboTrial");
+		}
+	}
 }
 
 function toTitleCase(str){
@@ -1255,6 +1267,17 @@ function toggle(ele, looping, e){
 				}
 			}
 		}
+	}
+	else{
+		var actualCombo = $(".comboTrial");
+		phraseCreate = !phraseCreate;
+		clickSound = !clickSound
+		for (var i = 0; i < actualCombo.length; i++){
+			toggle(actualCombo[i], false)
+		}
+		phraseCreate = !phraseCreate;
+		clickSound = !clickSound
+		actualCombo.removeClass("comboTrial");
 	}
 }
 function levelKeyframe(ele, target, index){
@@ -1554,6 +1577,7 @@ function comboToggle(){
 		$(".matrixBox:not(.hide)").selectable("destroy");
 		$(".ui-selected").removeClass("ui-selected");
 		$(".trackTools").removeClass("quoteMode");
+		quoteCombo = -1;
 	}
 	else{
 		$(".matrixBox:not(.hide)").selectable();
@@ -1784,19 +1808,22 @@ function comboListToggle(){
 	}
 }
 
+var quoteCombo = -1;
 function useCombo(comboIndex){
-	
+	quoteCombo = comboIndex;
+	comboListToggle();
 }
 
 function delCombo(comboIndex){
-	combo[comboIndex].inUse = false;
+	combos[comboIndex].inUse = false;
 	
 	comboListToggle();
 	comboListToggle();
 }
 
 function renameCombo(comboIndex){
-	combo[comboIndex].comboName = askForComboName();
+	combos[comboIndex].comboName = askForComboName();
+	
 	comboListToggle();
 	comboListToggle();
 }
