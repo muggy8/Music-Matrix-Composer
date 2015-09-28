@@ -1527,7 +1527,7 @@ function trackUpdate(trackName){
     var trackIndex = parseInt(trackName.replace("track", ""));
     MIDI.programChange(trackIndex, instruments.indexOf(song[trackName].instrument));
     messageOff();
-	if (song[trackName].instrument != gunshot){
+	if (song[trackName].instrument != "gunshot"){
 		document.getElementById(trackName + "-Title").innerHTML = toTitleCase(replaceAll("_", " ", song[trackName].instrument));
 	}
 	else{
