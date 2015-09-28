@@ -1606,10 +1606,12 @@ function comboToggle(){
 		$(".trackTools").removeClass("quoteMode");
 		quoteCombo = -1;
 		$(".comboTrial").removeClass("comboTrial");
+		$(".controllUL").addClass("hide");
 	}
 	else{
 		$(".matrixBox:not(.hide)").selectable();
 		$(".trackTools").addClass("quoteMode");
+		$(".controllUL").removeClass("hide");
 	}
 	phraseCreate = !phraseCreate;
 }

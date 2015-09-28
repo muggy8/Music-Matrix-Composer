@@ -115,7 +115,7 @@
                     <img src="img/icons/clear.png" id="looperCover" width="48" height="48" alt="looper Button Cover">
                 </div>
 				<img src="img/icons/quote.png" width="48" height="48" alt="Enter/Exit quote mode button" class="controllButtons" onclick="comboToggle()" title="Toggle quote mode">
-				<ul class="controllUL">
+				<ul class="controllUL hide">
 					<li>
 						<img src="img/icons/useQuote.png" width="48" height="48" alt="Use/Make quotes button" class="controllButtons" onclick="comboListToggle()" title="Use/Make quotes">
 					</li>
