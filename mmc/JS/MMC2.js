@@ -2156,6 +2156,7 @@ function acknowledgements(){
     displayText += "Eligrey: <a href='https://github.com/eligrey/Blob.js'>Blobs.js</a><br>";
     displayText += "Valentin Schmidt: <a href='http://valentin.dasdeck.com/php/midi/'>PHP Midi</a><br>";
 	displayText += "Sterling Isfine: <a href='http://www.webdeveloper.com/forum/showthread.php?233448-Is-there-a-way-to-find-if-any-intervals-are-still-open'>Interval Manager</a><br>";
+	displayText += "Peter mortensen and Crazyx: <a href='http://stackoverflow.com/questions/1068834/object-comparison-in-javascript'>JSON object deep comparison </a><br>";
     displayText += "JQuery Community: <a href='https://jquery.com/'>All of JQuery</a><br>";
     displayText += "Tonematrix Audiotool: <a href='http://tonematrix.audiotool.com/'>Inspiration</a><br><br>";
     
