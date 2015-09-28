@@ -1186,7 +1186,7 @@ var song={
 };
 
 var combos = [];
-var comboTemplate = {"id": "", "comboName":"" , "noteDeltas": []};
+var comboTemplate = {"id": "", "comboName":"" , "noteDeltas": [], "inUse": true};
 
 var loop = 16;
 function looper(){
