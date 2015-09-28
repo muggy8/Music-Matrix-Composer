@@ -1757,12 +1757,15 @@ function comboListToggle(){
 		
 		// get the list of quotes you have already made
 		for (var i = 0; i < combos.length; i++){
-			var quoteLi = document.createElement("Li");
-			quoteLi.innerHTML = combos[i].comboName;
-			quoteLi.className = "quoteUseOptions";
-			listButton.append(quoteLi);
-			
-			quoteLi.innerHTML += ' <button onclick="useCombo(' + i + ')">Use</button>';
+			if (combos[i].inUse){
+				var quoteLi = document.createElement("Li");
+				quoteLi.innerHTML = combos[i].comboName;
+				quoteLi.className = "quoteUseOptions";
+				listButton.append(quoteLi);
+				
+				quoteLi.innerHTML += '<button onclick="useCombo(' + i + ')">Use' + combos[i].comboName + '</button>';
+				quoteLi.innerHTML +='<button onclick="delCombo(' + i + ')">Delete ' + combos[i].comboName + '</button>';
+			}
 		}
 		
 		// make the li to host the button to make quotes
@@ -1781,6 +1784,10 @@ function comboListToggle(){
 }
 
 function useCombo(comboIndex){
+	
+}
+
+function delCombo(comboIndex){
 	
 }
 
