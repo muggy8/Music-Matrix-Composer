@@ -1186,7 +1186,7 @@ var song={
 };
 
 var combos = [];
-var comboTemplate = {"id": "", "comboName":"" ,"width": "", "height": "", "noteDeltas": []};
+var comboTemplate = {"id": "", "comboName":"" , "noteDeltas": []};
 
 var loop = 16;
 function looper(){
@@ -1560,7 +1560,42 @@ function comboToggle(){
 }
 
 function createCombo(){
+	//var highlighted = $(".ui-selected");
 	
+	var paturnHighlighted = $(".ui-selected.selected").sort(function (a,b){
+		var noteAData = JSON.parse(a.id);
+		var noteBData = JSON.parse(b.id);
+		
+		if (noteAData.collum < noteBData.collum){
+			return -1;
+		}
+		if (noteAData.collum > noteBData.collum){
+			return 1;
+		}
+		if (noteAData.collum == noteBData.collum){
+			if (noteAData.tone < noteBData.tone){
+				return -1;
+			}
+			if (noteAData.tone > noteBData.tone){
+				return 1;
+			}
+		}
+		return 0;
+	});
+	
+	// get the name of the combo
+	
+	// create combo object
+	var startingData = JSON.parse( paturnHighlighted[0].id );
+	var combo = jQuery.extend(true, {}, comboTemplate);
+	//var startingCol = startingData.collum;
+	//var startingTone = startingData.tone;
+	for (var i = 0; i < paturnHighlighted.length; i++){
+		currentNoteData = JSON.parse( paturnHighlighted[i].id );
+		var comboNote = {"toneOffset": currentNoteData.tone-startingData.tone, "collumOffset": currentNoteData.collum - startingData.collum};
+		combo.noteDeltas.push(comboNote);
+	}
+	combos.push(combo);
 }
 
 function useCombo(comboIndex){
