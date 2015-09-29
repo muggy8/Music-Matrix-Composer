@@ -749,49 +749,45 @@ function initializeSong(){
         initializeAnyways = true;
     }
     
-    if (document.getElementById("songName").value != ""){
-        if (song.track15.songData.length == 0){
-            messageOn("<p>Loading please wait</p>", "", false, "Ok")
-            setTimeout(function(){
-                //setting global variables
-                mode="initialized";
-                scrollMode = "horiz";
-                
-                //switching viewing mode over
-                document.getElementById("mainbody").className = "hide";
-                document.getElementById("songBody").className = "songBody";
-                
-                //get global variables to use
-                var songSec = 2;
-                if (!isNaN(parseInt(document.getElementById("songLength").value))){
-                    songSec = songSec + parseInt(document.getElementById("songLength").value)*60;
-                }
-                if (!isNaN(parseInt(document.getElementById("songSec").value))){
-                    songSec = songSec + parseInt(document.getElementById("songSec").value);
-                }
-                songName = document.getElementById("songName").value;
-                
-                //build data structure
-                song.metaData.length = songSec; // seconds
-                song.metaData.nps = nps;
-                song.metaData.name = songName;
-                
-                //build visual rig
-                buildTrack("track" + trackCount, songSec, nps, choice, scale, "");
-                var slider = document.getElementById("timeLine");
-                slider.style.width = (songSec*nps*23)-13 + "px";
-                slider.setAttribute("max", (songSec*nps).toString());
-                
-                //loading compleate clean up time
-                trackCount++;
-            }, 100);
-        }
-        else{
-            messageOn("<p>Due to technical restraints, you can only have 16 tracks. Sorry about this. </p>");
-        }
+    songName = (document.getElementById("songName").value == "") ? "New Song" : document.getElementById("songName").value;
+
+    if (song.track15.songData.length == 0){
+        messageOn("<p>Loading please wait</p>", "", false, "Ok")
+        setTimeout(function(){
+            //setting global variables
+            mode="initialized";
+            scrollMode = "horiz";
+            
+            //switching viewing mode over
+            document.getElementById("mainbody").className = "hide";
+            document.getElementById("songBody").className = "songBody";
+            
+            //get global variables to use
+            var songSec = 2;
+            if (!isNaN(parseInt(document.getElementById("songLength").value))){
+                songSec = songSec + parseInt(document.getElementById("songLength").value)*60;
+            }
+            if (!isNaN(parseInt(document.getElementById("songSec").value))){
+                songSec = songSec + parseInt(document.getElementById("songSec").value);
+            }
+            
+            //build data structure
+            song.metaData.length = songSec; // seconds
+            song.metaData.nps = nps;
+            song.metaData.name = songName;
+            
+            //build visual rig
+            buildTrack("track" + trackCount, songSec, nps, choice, scale, "");
+            var slider = document.getElementById("timeLine");
+            slider.style.width = (songSec*nps*23)-13 + "px";
+            slider.setAttribute("max", (songSec*nps).toString());
+            
+            //loading compleate clean up time
+            trackCount++;
+        }, 100);
     }
     else{
-        messageOn("<p>You cant have a nameless song :( </p><p>dont worry you can change it at a later time thought :D!</p>");
+        messageOn("<p>Due to technical restraints, you can only have 16 tracks. Sorry about this. </p>");
     }
     return false;
 }
