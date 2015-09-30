@@ -17,7 +17,7 @@ Here's a bunch of information related to the programming of the Music Matrix Com
 
 The data of the program is stored in an array of objects. the array is called "song" so if you type that into the console of your webpage, you will be able to see the data representation of the song that you are making. Not particularly useful for compositing but quite useful if you want to see if the changes you made worked. 
 
-The audio is generated via a scale which is saved as a part of each tracks's "scale" parameter. Each virtcal line of notes is stored in the long array of each track. The notes are stored as "T{x}" where {x} is a number between 1 and 16 and each T{x} referencing to a note in the scale. the number is the note the midi note that corrisponds to the number in accordance with General Midi Standard : https://en.wikipedia.org/wiki/General_MIDI and is played through the Midi.JS plugin
+The audio is generated via a scale which is saved as a part of each tracks's "scale" parameter. Each virtcal line of notes is stored in the long array of each track. The notes are stored as "T|x|" where |x| is a number between 1 and 16 and each T|x| referencing to a note in the scale. the number is the note the midi note that corrisponds to the number in accordance with General Midi Standard : https://en.wikipedia.org/wiki/General_MIDI and is played through the Midi.JS plugin
 
 The presets array is where I keep all the presets that any user can use. They are in a somewhat arbiturary order. The only exception is that the Music Matrix cords should always be kept at the top. 
 
