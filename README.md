@@ -7,11 +7,23 @@ You also have to change the stuff in configs/sqlConnect.php to use your own logi
 
 Special thanks to the following people for making this program possiable: 
 
-Mudcube for Midi.JS
-Gleitz for Midi.JS SoundFonts
-Letoribo for General Midi Percussion SoundFonts
-Eligrey for FileSaver.js
-Eligrey for Blobs.js
-Valentin Schmidt for PHP Midi
-JQuery Community for All of JQuery
-Tonematrix Audiotool for the inspiration
+Mudcube: Midi.JS
+
+Gleitz: Midi.JS SoundFonts
+
+Letoribo: General Midi Percussion SoundFonts
+
+Eligrey: FileSaver.js
+
+Eligrey: Blobs.js
+
+Valentin Schmidt: PHP Midi
+
+Sterling Isfine: Interval Manager
+
+Peter mortensen and Crazyx: JSON object deep comparison 
+
+JQuery Community: All of JQuery
+
+Tonematrix Audiotool: Inspiration
+
