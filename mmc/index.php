@@ -41,7 +41,7 @@
             </div>
         </div>
         <div id="banner" >
-            <h1>Music Matrix Composer v2</h1>
+            <h1 id="bannerheader">Music Matrix Composer v2</h1>
             <div id="login" class="login">
                 <form action="#" method="post" onsubmit="return login('email', 'password')">
                     <input type="text" name="email" id="email" placeholder="Username">

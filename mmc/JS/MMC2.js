@@ -770,6 +770,9 @@ function initializeSong(){
                     songSec = songSec + parseInt(document.getElementById("songSec").value);
                 }
                 songName = document.getElementById("songName").value;
+
+                // Update banner
+                document.getElementById("bannerheader").appendChild(document.createTextNode(" - " + songName));
                 
                 //build data structure
                 song.metaData.length = songSec; // seconds
@@ -861,6 +864,9 @@ function loadSong(songID){
         var songSec = savedSongs[songID].length;
         nps = savedSongs[songID].nps
         songName = savedSongs[songID].name;
+
+        // Update banner
+        document.getElementById("bannerheader").appendChild(document.createTextNode(" - " + songName));
         
         //build data structure
         song.metaData.length = songSec; // seconds
