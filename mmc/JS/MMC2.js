@@ -1072,6 +1072,16 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     trackSettings.setAttribute("onclick", "trackSettings('" + trackname + "')");
 	trackSettings.title="Advanced Track Settings";
     toolBar.appendChild(trackSettings);
+
+    // then add the delete track button
+    var deleteButton = document.createElement("img");
+    deleteButton.id=trackname + "delete";
+    deleteButton.src = "img/icons/blank.png";
+    deleteButton.className = "toolBarButtons";
+    deleteButton.alt = "Delete  " + trackname;
+    deleteButton.setAttribute("onclick", "deleteTrack('" + trackname + "')");
+    deleteButton.title="Delete Track";
+    toolBar.appendChild(deleteButton);
 }
 
 function populateBox(trackName, number, container){ // this is where the track gets made
@@ -1484,6 +1494,13 @@ function makeTrack(){
     trackCount++;
     MIDI.programChange(0, instruments.indexOf(song.track0.instrument)); // revert to what the orginal track had
     messageOff();
+}
+
+function deleteTrack(trackName){
+    stopSong(document.getElementsByClassName("controllButtons")[0]);
+    document.getElementById("songBody").removeChild(document.getElementById(trackName));
+    trackCount--;
+    song[trackName] = {"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5};
 }
 
 function jsonCompair(json1, json2){
