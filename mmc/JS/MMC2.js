@@ -755,6 +755,7 @@ function initializeSong(){
 	}
 	else {
 		songName = document.getElementById("songName").value;
+		songName = songName.replace(/'/g, "\\'");
 	}
 	
 	if (song.track15.songData.length == 0){
@@ -874,7 +875,7 @@ function loadSong(songID){
         //build data structure
         song.metaData.length = songSec; // seconds
         song.metaData.nps = nps;
-        song.metaData.name = songName;
+        song.metaData.name = songName.replace(/'/g, "\\'");
         song.metaData.songID = savedSongs[songID].songID;
         
         //disable looper to prevent bad loading
