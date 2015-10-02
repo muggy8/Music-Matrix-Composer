@@ -31,9 +31,10 @@ Currently the program slows down alot after the 4th track that you add (at least
 
 Lastly, if you make use of another library in your modifications such as BootStrap or the likes, Please mention it to me in some way or another so I can add them to the credits.
 
-## Legal Stuff?
+## Legal Stuff
 
-Not much to see here. If you fork this project or derive something from this project, do make sure to mention me (Muggy Ate or Muggy8) in your credits somewhere. Otherwise, you are free to fork and hack this program as much as you like. 
+If a derivitive of this project is to be created. The derivitive must remain free and open sourced. The changes must be well documented.
+
 
 Special thanks to the following people for making this program possiable: 
 
