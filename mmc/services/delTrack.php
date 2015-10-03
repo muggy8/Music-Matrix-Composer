@@ -14,8 +14,6 @@
         $row=mysqli_fetch_row($results);
         $userID = $row[1];
         
-        //user id is found and the session id and username is correct do stuff here
-        // DELETE FROM orders WHERE id_users = 1 AND id_product = 2 LIMIT 1
         $sql = "delete from tracks where songID = $songID and trackID = $trackID";
         if ($conn->query($sql) === TRUE) {
             $returnArray["success"] = true;
