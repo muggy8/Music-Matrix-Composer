@@ -1478,6 +1478,7 @@ function homeButton(){
 function addTrack(){
     
     status = "scale";
+	totalTracksToLoad++;
     
     messageOn("<h2>New Track Scale: </h2>" + infoMaker(), "messageOff(); makeTrack()", true, "Add Track") // creates the advanced settings tab
     
