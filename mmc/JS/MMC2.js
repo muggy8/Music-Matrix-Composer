@@ -1622,7 +1622,7 @@ function trackSave(trackNumber){
     if (trackNumber >= 16){
         //messageOn("<p>Save complete.</p>");
         for (var i = 0; i < deletedTracks.length; i++) {
-            $.post("services/delTrack.php", {name:loginCookie.uName, sessionID:loginCookie.sessionID, songID: song.metaData.songID, trackID: deletedTracks[0]}, function(data){
+            $.post("services/delTrack.php", {name:loginCookie.uName, sessionID:loginCookie.sessionID, songID: song.metaData.songID, trackID: deletedTracks[i]}, function(data){
                 console.log(data);
             });
         };
