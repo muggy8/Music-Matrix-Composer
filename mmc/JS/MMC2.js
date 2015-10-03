@@ -1508,22 +1508,26 @@ function makeTrack(){
 }
 
 function delTrackConfirm(trackName){
-	if (totalTracksToLoad == 1){
+	if (trackCount == 1){
 		messageOn("You only have 1 track right now. Probably shouldn't be deleting your only track");
 		return;
 	}
-    messageOn('Are you sure you wish to delete this track?', "deleteTrack('"+trackName+"'); messageOff();", true, "Delete");
+    messageOn('<p>Are you sure you wish to delete this track?</p>', "deleteTrack('"+trackName+"'); ", true, "Delete");
 }
 
 var deletedTracks = [];
 function deleteTrack(trackName){
-    stopSong(document.getElementsByClassName("controllButtons")[0]);
-    document.getElementById("songBody").removeChild(document.getElementById(trackName));
-    trackCount--;
-    totalTracksToLoad--;
-    deletedTracks.push(song[trackName].id);
-    song[trackName] = {"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5};
-    migrateTracks();
+	messageOn("<p>Deleting in progress. Please wait...</p>");
+	setTimeout(function(){
+		stopSong(document.getElementsByClassName("controllButtons")[0]);
+		document.getElementById("songBody").removeChild(document.getElementById(trackName));
+		trackCount--;
+		totalTracksToLoad--;
+		deletedTracks.push(song[trackName].id);
+		song[trackName] = {"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5};
+		migrateTracks();
+	},100);
+	messageOff();
 }
 
 // Migrates tracks beneath a non-existing track to appropriate slots
