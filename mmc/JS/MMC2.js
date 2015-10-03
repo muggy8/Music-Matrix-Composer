@@ -1086,7 +1086,7 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     // then add the delete track button
     var deleteButton = document.createElement("img");
     deleteButton.id=trackname + "delete";
-    deleteButton.src = "img/icons/blank.png";
+    deleteButton.src = "img/icons/Delete.png";
     deleteButton.className = "toolBarButtons";
     deleteButton.alt = "Delete  " + trackname;
     deleteButton.setAttribute("onclick", "delTrackConfirm('" + trackname + "')");
