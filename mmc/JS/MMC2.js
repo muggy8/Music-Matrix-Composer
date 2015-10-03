@@ -1007,7 +1007,7 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     trackBody.appendChild(floatClear);
     
     //build the data structure of the track
-    var dataArray = song["track"+trackCount].songData;
+    var dataArray = song[trackname].songData;
     for (var i = 0; i <= duration*pacing; i++){ // song data starts at note 1. note 0 is for house keeping.
         dataArray.push([{"vol":-1}]);
     }
@@ -1015,12 +1015,12 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     // double checks that the volume part of the scale is there
     songScale["vol"] = baseVelocetys[instruments.indexOf(tool)];
     
-    song["track"+trackCount].scale = jQuery.extend(true, {}, songScale); //makes a deep copy of the scale and keeps it in storage.
-    song["track"+trackCount].id = trackID;
+    song[trackname].scale = jQuery.extend(true, {}, songScale); //makes a deep copy of the scale and keeps it in storage.
+    song[trackname].id = trackID;
     
     var midiChannel = parseInt(trackname.replace("track", ""));
     //update data structure with instrument info
-    song["track"+trackCount].instrument=tool;
+    song[trackname].instrument=tool;
     if (eval("MIDI.Soundfont." + tool) == undefined){ // soundfont not loaded
         loadInstrument(tool, function(){//load the instrument's soundfont
             MIDI.programChange(midiChannel, instruments.indexOf(tool));//when loading is done, switch the channel this track is on to the right channel
@@ -1496,11 +1496,13 @@ function makeTrack(){
     messageOff();
 }
 
+var deletedTracks = [];
 function deleteTrack(trackName){
     stopSong(document.getElementsByClassName("controllButtons")[0]);
     document.getElementById("songBody").removeChild(document.getElementById(trackName));
     trackCount--;
     totalTracksToLoad--;
+    deletedTracks.push(song[trackName].id);
     song[trackName] = {"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5};
     migrateTracks();
 }
@@ -1516,13 +1518,13 @@ function migrateTracks(index){
     for (; index < trackCount+1; index++) {
         var trackName = 'track'+index;
         var track = song[trackName];
-        if ( JSON.stringify(track) === JSON.stringify({"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5})){
+        if (track.songData.length == 0){
             deletedTracksFound++;
         } else if (deletedTracksFound > 0) {
             song['track'+(index-deletedTracksFound)] = song[trackName]; // Copy
             song[trackName] = {"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}; // Clear
             $('#'+trackName).remove(); // Remove track
-            buildTrack('track'+(index-1), song.metaData.length, song.metaData.nps, track.instrument, track.scale, parseInt(track.id)); // Rebuild
+            buildTrack('track'+(index-deletedTracksFound), song.metaData.length, song.metaData.nps, track.instrument, track.scale, parseInt(track.id)); // Rebuild
         }
     };
 }
@@ -1605,6 +1607,11 @@ function saveSong(){
 function trackSave(trackNumber){
     if (trackNumber >= 16){
         //messageOn("<p>Save complete.</p>");
+        for (var i = 0; i < deletedTracks.length; i++) {
+            $.post("services/delTrack.php", {name:loginCookie.uName, sessionID:loginCookie.sessionID, songID: song.metaData.songID, trackID: deletedTracks[0]}, function(data){
+                console.log(data);
+            });
+        };
         quoteSave(0);
         return;
     }
