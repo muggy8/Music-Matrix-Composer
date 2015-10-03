@@ -1017,7 +1017,7 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     trackBody.appendChild(floatClear);
     
     //build the data structure of the track
-    var dataArray = song["track"+trackCount].songData;
+    var dataArray = song[trackname].songData;
     for (var i = 0; i <= duration*pacing; i++){ // song data starts at note 1. note 0 is for house keeping.
         dataArray.push([{"vol":-1}]);
     }
@@ -1025,12 +1025,12 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     // double checks that the volume part of the scale is there
     songScale["vol"] = baseVelocetys[instruments.indexOf(tool)];
     
-    song["track"+trackCount].scale = jQuery.extend(true, {}, songScale); //makes a deep copy of the scale and keeps it in storage.
-    song["track"+trackCount].id = trackID;
+    song[trackname].scale = jQuery.extend(true, {}, songScale); //makes a deep copy of the scale and keeps it in storage.
+    song[trackname].id = trackID;
     
     var midiChannel = parseInt(trackname.replace("track", ""));
     //update data structure with instrument info
-    song["track"+trackCount].instrument=tool;
+    song[trackname].instrument=tool;
     if (eval("MIDI.Soundfont." + tool) == undefined){ // soundfont not loaded
         loadInstrument(tool, function(){//load the instrument's soundfont
             MIDI.programChange(midiChannel, instruments.indexOf(tool));//when loading is done, switch the channel this track is on to the right channel
@@ -1082,6 +1082,16 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     trackSettings.setAttribute("onclick", "trackSettings('" + trackname + "')");
 	trackSettings.title="Advanced Track Settings";
     toolBar.appendChild(trackSettings);
+
+    // then add the delete track button
+    var deleteButton = document.createElement("img");
+    deleteButton.id=trackname + "delete";
+    deleteButton.src = "img/icons/blank.png";
+    deleteButton.className = "toolBarButtons";
+    deleteButton.alt = "Delete  " + trackname;
+    deleteButton.setAttribute("onclick", "delTrackConfirm('" + trackname + "')");
+    deleteButton.title="Delete Track";
+    toolBar.appendChild(deleteButton);
 }
 
 function populateBox(trackName, number, container){ // this is where the track gets made
@@ -1496,6 +1506,43 @@ function makeTrack(){
     messageOff();
 }
 
+function delTrackConfirm(trackName){
+    messageOn('Are you sure you wish to delete this track?', "deleteTrack('"+trackName+"')", true, "Delete");
+}
+
+var deletedTracks = [];
+function deleteTrack(trackName){
+    stopSong(document.getElementsByClassName("controllButtons")[0]);
+    document.getElementById("songBody").removeChild(document.getElementById(trackName));
+    trackCount--;
+    totalTracksToLoad--;
+    deletedTracks.push(song[trackName].id);
+    song[trackName] = {"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5};
+    migrateTracks();
+}
+
+// Migrates tracks beneath a non-existing track to appropriate slots
+// If given an index, start the migration from there
+function migrateTracks(index){
+    if (!index){
+        index = 0;
+    }
+    // Count of deleted tracks found
+    var deletedTracksFound = 0;
+    for (; index < trackCount+1; index++) {
+        var trackName = 'track'+index;
+        var track = song[trackName];
+        if (track.songData.length == 0){
+            deletedTracksFound++;
+        } else if (deletedTracksFound > 0) {
+            song['track'+(index-deletedTracksFound)] = song[trackName]; // Copy
+            song[trackName] = {"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}; // Clear
+            $('#'+trackName).remove(); // Remove track
+            buildTrack('track'+(index-deletedTracksFound), song.metaData.length, song.metaData.nps, track.instrument, track.scale, parseInt(track.id)); // Rebuild
+        }
+    };
+}
+
 function jsonCompair(json1, json2){
     if (JSON.stringify(json1) == JSON.stringify(json2)){
         return true;
@@ -1574,6 +1621,11 @@ function saveSong(){
 function trackSave(trackNumber){
     if (trackNumber >= 16){
         //messageOn("<p>Save complete.</p>");
+        for (var i = 0; i < deletedTracks.length; i++) {
+            $.post("services/delTrack.php", {name:loginCookie.uName, sessionID:loginCookie.sessionID, songID: song.metaData.songID, trackID: deletedTracks[0]}, function(data){
+                console.log(data);
+            });
+        };
         quoteSave(0);
         return;
     }
