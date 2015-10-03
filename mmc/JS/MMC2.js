@@ -1500,7 +1500,31 @@ function deleteTrack(trackName){
     stopSong(document.getElementsByClassName("controllButtons")[0]);
     document.getElementById("songBody").removeChild(document.getElementById(trackName));
     trackCount--;
+    totalTracksToLoad--;
     song[trackName] = {"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5};
+    migrateTracks();
+}
+
+// Migrates tracks beneath a non-existing track to appropriate slots
+// If given an index, start the migration from there
+function migrateTracks(index){
+    if (!index){
+        index = 0;
+    }
+    // Count of deleted tracks found
+    var deletedTracksFound = 0;
+    for (; index < trackCount+1; index++) {
+        var trackName = 'track'+index;
+        var track = song[trackName];
+        if ( JSON.stringify(track) === JSON.stringify({"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5})){
+            deletedTracksFound++;
+        } else if (deletedTracksFound > 0) {
+            song['track'+(index-deletedTracksFound)] = song[trackName]; // Copy
+            song[trackName] = {"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}; // Clear
+            $('#'+trackName).remove(); // Remove track
+            buildTrack('track'+(index-1), song.metaData.length, song.metaData.nps, track.instrument, track.scale, parseInt(track.id)); // Rebuild
+        }
+    };
 }
 
 function jsonCompair(json1, json2){
