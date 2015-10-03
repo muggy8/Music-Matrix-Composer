@@ -1079,7 +1079,7 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     deleteButton.src = "img/icons/blank.png";
     deleteButton.className = "toolBarButtons";
     deleteButton.alt = "Delete  " + trackname;
-    deleteButton.setAttribute("onclick", "deleteTrack('" + trackname + "')");
+    deleteButton.setAttribute("onclick", "delTrackConfirm('" + trackname + "')");
     deleteButton.title="Delete Track";
     toolBar.appendChild(deleteButton);
 }
@@ -1494,6 +1494,10 @@ function makeTrack(){
     trackCount++;
     MIDI.programChange(0, instruments.indexOf(song.track0.instrument)); // revert to what the orginal track had
     messageOff();
+}
+
+function delTrackConfirm(trackName){
+    messageOn('Are you sure you wish to delete this track?', "deleteTrack('"+trackName+"')", true, "Delete");
 }
 
 var deletedTracks = [];
