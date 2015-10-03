@@ -9,6 +9,7 @@ function messageOff(){
     if (song.track0.instrument!=""){
         MIDI.programChange(0, instruments.indexOf(song.track0.instrument))
     }
+	console.log("turning off message");
 }
 
 function messageOn(m, func, button, buttonName){
@@ -1512,12 +1513,15 @@ function delTrackConfirm(trackName){
 		messageOn("You only have 1 track right now. Probably shouldn't be deleting your only track");
 		return;
 	}
-    messageOn('<p>Are you sure you wish to delete this track?</p>', "deleteTrack('"+trackName+"'); ", true, "Delete");
+    messageOn('<p>Are you sure you wish to delete this track?</p>', "deleteTrack('"+trackName+"');", true, "Delete");
 }
 
 var deletedTracks = [];
 function deleteTrack(trackName){
-	messageOn("<p>Deleting in progress. Please wait...</p>");
+	//console.log("messageOff");
+	//messageOff();
+	console.log("messageOn: loading message")
+	messageOn("<p>Deleting in progress. Please wait...</p>", "", false, "ok");
 	setTimeout(function(){
 		stopSong(document.getElementsByClassName("controllButtons")[0]);
 		document.getElementById("songBody").removeChild(document.getElementById(trackName));
@@ -1526,8 +1530,8 @@ function deleteTrack(trackName){
 		deletedTracks.push(song[trackName].id);
 		song[trackName] = {"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5};
 		migrateTracks();
+		messageOff();
 	},100);
-	messageOff();
 }
 
 // Migrates tracks beneath a non-existing track to appropriate slots
