@@ -1507,7 +1507,11 @@ function makeTrack(){
 }
 
 function delTrackConfirm(trackName){
-    messageOn('Are you sure you wish to delete this track?', "deleteTrack('"+trackName+"')", true, "Delete");
+	if (totalTracksToLoad == 1){
+		messageOn("You only have 1 track right now. Probably shouldn't be deleting your only track");
+		return;
+	}
+    messageOn('Are you sure you wish to delete this track?', "deleteTrack('"+trackName+"'); messageOff();", true, "Delete");
 }
 
 var deletedTracks = [];
