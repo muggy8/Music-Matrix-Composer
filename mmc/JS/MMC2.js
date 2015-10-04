@@ -1184,7 +1184,7 @@ function drag(ele, e){
         var jsonData = JSON.parse(ele.id);
         var tone = jsonData.tone;
         var noteNumber = song[jsonData.ParentTrack].scale["T" + tone];
-        ele.setAttribute("title", noteToKey[noteNumber]);
+        ele.setAttribute("title", "Piano Note: " + noteToKey[noteNumber] + " / Midi Note: "+ noteNumber + " / Midi Key: " + MIDI.noteToKey[noteNumber]);
     }
 	if (quoteCombo >= 0){
 		$(".comboTrial").removeClass("comboTrial");
