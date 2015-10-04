@@ -9,6 +9,7 @@ function messageOff(){
     if (song.track0.instrument!=""){
         MIDI.programChange(0, instruments.indexOf(song.track0.instrument))
     }
+	console.log("turning off message");
 }
 
 function messageOn(m, func, button, buttonName){
@@ -749,7 +750,7 @@ function initializeSong(){
         initializeAnyways = true;
     }
     
-    songName = (document.getElementById("songName").value == "") ? "New Song" : document.getElementById("songName").value;
+    songName = (document.getElementById("songName").value == "") ? "New Song" : document.getElementById("songName").value.replace(/'/g, "\\'");
 
     if (song.track15.songData.length == 0){
         messageOn("<p>Loading please wait</p>", "", false, "Ok")
@@ -867,7 +868,7 @@ function loadSong(songID){
         //build data structure
         song.metaData.length = songSec; // seconds
         song.metaData.nps = nps;
-        song.metaData.name = songName;
+        song.metaData.name = songName.replace(/'/g, "\\'");
         song.metaData.songID = savedSongs[songID].songID;
         
         //disable looper to prevent bad loading
@@ -1009,7 +1010,7 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     trackBody.appendChild(floatClear);
     
     //build the data structure of the track
-    var dataArray = song["track"+trackCount].songData;
+    var dataArray = song[trackname].songData;
     for (var i = 0; i <= duration*pacing; i++){ // song data starts at note 1. note 0 is for house keeping.
         dataArray.push([{"vol":-1}]);
     }
@@ -1017,12 +1018,12 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     // double checks that the volume part of the scale is there
     songScale["vol"] = baseVelocetys[instruments.indexOf(tool)];
     
-    song["track"+trackCount].scale = jQuery.extend(true, {}, songScale); //makes a deep copy of the scale and keeps it in storage.
-    song["track"+trackCount].id = trackID;
+    song[trackname].scale = jQuery.extend(true, {}, songScale); //makes a deep copy of the scale and keeps it in storage.
+    song[trackname].id = trackID;
     
     var midiChannel = parseInt(trackname.replace("track", ""));
     //update data structure with instrument info
-    song["track"+trackCount].instrument=tool;
+    song[trackname].instrument=tool;
     if (eval("MIDI.Soundfont." + tool) == undefined){ // soundfont not loaded
         loadInstrument(tool, function(){//load the instrument's soundfont
             MIDI.programChange(midiChannel, instruments.indexOf(tool));//when loading is done, switch the channel this track is on to the right channel
@@ -1074,6 +1075,16 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     trackSettings.setAttribute("onclick", "trackSettings('" + trackname + "')");
 	trackSettings.title="Advanced Track Settings";
     toolBar.appendChild(trackSettings);
+
+    // then add the delete track button
+    var deleteButton = document.createElement("img");
+    deleteButton.id=trackname + "delete";
+    deleteButton.src = "img/icons/Delete.png";
+    deleteButton.className = "toolBarButtons";
+    deleteButton.alt = "Delete  " + trackname;
+    deleteButton.setAttribute("onclick", "delTrackConfirm('" + trackname + "')");
+    deleteButton.title="Delete Track";
+    toolBar.appendChild(deleteButton);
 }
 
 function populateBox(trackName, number, container){ // this is where the track gets made
@@ -1165,7 +1176,7 @@ function drag(ele, e){
         var jsonData = JSON.parse(ele.id);
         var tone = jsonData.tone;
         var noteNumber = song[jsonData.ParentTrack].scale["T" + tone];
-        ele.setAttribute("title", noteToKey[noteNumber]);
+        ele.setAttribute("title", "Piano Note: " + noteToKey[noteNumber] + " / Midi Note: "+ noteNumber + " / Midi Key: " + MIDI.noteToKey[noteNumber]);
     }
 	if (quoteCombo >= 0){
 		$(".comboTrial").removeClass("comboTrial");
@@ -1460,6 +1471,7 @@ function homeButton(){
 function addTrack(){
     
     status = "scale";
+	totalTracksToLoad++;
     
     messageOn("<h2>New Track Scale: </h2>" + infoMaker(), "messageOff(); makeTrack()", true, "Add Track") // creates the advanced settings tab
     
@@ -1486,6 +1498,54 @@ function makeTrack(){
     trackCount++;
     MIDI.programChange(0, instruments.indexOf(song.track0.instrument)); // revert to what the orginal track had
     messageOff();
+}
+
+function delTrackConfirm(trackName){
+	if (trackCount == 1){
+		messageOn("You only have 1 track right now. Probably shouldn't be deleting your only track");
+		return;
+	}
+    messageOn('<p>Are you sure you wish to delete this track?</p>', "deleteTrack('"+trackName+"');", true, "Delete");
+}
+
+var deletedTracks = [];
+function deleteTrack(trackName){
+	//console.log("messageOff");
+	//messageOff();
+	console.log("messageOn: loading message")
+	messageOn("<p>Deleting in progress. Please wait...</p>", "", false, "ok");
+	setTimeout(function(){
+		stopSong(document.getElementsByClassName("controllButtons")[0]);
+		document.getElementById("songBody").removeChild(document.getElementById(trackName));
+		trackCount--;
+		totalTracksToLoad--;
+		deletedTracks.push(song[trackName].id);
+		song[trackName] = {"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5};
+		migrateTracks();
+		messageOff();
+	},100);
+}
+
+// Migrates tracks beneath a non-existing track to appropriate slots
+// If given an index, start the migration from there
+function migrateTracks(index){
+    if (!index){
+        index = 0;
+    }
+    // Count of deleted tracks found
+    var deletedTracksFound = 0;
+    for (; index < trackCount+1; index++) {
+        var trackName = 'track'+index;
+        var track = song[trackName];
+        if (track.songData.length == 0){
+            deletedTracksFound++;
+        } else if (deletedTracksFound > 0) {
+            song['track'+(index-deletedTracksFound)] = song[trackName]; // Copy
+            song[trackName] = {"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}; // Clear
+            $('#'+trackName).remove(); // Remove track
+            buildTrack('track'+(index-deletedTracksFound), song.metaData.length, song.metaData.nps, track.instrument, track.scale, parseInt(track.id)); // Rebuild
+        }
+    };
 }
 
 function jsonCompair(json1, json2){
@@ -1566,6 +1626,11 @@ function saveSong(){
 function trackSave(trackNumber){
     if (trackNumber >= 16){
         //messageOn("<p>Save complete.</p>");
+        for (var i = 0; i < deletedTracks.length; i++) {
+            $.post("services/delTrack.php", {name:loginCookie.uName, sessionID:loginCookie.sessionID, songID: song.metaData.songID, trackID: deletedTracks[i]}, function(data){
+                console.log(data);
+            });
+        };
         quoteSave(0);
         return;
     }
