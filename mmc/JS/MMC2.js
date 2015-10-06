@@ -1263,19 +1263,7 @@ function toggle(ele, looping, e){
 
                 var volume = song[information.ParentTrack].songData[information.collum][0].vol;
                 volume = (volume === -1) ? 0.5 : volume; // Use default value of 0.5 if volume is not set
-                var noteColor;
-                if ($.inArray('note16', ele.classList) === 1){
-                    var green = (170 + (255 - 170) * (volume / 1));
-                    noteColor = '#00'+green.toString(16).substring(0,2)+'00';
-                } else {
-                    var green = 200 + (143 - 200) * (volume / 1);
-                    var hexGreen = green.toString(16);
-                    hexGreen = hexGreen.substring(0, 2);
-                    var blue = 130 + (0 - 130) * (volume / 1);
-                    var hexBlue =  (blue === 0) ? "00" : blue.toString(16);
-                    hexBlue = hexBlue.substring(0, 2);
-                    noteColor = '#FF'+hexGreen+hexBlue;
-                }
+                var noteColor = colorNoteBox(ele, volume);
 
                 ele.style.backgroundColor= noteColor;
 				if (information.collum == (song[information.ParentTrack].songData.length-1)){ //if this is somehow the final note in the array
@@ -1331,6 +1319,24 @@ function toggle(ele, looping, e){
 		}
 	}
 }
+
+function colorNoteBox(ele, volume){
+    var noteColor;
+    if ($.inArray('note16', ele.classList) === 1){
+        var green = (170 + (255 - 170) * (volume / 1));
+        noteColor = '#00'+green.toString(16).substring(0,2)+'00';
+    } else {
+        var green = 200 + (143 - 200) * (volume / 1);
+        var hexGreen = green.toString(16);
+        hexGreen = hexGreen.substring(0, 2);
+        var blue = 130 + (0 - 130) * (volume / 1);
+        var hexBlue =  (blue === 0) ? "00" : blue.toString(16);
+        hexBlue = hexBlue.substring(0, 2);
+        noteColor = '#FF'+hexGreen+hexBlue;
+    }
+    return noteColor;
+}
+
 function levelKeyframe(ele, target, index){
     slider = document.getElementById(target);
     if (slider.className.indexOf(" hide") > -1){ // slider is hidden
