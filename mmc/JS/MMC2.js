@@ -1369,6 +1369,13 @@ function levelSlide(ele, index){
     var targetTrack = ele.id.substring(0, ele.id.indexOf("-"));
     //console.log(value, targetTrack);
     song[targetTrack].songData[index][0].vol = ele.valueAsNumber;
+    var notes = $('.note');
+    for (var i = 0; i < notes.length; i++) {
+        var information = JSON.parse(notes[i].id);
+        if (information.collum === index && song[information.ParentTrack].songData[information.collum].indexOf("T" + information.tone) !== -1){
+            notes[i].style.backgroundColor = colorNoteBox(notes[i], ele.valueAsNumber);
+        }
+    };
 }
 
 function inputTesting(data){
