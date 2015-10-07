@@ -1369,11 +1369,12 @@ function levelSlide(ele, index){
     var targetTrack = ele.id.substring(0, ele.id.indexOf("-"));
     //console.log(value, targetTrack);
     song[targetTrack].songData[index][0].vol = ele.valueAsNumber;
-    var notes = $('.note');
-    for (var i = 0; i < notes.length; i++) {
-        var information = JSON.parse(notes[i].id);
-        if (information.collum === index && song[information.ParentTrack].songData[information.collum].indexOf("T" + information.tone) !== -1){
-            notes[i].style.backgroundColor = colorNoteBox(notes[i], ele.valueAsNumber);
+    for (var i = 1; i < 17; i++) {
+        var noteID = {"ParentTrack":targetTrack,"tone":i,"collum":index};
+        var queryString = "div[id*='" + JSON.stringify(noteID) + "']";
+        var selection = $( queryString );
+        if (song[targetTrack].songData[index].indexOf("T" + i) !== -1){
+            selection.css("background-color", colorNoteBox(selection[0], ele.valueAsNumber));
         }
     };
 }
