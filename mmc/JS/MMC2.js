@@ -1330,7 +1330,7 @@ function colorNoteBox(ele, volume){
         var hexGreen = green.toString(16);
         hexGreen = hexGreen.substring(0, 2);
         var blue = 130 + (0 - 130) * (volume / 1);
-        var hexBlue =  (blue === 0) ? "00" : blue.toString(16);
+        var hexBlue =  (blue <= 10) ? '0'+blue.toString(16) : blue.toString(16);
         hexBlue = hexBlue.substring(0, 2);
         noteColor = '#FF'+hexGreen+hexBlue;
     }
