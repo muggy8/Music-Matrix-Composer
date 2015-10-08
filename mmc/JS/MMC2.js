@@ -1260,6 +1260,7 @@ function toggle(ele, looping, e){
 			var toneExists = song[information.ParentTrack].songData[information.collum].indexOf("T" + information.tone);
 			if ( toneExists == -1){ // cant find the tone in the current data structure
 				song[information.ParentTrack].songData[information.collum].push("T" + information.tone); //adding the tone to the data structure.
+				ele.className = ele.className + " selected";
 
                 var volume = song[information.ParentTrack].songData[information.collum][0].vol;
                 volume = (volume === -1) ? 0.5 : volume; // Use default value of 0.5 if volume is not set
@@ -1278,6 +1279,10 @@ function toggle(ele, looping, e){
 			else{ // cut the tone out of the data structure
 				song[information.ParentTrack].songData[information.collum].splice(toneExists, 1);
 
+				if (ele.className.indexOf(" selected") > -1){
+-					ele.className = ele.className.replace(" selected", "");
+-				}
+				
                 ele.style.backgroundColor= ''; // Clear color from having been selected
 
 				if (information.collum == (song[information.ParentTrack].songData.length-1)){ //if this is somehow the final note in the array
