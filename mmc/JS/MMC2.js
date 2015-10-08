@@ -1732,7 +1732,7 @@ function createCombo(){
 		
 		return;
 	}
-	var paturnHighlighted = $(".ui-selected.selected").sort(function (a,b){
+	var paturnHighlighted = $(".ui-selected[style]").sort(function (a,b){
 		var noteAData = JSON.parse(a.id);
 		var noteBData = JSON.parse(b.id);
 		
