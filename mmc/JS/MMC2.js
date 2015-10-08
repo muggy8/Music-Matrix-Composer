@@ -1322,14 +1322,15 @@ function toggle(ele, looping, e){
 
 function colorNoteBox(ele, volume){
     var noteColor;
+	console.log(volume);
     if ($.inArray('note16', ele.classList) === 1){
-        var green = (170 + (255 - 170) * (volume / 1));
+        var green = (170 + (255 - 170) * volume);
         noteColor = '#00'+green.toString(16).substring(0,2)+'00';
     } else {
-        var green = 200 + (143 - 200) * (volume / 1);
+        var green = Math.round(200 + (-170) * volume);
         var hexGreen = green.toString(16);
         hexGreen = hexGreen.substring(0, 2);
-        var blue = 130 + (0 - 130) * (volume / 1);
+        var blue = Math.round(170 + (-170) * volume);
         var hexBlue =  (blue <= 10) ? '0'+blue.toString(16) : blue.toString(16);
         hexBlue = hexBlue.substring(0, 2);
         noteColor = '#FF'+hexGreen+hexBlue;
