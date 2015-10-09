@@ -1339,6 +1339,8 @@ function noteContext(ele){
 			results--;
 		}
 	}
+	console.log(results);
+	return results;
 }
 
 function colorNoteBox(ele, volume){
