@@ -277,6 +277,14 @@ input[type=submit]{
     margin-left: 5px;
 }
 
+.quoteUseOptions button{
+	display:none;
+}
+
+.quoteUseOptions:hover button{
+	display:block;
+}
+
 .controllBar{
 	z-index: +100;
     margin-left:25px;

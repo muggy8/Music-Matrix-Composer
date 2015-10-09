@@ -1938,6 +1938,7 @@ function comboListToggle(){
 		var makeQuoteButton = document.createElement("button");
 		makeQuoteButton.innerHTML="Create quote from current selection"
 		makeQuoteButton.setAttribute("onclick","createCombo()");
+		makeQuoteButton.setAttribute("style", "display: block;");
 		quoteButtonLi.appendChild(makeQuoteButton);
 	}
 	else{
