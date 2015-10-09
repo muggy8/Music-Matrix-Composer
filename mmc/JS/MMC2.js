@@ -1322,7 +1322,7 @@ function toggle(ele, looping, e){
 
 function colorNoteBox(ele, volume){
     var noteColor;
-	console.log(volume);
+	//console.log(volume);
     if ($.inArray('note16', ele.classList) === 1){
         var green = (170 + (255 - 170) * volume);
         noteColor = '#00'+green.toString(16).substring(0,2)+'00';
