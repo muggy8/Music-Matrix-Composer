@@ -1224,7 +1224,7 @@ var song={
     "track13":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
     "track14":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
     "track15":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
-    "metaData":{"length":"", "name":"", "nps":"", "songID":""}
+    "metaData":{"length":"", "name":"", "nps":"", "songID":""},
 	"player":{
 		"track0Data":[],
 		"track1Data":[],
