@@ -1277,9 +1277,10 @@ function toggle(ele, looping, e){
 			var information = JSON.parse(ele.id);
 			var toneExists = song[information.ParentTrack].songData[information.collum].indexOf("T" + information.tone);
 			//noteContext(ele);
-			if ( toneExists == -1){ // cant find the tone in the current data structure
+			if ( toneExists == -1){ // cant find the tone in the current data structure aka we are adding something.
 				song[information.ParentTrack].songData[information.collum].push("T" + information.tone); //adding the tone to the data structure.
 
+				//update graphical stuff
                 var volume = song[information.ParentTrack].songData[information.collum][0].vol;
                 volume = (volume === -1) ? 0.5 : volume; // Use default value of 0.5 if volume is not set
                 var noteColor = colorNoteBox(ele, volume);
@@ -1288,13 +1289,15 @@ function toggle(ele, looping, e){
 				if (information.collum == (song[information.ParentTrack].songData.length-1)){ //if this is somehow the final note in the array
 					song[information.ParentTrack].songData[0].push("T" + information.tone);
 				}
+				
+				//make the sound of the thing on click
 				if (clickSound){
 					var trackIndex = parseInt(information.ParentTrack.replace("track", ""));
 					MIDI.noteOn(trackIndex, song[information.ParentTrack].scale["T" + information.tone], 127, 0);
 					MIDI.noteOff(trackIndex, song[information.ParentTrack].scale["T" + information.tone], 0.1);
 				}
 			}
-			else{ // cut the tone out of the data structure
+			else{ // cut the tone out of the data structure aka we are taking something out...
 				song[information.ParentTrack].songData[information.collum].splice(toneExists, 1);
 
                 ele.style.backgroundColor= ''; // Clear color from having been selected
