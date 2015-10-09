@@ -1279,6 +1279,21 @@ function toggle(ele, looping, e){
 			//noteContext(ele);
 			if ( toneExists == -1){ // cant find the tone in the current data structure aka we are adding something.
 				song[information.ParentTrack].songData[information.collum].push("T" + information.tone); //adding the tone to the data structure.
+				
+				switch(noteContext(ele)) { // updating notes in the new data Structure
+					case 0:
+						// add new note 
+						break;
+					case -1: 
+						// extend note by 1
+						break;
+					case 1:
+						// move note up by 1
+						break;
+					case 2:
+						// merge 2 notes
+						break;
+				}
 
 				//update graphical stuff
                 var volume = song[information.ParentTrack].songData[information.collum][0].vol;
@@ -1299,6 +1314,21 @@ function toggle(ele, looping, e){
 			}
 			else{ // cut the tone out of the data structure aka we are taking something out...
 				song[information.ParentTrack].songData[information.collum].splice(toneExists, 1);
+				
+				switch(noteContext(ele)) { // updating notes in the new data Structure
+					case 0:
+						// remove this note
+						break;
+					case -1:
+						// shorten note infront by 1
+						break;
+					case 1:
+						// move note back by 1
+						break;
+					case 2:
+						// split note
+						break;
+				}
 
                 ele.style.backgroundColor= ''; // Clear color from having been selected
 
