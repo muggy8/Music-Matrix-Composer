@@ -9,7 +9,7 @@ function messageOff(){
     if (song.track0.instrument!=""){
         MIDI.programChange(0, instruments.indexOf(song.track0.instrument))
     }
-	console.log("turning off message");
+	//console.log("turning off message");
 }
 
 function messageOn(m, func, button, buttonName){
