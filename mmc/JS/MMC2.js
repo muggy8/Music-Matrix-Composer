@@ -1258,7 +1258,7 @@ function toggle(ele, looping, e){
 		if (typeof e == "undefined" || e.button != 1){
 			var information = JSON.parse(ele.id);
 			var toneExists = song[information.ParentTrack].songData[information.collum].indexOf("T" + information.tone);
-			noteContext(ele);
+			//noteContext(ele);
 			if ( toneExists == -1){ // cant find the tone in the current data structure
 				song[information.ParentTrack].songData[information.collum].push("T" + information.tone); //adding the tone to the data structure.
 
@@ -1339,7 +1339,7 @@ function noteContext(ele){
 			results--;
 		}
 	}
-	console.log(results);
+	//console.log(results);
 	return results;
 }
 
