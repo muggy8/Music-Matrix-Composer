@@ -310,7 +310,7 @@ input[type=submit]{
     right:25px;
 }
 
-.iframe{
+#messageBody .iframe{
     height: 210px;
     border: hidden;
 }
