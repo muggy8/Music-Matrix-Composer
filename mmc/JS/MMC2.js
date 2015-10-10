@@ -1338,6 +1338,7 @@ function toggle(ele, looping, e){
 				switch(noteContext(ele)) { // updating notes in the new data Structure
 					case 0:
 						// remove this note
+						efficientNoteRemove(information);
 						break;
 					case -1:
 						// shorten note infront by 1
@@ -1393,18 +1394,24 @@ function toggle(ele, looping, e){
 }
 
 function efficientNoteAdd(info){
-	
+	song.player[info.ParentTrack + "Data"][info.collum].push({"note": "T" + info.tone, "duration": 1})
 }
 
 function efficientNoteRemove(info){
-	
-}
-
-function efficientNoteSetTime(info){
-	
+	var collumData = song.player[info.ParentTrack + "Data"][info.collum];
+	for (var i = 0; i < collumData.length; i++){
+		if (collumData[i].note == "T" + info.tone){
+			collumData.splice(i, 1);
+			return;
+		}
+	}
 }
 
 function efficientNoteFindPrevious(info){
+	
+}
+
+function efficientNoteSetTime(note, duration){
 	
 }
 
