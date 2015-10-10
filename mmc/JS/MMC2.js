@@ -1302,6 +1302,7 @@ function toggle(ele, looping, e){
 				switch(noteContext(ele)) { // updating notes in the new data Structure
 					case 0:
 						// add new note 
+						efficientNoteAdd(information);
 						break;
 					case -1: 
 						// extend note by 1
@@ -1389,6 +1390,22 @@ function toggle(ele, looping, e){
 			quoteCombo = -1;
 		}
 	}
+}
+
+function efficientNoteAdd(info){
+	
+}
+
+function efficientNoteRemove(info){
+	
+}
+
+function efficientNoteSetTime(info){
+	
+}
+
+function efficientNoteFindPrevious(info){
+	
 }
 
 function noteContext(ele){
