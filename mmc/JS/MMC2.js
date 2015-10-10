@@ -1306,9 +1306,16 @@ function toggle(ele, looping, e){
 						break;
 					case -1: 
 						// extend note by 1
+						var prevNote = efficientNoteFindPrevious(information);
+						//console.log(efficientNoteFindPrevious(information));
+						prevNote.duration = prevNote.duration + 1;
 						break;
 					case 1:
-						// move note up by 1
+						// move note forward by 1 and lengthen
+						information.collum++;
+						var oldDuration = efficientNoteRemove(information);
+						info.collum--;
+						efficientNoteAdd(information);
 						break;
 					case 2:
 						// merge 2 notes
@@ -1348,10 +1355,6 @@ function toggle(ele, looping, e){
 						break;
 					case 2:
 						// split note
-						var remainder = efficientNoteShortenPrevious(information);
-						information.collum++;
-						console.log(efficientNoteAdd(information));
-						
 						break;
 				}
 
@@ -1412,12 +1415,15 @@ function efficientNoteRemove(info){
 	}
 }
 
-function efficientNoteShortenPrevious(info){
+function efficientNoteFindPrevious(info){
 	for (var i = info.collum-1; i >= 0; i--){ // search backwards
 		var collumData = song.player[info.ParentTrack + "Data"][i];
+		//console.log(info);
 		for (var j = 0; j < collumData.length; j++){
-			if (collumData[j].note == ("T" + info.note)){
-				return efficientNoteSetTime(collumData[j], info.collum-i);
+			//console.log(collumData[j].note, "T" + info.tone);
+			if (collumData[j].note == ("T" + info.tone)){
+				//console.log("found something");
+				return collumData[j];
 			}
 		}
 	}
