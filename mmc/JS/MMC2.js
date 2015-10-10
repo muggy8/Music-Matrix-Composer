@@ -1306,9 +1306,9 @@ function toggle(ele, looping, e){
 						break;
 					case -1: 
 						// extend note by 1
-						var prevNote = efficientNoteFindPrevious(information);
+						efficientNoteFindPrevious(information).duration++;
 						//console.log(efficientNoteFindPrevious(information));
-						prevNote.duration = prevNote.duration + 1;
+						//prevNote.duration = prevNote.duration + 1;
 						break;
 					case 1:
 						// move note forward by 1 and lengthen
@@ -1353,9 +1353,13 @@ function toggle(ele, looping, e){
 						break;
 					case -1:
 						// shorten note infront by 1
+						efficientNoteFindPrevious(information).duration--;
 						break;
 					case 1:
 						// move note back by 1
+						var oldDuration = efficientNoteRemove(information);
+						information.collum++;
+						efficientNoteAdd(information, oldDuration-1);
 						break;
 					case 2:
 						// split note
@@ -2515,6 +2519,7 @@ function acknowledgements(){
     displayText += "Valentin Schmidt: <a href='http://valentin.dasdeck.com/php/midi/'>PHP Midi</a><br>";
 	displayText += "Sterling Isfine: <a href='http://www.webdeveloper.com/forum/showthread.php?233448-Is-there-a-way-to-find-if-any-intervals-are-still-open'>Interval Manager</a><br>";
 	displayText += "Peter mortensen and Crazyx: <a href='http://stackoverflow.com/questions/1068834/object-comparison-in-javascript'>JSON object deep comparison </a><br>";
+	displayText += "Buley and Tomwrong: <a href='http://stackoverflow.com/questions/1248302/javascript-object-size'>JSON object size estimater</a><br>";
     displayText += "JQuery Community: <a href='https://jquery.com/'>All of JQuery</a><br>";
     displayText += "Tonematrix Audiotool: <a href='http://tonematrix.audiotool.com/'>Inspiration</a><br><br>";
     
@@ -2523,6 +2528,39 @@ function acknowledgements(){
     messageOn(displayText);
 }
 
+function roughSizeOfObject( object ) {
+
+    var objectList = [];
+    var stack = [ object ];
+    var bytes = 0;
+
+    while ( stack.length ) {
+        var value = stack.pop();
+
+        if ( typeof value === 'boolean' ) {
+            bytes += 4;
+        }
+        else if ( typeof value === 'string' ) {
+            bytes += value.length * 2;
+        }
+        else if ( typeof value === 'number' ) {
+            bytes += 8;
+        }
+        else if
+        (
+            typeof value === 'object'
+            && objectList.indexOf( value ) === -1
+        )
+        {
+            objectList.push( value );
+
+            for( var i in value ) {
+                stack.push( value[ i ] );
+            }
+        }
+    }
+    return bytes;
+}
 
 // ---------------------------------------------------------------
 // generative music functions
