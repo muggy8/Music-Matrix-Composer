@@ -1314,8 +1314,9 @@ function toggle(ele, looping, e){
 						// move note forward by 1 and lengthen
 						information.collum++;
 						var oldDuration = efficientNoteRemove(information);
-						info.collum--;
-						efficientNoteAdd(information);
+						information.collum--;
+						efficientNoteAdd(information, 1+oldDuration);
+						
 						break;
 					case 2:
 						// merge 2 notes
@@ -1400,8 +1401,11 @@ function toggle(ele, looping, e){
 	}
 }
 
-function efficientNoteAdd(info){
-	return song.player[info.ParentTrack + "Data"][info.collum].push({"note": "T" + info.tone, "duration": 1});
+function efficientNoteAdd(info, duration){
+	if (duration == undefined ){
+		duration = 1;
+	}
+	return song.player[info.ParentTrack + "Data"][info.collum].push({"note": "T" + info.tone, "duration": duration});
 }
 
 function efficientNoteRemove(info){
