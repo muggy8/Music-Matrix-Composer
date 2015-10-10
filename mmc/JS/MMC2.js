@@ -1550,11 +1550,12 @@ function inputTesting(data){
 var currentTime = 1;
 var songInterval;
 var playBtn;
-var tracksToPlay = []
+var tracksToPlay = [];
 function playSong(ele){
     //set default volume of everything to 0.5
     playBtn = ele;
 	
+	tracksToPlay = [];
 	for (var i = 0; i < 16; i++){
 		if (song["track" + i].songData.length > 0){
 			tracksToPlay.push("track" + i);
@@ -1565,7 +1566,7 @@ function playSong(ele){
         song["track" + i].lastVolKey = 0.5;
     }
     
-    IntervalManager.set(1, songPlayer, 1000/song.metaData.nps);
+    IntervalManager.set(1, efficientPlayer, 1000/song.metaData.nps);
     
     ele.src="img/icons/Stop.png";
     ele.setAttribute("onclick", "stopSong(this)");
@@ -1619,9 +1620,25 @@ function playNote(trackNumber, time, trackData, trackScale){
 }
 
 function efficientPlayer(){
-	for (var i = 0; i < 16; i++){
-		
+	for (var i = 0; i < tracksToPlay.length; i++){
+		playNoteEfficiently(tracksToPlay[i], i, currentTime, song["track"+i].songData, song.player["track"+i+"Data"], song["track"+i].scale);
 	}
+	timeUpdate();
+}
+
+function playNoteEfficiently(trackName, trackNumber, time, oldTrackData, newTrackData, trackScale){
+	//var currentVol = song[trackName].lastVolKey;
+	if (oldTrackData[time][0].vol > 0){
+		song[trackName].lastVolKey = oldTrackData[time][0].vol;
+	}
+	//var trackNumber = parseInt(trackName.replace("track", ""));
+	//console.log(newTrackData[time]);
+	for (var i = 0; i < newTrackData[time].length; i++){
+		//console.log(trackNumber, trackScale[newTrackData[time][i].note], Math.floor(song["track"+trackNumber].lastVolKey*trackScale.vol));
+		MIDI.noteOn(trackNumber,trackScale[newTrackData[time][i].note], Math.floor(song["track"+trackNumber].lastVolKey*trackScale.vol), 0);
+		MIDI.noteOff(trackNumber, trackScale[newTrackData[time][i].note], newTrackData[time].duration*1000/song.metaData.nps );
+	}
+	//var currentVol = song["track"+trackNumber].lastVolKey;
 }
 
 function timeUpdate(){
