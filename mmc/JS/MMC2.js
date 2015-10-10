@@ -1551,9 +1551,12 @@ var currentTime = 1;
 var songInterval;
 var playBtn;
 var tracksToPlay = [];
+var noteDuration;
 function playSong(ele){
     //set default volume of everything to 0.5
     playBtn = ele;
+	
+	noteDuration = 1000/song.metaData.nps
 	
 	tracksToPlay = [];
 	for (var i = 0; i < 16; i++){
@@ -1636,7 +1639,7 @@ function playNoteEfficiently(trackName, trackNumber, time, oldTrackData, newTrac
 	for (var i = 0; i < newTrackData[time].length; i++){
 		//console.log(trackNumber, trackScale[newTrackData[time][i].note], Math.floor(song["track"+trackNumber].lastVolKey*trackScale.vol));
 		MIDI.noteOn(trackNumber,trackScale[newTrackData[time][i].note], Math.floor(song["track"+trackNumber].lastVolKey*trackScale.vol), 0);
-		MIDI.noteOff(trackNumber, trackScale[newTrackData[time][i].note], newTrackData[time].duration*1000/song.metaData.nps );
+		MIDI.noteOff(trackNumber, trackScale[newTrackData[time][i].note], newTrackData[time].duration*noteDuration );
 	}
 	//var currentVol = song["track"+trackNumber].lastVolKey;
 }
