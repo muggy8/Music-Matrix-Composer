@@ -91,15 +91,24 @@
                 </div>
             </div>
             <div id="leftCollum" class="rightCollumBody">
-                <div class="collumEle strech">
+                <div class="collumEle">
                     <h2 class="sectionName">
-                        Under construction
+                        News:
                     </h2>
+					<h3>
+						October 10th 4:05 AM Pacific Time:
+					</h3>
                     <p>
-                        There are some more features that would be happening in this space but will be added at a later date...
-                    </p>
-                    <p>
-                        If you are on a mobile browser, please make sure you're using the latest version of chrome as that would show the most amount of results. Hoever even if this site works on chrome for mobile, there will be various other bugs and playback issues. Remember to export your song as a Midi file every so often to hear it at full quality if you are working from a mobile device. 
+                        A Major update happened today to the playback engine. You should see better performance for composition using multiple tracks. If you find that your track is not working as intended, please save your song and reload your song. That should make most errors go away. If the problem presists, Pleas contact me via <a href="https://www.reddit.com/user/muggy8/">Reddit</a>.
+                    </p>                        
+                </div>
+				<div class="collumEle" style="max-height:none">
+                    <h2 class="sectionName">
+                        Tutorial:
+                    </h2>
+					<div class="aspect-ratio">
+						<iframe width="560" height="315" src="https://www.youtube.com/embed/5sBw8lucG4k" frameborder="0" allowfullscreen></iframe>   
+					</div>
                 </div>
             </div>
             <div class="floatClear"></div>
