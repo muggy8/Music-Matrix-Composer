@@ -1024,7 +1024,7 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     var matrixBox = document.createElement("div");
     matrixBox.id= trackname + "-MatrixBox";
     matrixBox.className="matrixBox";
-    matrixBox.style.width= (duration*pacing*23)+3 + "px";
+    matrixBox.style.width= (duration*pacing*23)+2 + "px";
     matrixBox.setAttribute("oncontextmenu", "return false");
     trackBody.appendChild(matrixBox);
     
