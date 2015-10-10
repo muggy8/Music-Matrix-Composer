@@ -911,9 +911,13 @@ function loadQuotes(songID){
     });
 }
 
-function trackRetime(){
-	var newNPS = parseInt(document.getElementById("newNPS").value);
-	var newDuration = parseInt(document.getElementById("newDurationMin").value)*60 + parseInt(document.getElementById("newDurationSec").value);
+function trackRetime(newNPS, newDuration){
+	if (newNPS == undefined){
+		newNPS = parseInt(document.getElementById("newNPS").value);
+	}
+	if (newDuration == undefined){
+		newDuration = parseInt(document.getElementById("newDurationMin").value)*60 + parseInt(document.getElementById("newDurationSec").value);
+	}
 	
 	var preEditSong = jQuery.extend(true, {}, song);
 	messageOn("<p>Loading please wait</p>", "", false, "Ok");
@@ -1546,9 +1550,16 @@ function inputTesting(data){
 var currentTime = 1;
 var songInterval;
 var playBtn;
+var tracksToPlay = []
 function playSong(ele){
     //set default volume of everything to 0.5
     playBtn = ele;
+	
+	for (var i = 0; i < 16; i++){
+		if (song["track" + i].songData.length > 0){
+			tracksToPlay.push("track" + i);
+		}
+	}
     
     for (var i = 0; i <16; i++){
         song["track" + i].lastVolKey = 0.5;
@@ -1605,6 +1616,12 @@ function playNote(trackNumber, time, trackData, trackScale){
             }
         }
     }
+}
+
+function efficientPlayer(){
+	for (var i = 0; i < 16; i++){
+		
+	}
 }
 
 function timeUpdate(){
@@ -1736,15 +1753,19 @@ function migrateTracks(index){
     for (; index < trackCount+1; index++) {
         var trackName = 'track'+index;
         var track = song[trackName];
+		var efficientTrack = song.player[trackName + "Data"];
         if (track.songData.length == 0){
             deletedTracksFound++;
         } else if (deletedTracksFound > 0) {
             song['track'+(index-deletedTracksFound)] = song[trackName]; // Copy
+			song.player['track'+(index-deletedTracksFound)+"Data"] = song.player[trackName + "Data"];
             song[trackName] = {"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}; // Clear
+			song.player[trackName+"Data"] = [];
             $('#'+trackName).remove(); // Remove track
-            buildTrack('track'+(index-deletedTracksFound), song.metaData.length, song.metaData.nps, track.instrument, track.scale, parseInt(track.id)); // Rebuild
+            //buildTrack('track'+(index-deletedTracksFound), song.metaData.length, song.metaData.nps, track.instrument, track.scale, parseInt(track.id)); // Rebuild
         }
-    };
+    }
+	trackRetime(song.metaData.nps, song.metaData.length);
 }
 
 function jsonCompair(json1, json2){
