@@ -943,7 +943,25 @@ function trackRetime(){
 		"track13":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
 		"track14":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
 		"track15":{"id":"", "instrument":"", "songData":[], "scale":"", "lastVolKey":0.5}, 
-		"metaData":{"length":"", "name":"", "nps":"", "songID":""}
+		"metaData":{"length":"", "name":"", "nps":"", "songID":""},
+		"player":{
+			"track0Data":[],
+			"track1Data":[],
+			"track2Data":[],
+			"track3Data":[],
+			"track4Data":[],
+			"track5Data":[],
+			"track6Data":[],
+			"track7Data":[],
+			"track8Data":[],
+			"track9Data":[],
+			"track10Data":[],
+			"track11Data":[],
+			"track12Data":[],
+			"track13Data":[],
+			"track14Data":[],
+			"track15Data":[]
+		}
 	};
 	
 	// remove the tracks from the work area.
