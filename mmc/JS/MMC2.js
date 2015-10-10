@@ -1039,6 +1039,7 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     var dataArray = song[trackname].songData;
     for (var i = 0; i <= duration*pacing; i++){ // song data starts at note 1. note 0 is for house keeping.
         dataArray.push([{"vol":-1}]);
+		song.player[trackname + "Data"].push([]);
     }
     
     // double checks that the volume part of the scale is there
