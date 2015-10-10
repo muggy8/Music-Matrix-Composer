@@ -1363,6 +1363,16 @@ function toggle(ele, looping, e){
 						break;
 					case 2:
 						// split note
+						var bigNote = efficientNoteFindPrevious(information);
+						var bigNoteDuration = bigNote.duration;
+						var bigNoteDistance = bigNote.distance;
+						information.collum -= bigNoteDistance;
+						//console.log (information);
+						efficientNoteRemove(information);
+						efficientNoteAdd(information, bigNoteDistance);
+						var bigNoteRemainder = bigNoteDuration-bigNoteDistance-1;
+						information.collum+=(bigNoteDistance+1);
+						efficientNoteAdd(information, bigNoteRemainder);
 						break;
 				}
 
@@ -1412,7 +1422,7 @@ function efficientNoteAdd(info, duration){
 	if (duration == undefined ){
 		duration = 1;
 	}
-	return song.player[info.ParentTrack + "Data"][info.collum].push({"note": "T" + info.tone, "duration": duration});
+	return song.player[info.ParentTrack + "Data"][info.collum].push({"note": "T" + info.tone, "duration": duration, "distance":0});
 }
 
 function efficientNoteRemove(info){
@@ -1434,6 +1444,7 @@ function efficientNoteFindPrevious(info){
 			//console.log(collumData[j].note, "T" + info.tone);
 			if (collumData[j].note == ("T" + info.tone)){
 				//console.log("found something");
+				collumData[j].distance = info.collum-i;
 				return collumData[j];
 			}
 		}
