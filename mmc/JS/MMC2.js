@@ -1348,6 +1348,10 @@ function toggle(ele, looping, e){
 						break;
 					case 2:
 						// split note
+						var remainder = efficientNoteShortenPrevious(information);
+						information.collum++;
+						console.log(efficientNoteAdd(information));
+						
 						break;
 				}
 
@@ -1394,25 +1398,35 @@ function toggle(ele, looping, e){
 }
 
 function efficientNoteAdd(info){
-	song.player[info.ParentTrack + "Data"][info.collum].push({"note": "T" + info.tone, "duration": 1})
+	return song.player[info.ParentTrack + "Data"][info.collum].push({"note": "T" + info.tone, "duration": 1});
 }
 
 function efficientNoteRemove(info){
 	var collumData = song.player[info.ParentTrack + "Data"][info.collum];
 	for (var i = 0; i < collumData.length; i++){
 		if (collumData[i].note == "T" + info.tone){
+			var tempDuration = collumData[i].duration;
 			collumData.splice(i, 1);
-			return;
+			return tempDuration;
 		}
 	}
 }
 
-function efficientNoteFindPrevious(info){
-	
+function efficientNoteShortenPrevious(info){
+	for (var i = info.collum-1; i >= 0; i--){ // search backwards
+		var collumData = song.player[info.ParentTrack + "Data"][i];
+		for (var j = 0; j < collumData.length; j++){
+			if (collumData[j].note == ("T" + info.note)){
+				return efficientNoteSetTime(collumData[j], info.collum-i);
+			}
+		}
+	}
 }
 
-function efficientNoteSetTime(note, duration){
-	
+function efficientNoteSetTime(note, newDuration){
+	var oldDuration = note.duration;
+	note.duration = newDuration;
+	return oldDuration-newDuration-1;
 }
 
 function noteContext(ele){
