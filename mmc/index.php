@@ -99,7 +99,7 @@
 						October 10th 4:05 AM Pacific Time:
 					</h3>
                     <p>
-                        A Major update happened today to the playback engine. You should see better performance for composition using multiple tracks. If you find that your track is not working as intended, please save your song and reload your song. That should make most errors go away. If the problem presists, Pleas contact me via <a href="https://www.reddit.com/user/muggy8/">Reddit</a>.
+                        A Major update happened today to the playback engine. You should see better performance for composition using multiple tracks. If you find that your track is not working as intended, please save your song and reload your song. That should make most errors go away. If the problem presists, Please contact me via <a href="https://www.reddit.com/user/muggy8/">Reddit</a>.
                     </p>                        
                 </div>
 				<div class="collumEle" style="max-height:none">
