@@ -42,7 +42,7 @@
 	
 	$time = date('Y-m-d-h-m-s');
 	
-	include "../../configs/sqlConnect.php";
+	include "../configs/sqlConnect.php";
 	
 	$sql = "insert into tracker (ip, time) values ('$ip', '$time')" ;
 	
