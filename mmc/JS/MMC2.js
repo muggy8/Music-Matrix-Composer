@@ -1316,9 +1316,12 @@ function toggle(ele, looping, e){
 						var oldDuration = efficientNoteRemove(information);
 						information.collum--;
 						efficientNoteAdd(information, 1+oldDuration);
-						
 						break;
 					case 2:
+						var prevNote = efficientNoteFindPrevious(information);
+						information.collum++;
+						var behindDuration = efficientNoteRemove(information);
+						prevNote.duration = prevNote.duration + 1 + behindDuration;
 						// merge 2 notes
 						break;
 				}
