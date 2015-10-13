@@ -167,7 +167,7 @@ iframe {
 }
 
 .note:hover, .note:focus, .note.comboTrial{
-    background-color:#696969;
+    opacity: 0.5;
 }
 
 .note16{
@@ -179,7 +179,7 @@ iframe {
 }
 
 .selected{
-    background-color:#FFFFFF;
+    opacity: 0.5;
 }
 
 .ui-selectable .ui-selected{
