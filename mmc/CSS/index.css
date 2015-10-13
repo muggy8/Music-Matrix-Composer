@@ -189,7 +189,7 @@ iframe {
 }
 
 .selected:hover, .selected:focus, .selected.comboTrial{
-    background-color:#CFCFCF;
+    opacity: 0.5;
 }
 
 .playing{
