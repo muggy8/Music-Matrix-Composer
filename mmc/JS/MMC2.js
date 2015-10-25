@@ -1265,7 +1265,14 @@ var song={
 		"track13Data":[],
 		"track14Data":[],
 		"track15Data":[],
-	}
+	}/*,
+	
+	"test" : function(){
+		var obj=this, prop;
+		for (prop in obj){
+			console.log(obj[prop]);
+		}
+	}*/
 };
 
 var combos = [];
