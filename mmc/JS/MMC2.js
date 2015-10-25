@@ -1620,8 +1620,12 @@ function playNote(trackNumber, time, trackData, trackScale){
 }
 
 function efficientPlayer(){
-	for (var i = 0; i < tracksToPlay.length; i++){
-		playNoteEfficiently(tracksToPlay[i], i, currentTime, song["track"+i].songData, song.player["track"+i+"Data"], song["track"+i].scale);
+	var i = 0;
+	while (song["track"+i].songData.length){
+	//for (var i = 0; i < tracksToPlay.length; i++){
+		//playNoteEfficiently(tracksToPlay[i], i, currentTime, song["track"+i].songData, song.player["track"+i+"Data"], song["track"+i].scale);
+		playNoteEfficiently("track"+i, i, currentTime, song["track"+i].songData, song.player["track"+i+"Data"], song["track"+i].scale);
+		i++;
 	}
 	timeUpdate();
 }
