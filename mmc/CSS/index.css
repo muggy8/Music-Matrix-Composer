@@ -167,7 +167,11 @@ iframe {
 }
 
 .note:hover, .note:focus, .note.comboTrial{
-    opacity: 0.5;
+    background-color:#696969 !important;
+}
+
+.note[style]:hover, .note[style]:focus, .note[style].comboTrial{
+	background-color:#692400 !important;
 }
 
 .note16{
@@ -175,11 +179,15 @@ iframe {
 }
 
 .note16:hover, .note16:focus, .note16.comboTrial{
-    background-color:#003300;
+    background-color:#003300 !important;
+}
+
+.note16[style]:hover, .note16[style]:focus, .note16[style].comboTrial{
+    background-color:#004400 !important;
 }
 
 .selected{
-    opacity: 0.5;
+    background-color:#696969 !important;
 }
 
 .ui-selectable .ui-selected{
