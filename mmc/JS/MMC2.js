@@ -1207,7 +1207,9 @@ function drag(ele, e){
         var jsonData = JSON.parse(ele.id);
         var tone = jsonData.tone;
         var noteNumber = song[jsonData.ParentTrack].scale["T" + tone];
-        ele.setAttribute("title", "Piano Note: " + noteToKey[noteNumber] + " / Midi Key: " + MIDI.noteToKey[noteNumber]);
+		var noteData = "Piano Note: " + noteToKey[noteNumber] + " / Midi Key: " + MIDI.noteToKey[noteNumber];
+		noteData += " / Time: " + secToMin( Math.floor( jsonData.collum/song.metaData.nps)) + (jsonData.collum-1)%song.metaData.nps + "/" + song.metaData.nps + ")";
+        ele.setAttribute("title", noteData);
     }
 	if (quoteCombo >= 0){
 		$(".comboTrial").removeClass("comboTrial");
@@ -1220,6 +1222,10 @@ function drag(ele, e){
 			$(queryString).addClass("comboTrial");
 		}
 	}
+}
+
+function secToMin(sec){
+	return Math.floor(sec/3600) + "hr:" + Math.floor(sec/60) + "min:" + sec%60 + "sec:(";
 }
 
 function toTitleCase(str){
