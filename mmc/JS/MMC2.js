@@ -1640,6 +1640,12 @@ function efficientPlayer(){
 		playNoteEfficiently("track"+i, i, currentTime, song["track"+i].songData, song.player["track"+i+"Data"], song["track"+i].scale);
 		i++;
 	}
+	if (autoScroll){
+        //this.scrollLeft -= (23);
+        
+        var currentLeft = 	$("body").scrollLeft()
+    	$("body").animate({scrollLeft: currentLeft + 23}, 0);
+    }
 	timeUpdate();
 }
 
