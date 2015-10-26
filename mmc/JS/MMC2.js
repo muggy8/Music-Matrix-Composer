@@ -1208,7 +1208,7 @@ function drag(ele, e){
         var tone = jsonData.tone;
         var noteNumber = song[jsonData.ParentTrack].scale["T" + tone];
 		var noteData = "Piano Note: " + noteToKey[noteNumber] + " / Midi Key: " + MIDI.noteToKey[noteNumber];
-		noteData += " / Time: " + secToMin( Math.floor( jsonData.collum/song.metaData.nps)) + (jsonData.collum-1)%song.metaData.nps + "/" + song.metaData.nps + ")";
+		noteData += " / Time: " + secToMin( Math.floor( (jsonData.collum-1)/song.metaData.nps)) + (jsonData.collum-1)%song.metaData.nps + "/" + song.metaData.nps + ")";
         ele.setAttribute("title", noteData);
     }
 	if (quoteCombo >= 0){
