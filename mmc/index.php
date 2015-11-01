@@ -124,8 +124,11 @@
                     <h2 class="sectionName">
                         News:
                     </h2>
+					<h3>2015 October 25th 10:30 AM Pacific Time</h3>
+					<p>Small update to the website happend today that impoves the efficency of the program. You should be able to see a few small perforamce improvements. I will be continueing to look into other ways to optimize the performace of the program so that you can play your song smoothly in the program instead of having to export it to see the song in full speed. Any help with optimization would be much appreciated. as always, If you find any problems, dont hesitate to contact me via <a href="https://www.reddit.com/user/muggy8/">Reddit</a>.</p>
+					
 					<h3>
-						October 10th 4:05 AM Pacific Time:
+						2015 October 10th 4:05 AM Pacific Time:
 					</h3>
                     <p>
                         A Major update happened today to the playback engine. You should see better performance for composition using multiple tracks. If you find that your track is not working as intended, please save your song and reload your song. That should make most errors go away. If the problem presists, Please contact me via <a href="https://www.reddit.com/user/muggy8/">Reddit</a>.
@@ -187,6 +190,7 @@
     	<script src="JS/midi/audioDetect.js" type="text/javascript"></script>
     	<script src="JS/midi/gm.js" type="text/javascript"></script>
     	<script src="JS/midi/loader.js" type="text/javascript"></script>
+		<script src="JS/midi/player.js" type="text/javascript"></script>
     	<script src="JS/midi/plugin.audiotag.js" type="text/javascript"></script>
     	<script src="JS/midi/plugin.webaudio.js" type="text/javascript"></script>
     	<script src="JS/midi/plugin.webmidi.js" type="text/javascript"></script>
