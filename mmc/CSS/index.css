@@ -334,6 +334,8 @@ iframe {
     border-radius: 5px;
     background-color: #E6E6E6;
     right:25px;
+	max-width:calc(100% - 600px);
+	text-align:right;
 }
 
 #messageBody .iframe{
