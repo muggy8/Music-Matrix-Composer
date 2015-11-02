@@ -1603,6 +1603,62 @@ function playSong(ele){
     ele.setAttribute("onclick", "stopSong(this)");
 }
 
+function buildB64(){
+	var file = new Midi.File();
+	var ticksPerNote = 256/song.metaData.nps;
+	var index = 0;
+	while (song["track" + index].songData.length){ //builds a track for each track
+		var b64Track = new Midi.Track();
+		file.addTrack(b64Track);
+		var trackData = song.player["track" + index + "Data"];
+		for (var i = 1; i < trackData.length; i++){ //do this for every collum
+			for (var j = 0; j<trackData[i].length ; j++){ //do this for every item in each collum
+				var currentNoteData = trackData[i][j];
+				var currentKey = MIDI.noteToKey[ song["track"+index].scale[currentNoteData.note] ];
+				if (!j){ //first note in the array of notes
+					/*var deltaPreviousNote = 0;
+					
+					for(var k = i; k>=0 ; k--){//itterate back
+						if (k==0){//find if note is first note of the track if so, start counting from the start of song
+							deltaPreviousNote = i-1;//i starts at 1 and this counter needs to start at 0
+						}
+						else{//if not the first note, find out where the previous note is
+							
+						}
+					}*/
+					
+					var deltaPreviousNote = findPreviousNote(trackData, i);
+					
+					b64Track.addNoteOn(index, currentKey, deltaPreviousNote*ticksPerNote);
+					b64Track.addNoteOff(index, currentKey, currentNoteData.duration*ticksPerNote);
+				}
+				else{
+					b64Track.addNoteOn(index, currentKey);
+					b64Track.addNoteOff(index, currentKey, currentNoteData.duration*ticksPerNote);
+				}
+			}
+		}
+		index++;
+	}
+}
+
+function findPreviousNote(efficientTrackData, currentIndex){
+	var deltaPreviousNote = 0;
+					
+	for(var i = currentIndex-1; i>=0 ; i--){//itterate back
+		if (i==0){//find if note is first note of the track if so, start counting from the start of song
+			deltaPreviousNote = currentIndex-1;//i starts at 1 and this counter needs to start at 0
+		}
+		else{//if not the first note, find out where the previous note is
+			if (efficientTrackData[i].length){
+				for (var k = 0; k < efficientTrackData[i].length; k++){
+					var maxLength 
+				}
+			}
+		}
+	}
+}
+
 function stopSong(ele){
     IntervalManager.clearAll();
     
