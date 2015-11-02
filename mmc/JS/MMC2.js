@@ -1582,26 +1582,36 @@ var currentTime = 1;
 var songInterval;
 var playBtn;
 var tracksToPlay = [];
+var serverPlayMode = true;
 function playSong(ele){
     //set default volume of everything to 0.5
     playBtn = ele;
 	
-	tracksToPlay = [];
-	for (var i = 0; i < 16; i++){
-		if (song["track" + i].songData.length > 0){
-			tracksToPlay.push("track" + i);
+	if (! serverPlayMode){
+		tracksToPlay = [];
+		for (var i = 0; i < 16; i++){
+			if (song["track" + i].songData.length > 0){
+				tracksToPlay.push("track" + i);
+			}
 		}
+		
+		for (var i = 0; i <16; i++){
+			song["track" + i].lastVolKey = 0.5;
+		}
+		
+		IntervalManager.set(1, efficientPlayer, 1000/song.metaData.nps);
+    
 	}
-    
-    for (var i = 0; i <16; i++){
-        song["track" + i].lastVolKey = 0.5;
-    }
-    
-    IntervalManager.set(1, efficientPlayer, 1000/song.metaData.nps);
-    
+	
+	else{
+		serverPlayerExport(1);
+		//playerMidiData
+	}
     ele.src="img/icons/Stop.png";
     ele.setAttribute("onclick", "stopSong(this)");
 }
+
+
 /*
 function buildB64(){
 	var file = new Midi.File();
@@ -2537,7 +2547,7 @@ function midiExport(type){
     replaceAll("note" , "Note" , midiXMLStr);
     replaceAll("velocity" , "Velocity" , midiXMLStr);
     
-    console.log(midiXMLStr)
+    //console.log(midiXMLStr)
     
     $.post("phpMidi/midi_class_v178/xml2midiService.php", {txt: midiXMLStr}, function(data){
         //do somethin with data
@@ -2546,6 +2556,248 @@ function midiExport(type){
         messageOn(data);
     })
 }
+
+var playerMidiData;
+function serverPlayerExport(type){
+    // create container for xmlMidi 
+    /*var songBody = $("#songBody");
+    var xmlMidi = document.createElement("div");
+    xmlMidi.id = "xmlMidi";
+    $("#songBody").append(xmlMidi);*/
+    
+    if (type === undefined){
+        type = 1;
+    }
+    
+    //xmlMidi.innerHTML = '<?xml version="1.0" encoding="ISO-8859-1"?><!DOCTYPE MIDIFile SYSTEM "http://www.musicxml.org/dtds/midixml.dtd"><MIDIFile></MIDIFile>';
+    var midiXMLStr = '<?xml version="1.0" encoding="ISO-8859-1"?><!DOCTYPE MIDIFile SYSTEM "http://www.musicxml.org/dtds/midixml.dtd"><MIDIFile>';
+    
+    // adding the format
+    var format = document.createElement("Format");
+    format.innerHTML = type;
+    //$("midifile").append(format);
+    midiXMLStr += document.getHTML(format, true);
+    
+    // find out how many tracks has things in it
+    var usedTracks = 0;
+    for (var i = 0; i <= 15; i++){
+        if (song["track" + i].songData.length > 0){
+            usedTracks++;
+        }
+    }
+    
+    // add trackCount
+    var TCount = document.createElement("TrackCount");
+    TCount.innerHTML = usedTracks;
+    //$("midifile").append(TCount);
+    midiXMLStr += document.getHTML(TCount, true);
+    
+    // add tempo
+    var TPB = document.createElement("TicksPerBeat");
+    TPB.innerHTML = (nps/2)*beatScale;
+    //$("midifile").append(TPB);
+    midiXMLStr += document.getHTML(TPB, true);
+    
+    var TST = document.createElement("TimestampType");
+    TST.innerHTML = "Absolute";
+    $("midifile").append(TST);
+    midiXMLStr += document.getHTML(TST, true);
+    
+    var gunTrack = -1;
+    for (var i = 0; i < usedTracks; i++){ // track level for loop
+        
+        //add track parameter
+        //var t = document.createElement("Track");
+        //t.setAttribute("Number", (i+1).toString());
+        //$("midifile").append(t);
+        midiXMLStr += '<track number="' + (i+1).toString() + '">';
+        
+        
+        //console.log(i);
+        
+        //create change track number element
+        var e = document.createElement("Event");
+        var a = document.createElement("Absolute");
+        a.innerHTML = 0;
+        e.appendChild(a);
+        var shotsFired = false;
+        /*if (instruments.indexOf(song["track" + i].instrument) == 127){
+            //var PC = document.createElement("programChange");
+            //PC.setAttribute("Channel", (i+1).toString());
+            //PC.setAttribute("Number", (instruments.indexOf(song["track" + i].instrument)+1).toString());
+            //e.appendChild(PC);
+            shotsFired = true;
+            gunTrack = i;
+        }
+        else{*/
+            var PC = document.createElement("programChange");
+            PC.setAttribute("Channel", (i+1).toString());
+            PC.setAttribute("Number", (instruments.indexOf(song["track" + i].instrument)).toString());
+            e.appendChild(PC);
+            //if (i == 9 ){
+                //PC.setAttribute("Channel", gunTrack);
+            //}
+        //}
+        //console.log(document.getHTML(e, true));
+        midiXMLStr += document.getHTML(e, true);
+        
+        // get song data and dupm it into the track
+        for (var j = 1; j <= song["track" + i].songData.length; j++ ){// collum level for loop
+            if ( j < song["track" + i].songData.length){
+                if (song["track" + i].songData[j][0].vol > -0.5){// if there is a change in volume
+                    song["track" + i].lastVolKey = song["track" + i].songData[j][0].vol;
+                }
+                if (shotsFired){
+                    for (var k = 1; k < song["track" + i].songData[j].length; k++){// note level for loop @ turn on note
+                        if (song["track" + i].songData[j-1].indexOf(song["track" + i].songData[j][k]) == -1 ){ // there is no data for this note in the previous set
+                            // create midi event
+                            var midiEvent = document.createElement("Event");
+                            // specify event time
+                            var abs = document.createElement("Absolute");
+                            abs.innerHTML = (j-1)*beatScale;
+                            midiEvent.appendChild(abs);
+                            // specify event note
+                            var noteOnEvent = document.createElement("NoteOn");
+                            noteOnEvent.setAttribute("Channel", "10"); // if we are in the precussive set we should be using that track
+                            noteOnEvent.setAttribute("Note", midiNoteAt(i, j, k) );
+                            //console.log(song["track" + i].lastVolKey);
+                            noteOnEvent.setAttribute("Velocity", Math.floor(127*song["track" + i].lastVolKey));
+                            midiEvent.appendChild(noteOnEvent);
+                            midiXMLStr += document.getHTML(midiEvent, true);
+                            //t.appendChild(midiEvent);
+                        }
+                        
+                    }
+                    for (var k = 1; k < song["track" + i].songData[j-1].length; k++){// note level for loop @ turn off note
+                        if (song["track" + i].songData[j].indexOf(song["track" + i].songData[j-1][k]) == -1 ){ // there is no data for the previous note in this set
+                            // create midi event
+                            var midiEvent = document.createElement("Event");
+                            // specify event time
+                            var abs = document.createElement("Absolute");
+                            abs.innerHTML = (j-1)*beatScale;
+                            midiEvent.appendChild(abs);
+                            // specify event note
+                            var noteOnEvent = document.createElement("NoteOff");
+                            noteOnEvent.setAttribute("Channel", "10"); // if we are in the precussive set we should be using that track
+                            noteOnEvent.setAttribute("Note", midiNoteAt(i, j-1, k) );
+                            noteOnEvent.setAttribute("Velocity", "0");
+                            midiEvent.appendChild(noteOnEvent);
+                            midiXMLStr += document.getHTML(midiEvent, true);
+                            //t.appendChild(midiEvent);
+                        }
+                    }
+                }
+                else{
+                   for (var k = 1; k < song["track" + i].songData[j].length; k++){// note level for loop @ turn on note
+                        if (song["track" + i].songData[j-1].indexOf(song["track" + i].songData[j][k]) == -1 ){ // there is no data for this note in the previous set
+                            // create midi event
+                            var midiEvent = document.createElement("Event");
+                            // specify event time
+                            var abs = document.createElement("Absolute");
+                            abs.innerHTML = (j-1)*beatScale;
+                            midiEvent.appendChild(abs);
+                            // specify event note
+                            var noteOnEvent = document.createElement("NoteOn");
+                            noteOnEvent.setAttribute("Channel", (i+1).toString()); // if we are in the precussive set we should be using that track
+                            noteOnEvent.setAttribute("Note", midiNoteAt(i, j, k) );
+                            noteOnEvent.setAttribute("Velocity", Math.floor(127*song["track" + i].lastVolKey));
+                            midiEvent.appendChild(noteOnEvent);
+                            midiXMLStr += document.getHTML(midiEvent, true);
+                            //t.appendChild(midiEvent);
+                        }
+                        
+                    }
+                    for (var k = 1; k < song["track" + i].songData[j-1].length; k++){// note level for loop @ turn off note
+                        if (song["track" + i].songData[j].indexOf(song["track" + i].songData[j-1][k]) == -1 ){ // there is no data for the previous note in this set
+                            // create midi event
+                            var midiEvent = document.createElement("Event");
+                            // specify event time
+                            var abs = document.createElement("Absolute");
+                            abs.innerHTML = (j-1)*beatScale;
+                            midiEvent.appendChild(abs);
+                            // specify event note
+                            var noteOnEvent = document.createElement("NoteOff");
+                            noteOnEvent.setAttribute("Channel", (i+1).toString()); // if we are in the precussive set we should be using that track
+                            //console.log('song["track"+' + i + '].scale[song["track" + ' + i + '].songData[' + j + '][' + k + ']]');
+                            noteOnEvent.setAttribute("Note", midiNoteAt(i, j-1, k) );
+                            noteOnEvent.setAttribute("Velocity", "0");
+                            midiEvent.appendChild(noteOnEvent);
+                            midiXMLStr += document.getHTML(midiEvent, true);
+                            //t.appendChild(midiEvent);
+                        }
+                    } 
+                }
+            }
+            else{
+                if (shotsFired){
+                    for (var k = 1; k < song["track" + i].songData[j-1].length; k++){// note level for loop @ turn off note
+                        // create midi event
+                        var midiEvent = document.createElement("Event");
+                        // specify event time
+                        var abs = document.createElement("Absolute");
+                        abs.innerHTML = (j-1)*beatScale;
+                        midiEvent.appendChild(abs);
+                        // specify event note
+                        var noteOnEvent = document.createElement("NoteOff");
+                        noteOnEvent.setAttribute("Channel", "10"); // if we are in the precussive set we should be using that track
+                        noteOnEvent.setAttribute("Note", midiNoteAt(i, j-1, k));
+                        noteOnEvent.setAttribute("Velocity", "0");
+                        midiEvent.appendChild(noteOnEvent);
+                        midiXMLStr += document.getHTML(midiEvent, true);
+                    }
+                }
+                else{
+                    for (var k = 1; k < song["track" + i].songData[j-1].length; k++){// note level for loop @ turn off note
+                        // create midi event
+                        var midiEvent = document.createElement("Event");
+                        // specify event time
+                        var abs = document.createElement("Absolute");
+                        abs.innerHTML = (j-1)*beatScale;
+                        midiEvent.appendChild(abs);
+                        // specify event note
+                        var noteOnEvent = document.createElement("NoteOff");
+                        noteOnEvent.setAttribute("Channel", (i+1).toString()); // if we are in the precussive set we should be using that track
+                        //console.log('song["track"+' + i + '].scale[song["track" + ' + i + '].songData[' + j + '][' + k + ']]');
+                        noteOnEvent.setAttribute("Note", midiNoteAt(i, j-1, k) );
+                        noteOnEvent.setAttribute("Velocity", "0");
+                        midiEvent.appendChild(noteOnEvent);
+                        midiXMLStr += document.getHTML(midiEvent, true);
+                    }
+                }
+            }
+        }
+        song["track" + i].lastVolKey = 0.5;
+        //$("midifile")[0].innerHTML += "</track>";
+        midiXMLStr += "</track>";
+        //console.log(i);
+    }
+    midiXMLStr += "</MIDIFile>";
+    
+    replaceAll("format" , "Format" , midiXMLStr);
+    replaceAll("trackcount" , "TrackCount" , midiXMLStr);
+    replaceAll("ticksperbeat" , "TicksPerBeat" , midiXMLStr);
+    replaceAll("timestamptype" , "TimestampType" , midiXMLStr);
+    replaceAll("track" , "Track" , midiXMLStr);
+    replaceAll("event" , "Event" , midiXMLStr);
+    replaceAll("programChange" , "ProgramChange" , midiXMLStr);
+    replaceAll("absolute" , "Absolute" , midiXMLStr);
+    replaceAll("noteon" , "NoteOn" , midiXMLStr);
+    replaceAll("channel" , "Channel" , midiXMLStr);
+    replaceAll("note" , "Note" , midiXMLStr);
+    replaceAll("velocity" , "Velocity" , midiXMLStr);
+    
+    //console.log(midiXMLStr)
+    
+    $.post("phpMidi/midi_class_v178/xml2midiService.php", {txt: midiXMLStr}, function(data){
+        //do somethin with data
+        //console.log(data);
+        
+        //messageOn(data);
+		
+		playerMidiData = data;
+    })
+}
+
 
 function midiNoteAt(i, j, k){
     
