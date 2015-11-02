@@ -1602,12 +1602,52 @@ function playSong(ele){
     ele.src="img/icons/Stop.png";
     ele.setAttribute("onclick", "stopSong(this)");
 }
-
+/*
 function buildB64(){
 	var file = new Midi.File();
-	var ticksPerNote = 256/song.metaData.nps;
-	
-}
+	var ticksPerNote = 128/song.metaData.nps;
+	// build the export stuff in 
+	index = 0;
+	while (song["track"+index].songData.length){
+		var b64Track = new Midi.Track();
+		file.addTrack(b64Track);
+		var trackData = song["track"+index].songData;
+		var trackScale = song["track"+index].scale;
+		for (var i = 1; i < trackData.length; i++){
+			var firstFlag = false;
+			for (var j = 1; j <trackData[i].length; j++){//for every note in the currenc collum
+				var currentPitch = MIDI.noteToKey[ trackScale[trackData[i][j]]];
+				var currentTone = trackData[i][j];
+				if (trackData[i-1].indexOf(currentTone) == -1){ // if there is no note for this note in the previous collum
+					if (!firstFlag){//first time on the current time
+						b64Track.addNoteOn(index, currentPitch, (i-1)*ticksPerNote);
+						firstFlag=true;
+					}
+					else{
+						b64Track.addNoteOn(index, currentPitch);
+					}
+				}
+			}
+			for (var j = 1;j<trackData[i-1].length ;j++){//for every note in the pervious collum
+				var previousPitch = MIDI.noteToKey[ trackScale[trackData[i-1][j]]];
+				var previousTone = trackData[i-1][j];
+				if (trackData[i].indexOf(previousTone) == -1){//if a matching note cant be found on this collum
+					//make a noteoff call
+					if (!firstFlag){
+						b64Track.addNoteOff(index,previousPitch,(i-1)*ticksPerNote);
+						firstFlag=true;
+					}
+					else{
+						b64Track.addNoteOff(index,previousPitch);
+					}
+				}
+			}
+		}
+		index++;
+	}
+	return file;
+}*/
+
 function stopSong(ele){
     IntervalManager.clearAll();
     
