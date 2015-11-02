@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-    /*function sanitize_output($buffer) {
+    function sanitize_output($buffer) {
     
         $search = array(
             '/\>[^\S ]+/s',  // strip whitespaces after tags, except space
@@ -40,13 +40,13 @@
 	
 	$ip = get_client_ip();
 	
-	$time = date('Y-m-d-h-m-s');*/
+	$time = date('Y-m-d-h-m-s');
 	
-	//include "../configs/sqlConnect.php";
+	include "../configs/sqlConnect.php";
 	
-	//$sql = "insert into tracker (ip, time) values ('$ip', '$time')" ;
+	$sql = "insert into tracker (ip, time) values ('$ip', '$time')" ;
 	
-	//$conn->query($sql);
+	$conn->query($sql);
 ?>
 <html>
     <head>
@@ -173,7 +173,7 @@
             <input id="timeLine" type="range" min="1" max="16" step="1" value="1" onmouseup="sliderUpdate(this)"></input>
         </div>
         
-        <!-- MMC and general Utility -->
+        
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 		<!--<script src="JS/jsmidi/midi.js"></script>-->
