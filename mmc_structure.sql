@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: mugdev.com.mysql:3306
--- Generation Time: Sep 28, 2015 at 10:12 AM
+-- Generation Time: Nov 02, 2015 at 05:35 AM
 -- Server version: 5.5.42-MariaDB-1~wheezy
 -- PHP Version: 5.4.36-0+deb7u3
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `Quotes` (
   `name` varchar(255) NOT NULL,
   `Data` varchar(64759) NOT NULL,
   PRIMARY KEY (`QuoteID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
 
 -- --------------------------------------------------------
 
@@ -117,7 +117,21 @@ CREATE TABLE IF NOT EXISTS `songs` (
   `nps` int(11) NOT NULL,
   `duration` int(11) NOT NULL,
   PRIMARY KEY (`songID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=50 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=57 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tracker`
+--
+
+CREATE TABLE IF NOT EXISTS `tracker` (
+  `ip` varchar(1024) NOT NULL,
+  `time` varchar(1024) NOT NULL,
+  `user` varchar(2048) NOT NULL,
+  `song` varchar(2048) NOT NULL,
+  `length` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -132,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `tracks` (
   `trackData` varchar(64742) NOT NULL,
   `scale` varchar(512) NOT NULL,
   PRIMARY KEY (`trackID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=80 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=100 ;
 
 -- --------------------------------------------------------
 
@@ -155,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `birthday` int(11) NOT NULL,
   `gender` int(2) NOT NULL,
   PRIMARY KEY (`userID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=101 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=110 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

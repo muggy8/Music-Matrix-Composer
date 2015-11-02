@@ -796,6 +796,15 @@ function initializeSong(){
 			
 			//loading compleate clean up time
 			trackCount++;
+			
+			var currentUser = "";
+            if (typeof loginCookie == "undefined" || loginCookie.uName == "" || typeof loginCookie.uName == "undefined" ){
+                currentUser = "Guest";
+            }
+            $.post("services/usageTracker.php", {name:currentUser, song:song.metaData.name, len:song.metaData.length }, function(data){
+                console.log("thank you for using Music Matrix Composer v2");
+                console.log(data);
+            });
 		}, 100);
 	}
 	else{
@@ -852,7 +861,7 @@ function levelsKeyframe(target, vols, collum){
 
 var totalTracksToLoad = 1;
 function loadSong(songID){
-    messageOn("<p>Loading please wait</p>", "", false, "Ok")
+    messageOn("<p>Loading please wait</p>", "", false, "Ok");
     $.post("services/songTracks.php", {name:loginCookie.uName, sessionID:loginCookie.sessionID, songID: savedSongs[songID].songID}, function(data){
         //console.log(data);
         var tracks = JSON.parse(data);
@@ -901,6 +910,15 @@ function loadSong(songID){
         slider.setAttribute("max", (songSec*nps).toString());
         
         loadQuotes(songID);
+        
+        var currentUser = "";
+        if (typeof loginCookie == "undefined" || loginCookie.uName == "" || typeof loginCookie.uName == "undefined" ){
+            currentUser = "Guest";
+        }
+        $.post("services/songTracks.php", {name:currentUser, song:song.metaData.name, len:song.metaData.length }, function(data){
+            console.log("thank you for using Music Matrix Composer v2");
+        });
+        
     });
 }
 
