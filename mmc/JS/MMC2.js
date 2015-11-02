@@ -2603,6 +2603,8 @@ $(function() { // horizontal scrolling provided by http://css-tricks.com/
 function acknowledgements(){
     var displayText = "<h2>Special thanks to these wonderful programmers for making this possiable</h2>Mudcube: <a href='https://github.com/mudcube/MIDI.js'>Midi.JS</a><br>";
     displayText += "Gleitz: <a href='https://github.com/gleitz/midi-js-soundfonts'>Midi.JS SoundFonts</a><br>";
+	displayText += "Sergi Mansilla: <a href='https://github.com/sergi/jsmidi'>jsmidi</a><br>";
+	displayText += "Dingram: <a href='https://github.com/dingram/jsmidgen'>jsmidigen</a><br>";
     displayText += "Letoribo: <a href='https://github.com/letoribo/General-MIDI-Percussion-soundfonts-for-MIDI.js-'>General Midi Percussion SoundFonts</a><br>";
     displayText += "Eligrey: <a href='https://github.com/eligrey/FileSaver.js/'>FileSaver.js</a><br>";
     displayText += "Eligrey: <a href='https://github.com/eligrey/Blob.js'>Blobs.js</a><br>";
