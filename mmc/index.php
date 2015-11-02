@@ -176,6 +176,8 @@
         <!-- MMC and general Utility -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+		<script src="JS/jsmidi/midi.js"></script>
+		<script src="JS/jsmidgen/lib/jsmidgen.js"></script>
         <script src="JS/MMC2.js<?php echo "?noCache=$noCache"; ?>"></script>
         <!-- jasmid package -->
     	<script src="JS/inc/jasmid/stream.js"></script>
