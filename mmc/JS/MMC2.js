@@ -918,8 +918,12 @@ function loadSong(songID){
         if (typeof loginCookie == "undefined" || loginCookie.uName == "" || typeof loginCookie.uName == "undefined" ){
             currentUser = "Guest";
         }
-        $.post("services/songTracks.php", {name:currentUser, song:song.metaData.name, len:song.metaData.length }, function(data){
+		else{
+			currentUser = loginCookie.uName;
+		}
+        $.post("services/usageTracker.php", {name:currentUser, song:song.metaData.name, len:song.metaData.length }, function(data){
             console.log("thank you for using Music Matrix Composer v2");
+			console.log(data);
         });
         
     });
@@ -1602,7 +1606,7 @@ var changedSinceLastTime = true;
 function playSong(ele){
     //set default volume of everything to 0.5
     playBtn = ele;
-	
+	//currentTime = parseInt(ele.value);
 	if (! serverPlayMode){
 		tracksToPlay = [];
 		for (var i = 0; i < 16; i++){
@@ -1615,8 +1619,8 @@ function playSong(ele){
 			song["track" + i].lastVolKey = 0.5;
 		}
 		
+		timelineSlider = document.getElementById("timeLine");
 		IntervalManager.set(1, efficientPlayer, 1000/song.metaData.nps);
-    
 	}
 	
 	else{
@@ -1765,6 +1769,7 @@ function playNoteEfficiently(trackName, trackNumber, time, oldTrackData, newTrac
 	//var currentVol = song["track"+trackNumber].lastVolKey;
 }
 
+var timelineSlider;
 function timeUpdate(){
     if (currentTime >= song.metaData.length * song.metaData.nps){
         currentTime = 0;
@@ -1772,14 +1777,19 @@ function timeUpdate(){
             stopSong(playBtn);
         }
     }
-    var slider = document.getElementById("timeLine");
-    slider.value = (currentTime+1).toString();
-    sliderUpdate(slider);
+    
+    //timelineSlider.value = (currentTime+1).toString();
+    //sliderUpdate(timelineSlider);
+	newCurrentTime();
 }
 
 function sliderUpdate(ele){
     currentTime = parseInt(ele.value);
 	//MIDI.Player.currentTime = (currentTime/song.metaData.length)*1000;
+}
+
+function newCurrentTime(){
+	currentTime++;
 }
 
 var autoScroll = false;
@@ -2838,6 +2848,7 @@ function loadedAndPlay(){
 	MIDI.Player.currentTime = (currentTime-1)/song.metaData.nps*1000;
 	
 	MIDI.Player.start();
+	timelineSlider = document.getElementById("timeLine");
 	IntervalManager.set(0, timeUpdate, 1000/song.metaData.nps);
 }
 
