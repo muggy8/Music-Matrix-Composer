@@ -1625,6 +1625,7 @@ function playSong(ele){
 	
 	else{
 		if (changedSinceLastTime){
+			messageOn("Please wait while we get the data from the server. If you would rather not wait, you can switch to browser player mode. Performance will likely take a dip if you do.", "messageOff()", false, "Ok");
 			serverPlayerExport(1);
 			changedSinceLastTime = false;
 		}
@@ -1641,6 +1642,7 @@ function playSong(ele){
 	}
     ele.src="img/icons/Stop.png";
     ele.setAttribute("onclick", "stopSong(this)");
+	IntervalManager.set(2, slowSync, 1000);
 }
 
 
@@ -1695,6 +1697,7 @@ function stopSong(ele){
     MIDI.Player.pause();
     ele.src="img/icons/Play.png";
     ele.setAttribute("onclick", "playSong(this)");
+	timelineSlider.value = (currentTime+1).toString();
 }
 
 function songPlayer(){
@@ -1778,7 +1781,7 @@ function timeUpdate(){
         }
     }
     
-    timelineSlider.value = (currentTime+1).toString();
+    //timelineSlider.value = (currentTime+1).toString();
     //sliderUpdate(timelineSlider);
 	newCurrentTime();
 }
@@ -1790,6 +1793,16 @@ function sliderUpdate(ele){
 
 function newCurrentTime(){
 	currentTime++;
+}
+
+function slowSync(){
+	if (!serverPlayMode){
+		timelineSlider.value = (currentTime+1).toString();
+	}
+	else{
+		var midiTime = MIDI.Player.currentTime/1000;
+		timelineSlider.value = Math.floor(song.metaData.nps*midiTime);
+	}
 }
 
 var autoScroll = false;
@@ -2845,11 +2858,13 @@ function serverPlayerExport(type){
 }
 
 function loadedAndPlay(){
-	MIDI.Player.currentTime = (currentTime-1)/song.metaData.nps*1000;
+	MIDI.Player.currentTime = (currentTime-1.5)/song.metaData.nps*1000;
 	
 	MIDI.Player.start();
 	timelineSlider = document.getElementById("timeLine");
 	IntervalManager.set(0, timeUpdate, 1000/song.metaData.nps);
+	
+	messageOff();
 }
 
 function midiNoteAt(i, j, k){
