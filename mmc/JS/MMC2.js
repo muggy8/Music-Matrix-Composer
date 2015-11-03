@@ -1778,7 +1778,7 @@ function timeUpdate(){
         }
     }
     
-    //timelineSlider.value = (currentTime+1).toString();
+    timelineSlider.value = (currentTime+1).toString();
     //sliderUpdate(timelineSlider);
 	newCurrentTime();
 }
