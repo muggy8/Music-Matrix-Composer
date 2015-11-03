@@ -1451,6 +1451,7 @@ function toggle(ele, looping, e){
 			quoteCombo = -1;
 		}
 	}
+	changedSinceLastTime = true;
 }
 
 function efficientNoteAdd(info, duration){
@@ -1578,11 +1579,23 @@ function inputTesting(data){
     console.log(typeof data == "undefined");
 }
 
+function playMode(ele){
+	serverPlayMode = !serverPlayMode;
+	
+	if (serverPlayMode){
+		ele.innerHTML=ele.innerHTML.replace("Browser", "Server");
+	}
+	if (!serverPlayMode){
+		ele.innerHTML=ele.innerHTML.replace("Server", "Browser");
+	}
+}
+
 var currentTime = 1;
 var songInterval;
 var playBtn;
 var tracksToPlay = [];
 var serverPlayMode = true;
+var changedSinceLastTime = true;
 function playSong(ele){
     //set default volume of everything to 0.5
     playBtn = ele;
@@ -1604,8 +1617,20 @@ function playSong(ele){
 	}
 	
 	else{
-		serverPlayerExport(1);
+		if (changedSinceLastTime){
+			serverPlayerExport(1);
+			changedSinceLastTime = false;
+		}
+		else{
+			loadedAndPlay();
+		}
 		//playerMidiData
+		
+		//MIDI.Player.currentTime = (currentTime+1/song.metaData.length)*1000;
+		
+		//currentTime
+		
+		
 	}
     ele.src="img/icons/Stop.png";
     ele.setAttribute("onclick", "stopSong(this)");
@@ -1660,7 +1685,7 @@ function buildB64(){
 
 function stopSong(ele){
     IntervalManager.clearAll();
-    
+    MIDI.Player.pause();
     ele.src="img/icons/Play.png";
     ele.setAttribute("onclick", "playSong(this)");
 }
@@ -1751,6 +1776,7 @@ function timeUpdate(){
 
 function sliderUpdate(ele){
     currentTime = parseInt(ele.value);
+	//MIDI.Player.currentTime = (currentTime/song.metaData.length)*1000;
 }
 
 var autoScroll = false;
@@ -2789,15 +2815,28 @@ function serverPlayerExport(type){
     //console.log(midiXMLStr)
     
     $.post("phpMidi/midi_class_v178/xml2midiService.php", {txt: midiXMLStr}, function(data){
-        //do somethin with data
-        //console.log(data);
-        
-        //messageOn(data);
 		
 		playerMidiData = data;
+		
+		var tempDiv = document.createElement("div");
+		tempDiv.innerHTML = playerMidiData;
+		var serverMidiData = $(tempDiv).children()[0].href;
+		
+		MIDI.Player.loadFile(serverMidiData, function(){
+			var fileLocation = serverMidiData.split("?")[1];
+			$.get("phpMidi/midi_class_v178/removeUsed.php?f=tmp%2F20726.mid?"+fileLocation);
+			
+			loadedAndPlay();
+		});
     })
 }
 
+function loadedAndPlay(){
+	MIDI.Player.currentTime = (currentTime-1)/song.metaData.nps*1000;
+	
+	MIDI.Player.start();
+	IntervalManager.set(0, timeUpdate, 1000/song.metaData.nps);
+}
 
 function midiNoteAt(i, j, k){
     
@@ -2900,8 +2939,8 @@ $(function() { // horizontal scrolling provided by http://css-tricks.com/
 function acknowledgements(){
     var displayText = "<h2>Special thanks to these wonderful programmers for making this possiable</h2>Mudcube: <a href='https://github.com/mudcube/MIDI.js'>Midi.JS</a><br>";
     displayText += "Gleitz: <a href='https://github.com/gleitz/midi-js-soundfonts'>Midi.JS SoundFonts</a><br>";
-	displayText += "Sergi Mansilla: <a href='https://github.com/sergi/jsmidi'>jsmidi</a><br>";
-	displayText += "Dingram: <a href='https://github.com/dingram/jsmidgen'>jsmidigen</a><br>";
+	//displayText += "Sergi Mansilla: <a href='https://github.com/sergi/jsmidi'>jsmidi</a><br>";
+	//displayText += "Dingram: <a href='https://github.com/dingram/jsmidgen'>jsmidigen</a><br>";
     displayText += "Letoribo: <a href='https://github.com/letoribo/General-MIDI-Percussion-soundfonts-for-MIDI.js-'>General Midi Percussion SoundFonts</a><br>";
     displayText += "Eligrey: <a href='https://github.com/eligrey/FileSaver.js/'>FileSaver.js</a><br>";
     displayText += "Eligrey: <a href='https://github.com/eligrey/Blob.js'>Blobs.js</a><br>";
