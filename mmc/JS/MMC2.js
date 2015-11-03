@@ -801,6 +801,9 @@ function initializeSong(){
             if (typeof loginCookie == "undefined" || loginCookie.uName == "" || typeof loginCookie.uName == "undefined" ){
                 currentUser = "Guest";
             }
+			else{
+				currentUser = loginCookie.uName;
+			}
             $.post("services/usageTracker.php", {name:currentUser, song:song.metaData.name, len:song.metaData.length }, function(data){
                 console.log("thank you for using Music Matrix Composer v2");
                 console.log(data);
