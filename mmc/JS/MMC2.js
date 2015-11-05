@@ -1606,7 +1606,9 @@ var changedSinceLastTime = true;
 function playSong(ele){
     //set default volume of everything to 0.5
     playBtn = ele;
+	timelineSlider = document.getElementById("timeLine");
 	//currentTime = parseInt(ele.value);
+	/*
 	if (! serverPlayMode){
 		tracksToPlay = [];
 		for (var i = 0; i < 16; i++){
@@ -1639,10 +1641,17 @@ function playSong(ele){
 		//currentTime
 		
 		
-	}
+	}*/
+	var b64ConvertData = buildB64();
+	var b64Data = MidiWriter(b64ConvertData);
+	
+	MIDI.Player.currentData = window.atob(b64Data.b64);
+	MIDI.Player.loadMidiFile();
+	MIDI.Player.start();
+	
     ele.src="img/icons/Stop.png";
     ele.setAttribute("onclick", "stopSong(this)");
-	IntervalManager.set(2, slowSync, 1000);
+	IntervalManager.set(2, slowSync, 1000/song.metaData.nps);
 }
 
 
@@ -1664,7 +1673,7 @@ function buildB64(){
 			for (var j = 1;j<trackData[i-1].length ;j++){//for every note in the pervious collum
 				var previousPitch = MIDI.noteToKey[ trackScale[trackData[i-1][j]]];
 				var previousTone = trackData[i-1][j];
-				if (trackData[i].indexOf(previousTone) == -1 && i != 1){//if a matching note cant be found on this collum
+				if (trackData[i].indexOf(previousTone) == -1){//if a matching note cant be found on this collum
 					//make a noteoff call
 					if (!firstFlag){
 						b64Track.addNoteOff(index,previousPitch,(i-1-lastBreak)*ticksPerNote);
@@ -1713,7 +1722,7 @@ function stopSong(ele){
     MIDI.Player.pause();
     ele.src="img/icons/Play.png";
     ele.setAttribute("onclick", "playSong(this)");
-	timelineSlider.value = (currentTime+1).toString();
+	//timelineSlider.value = (currentTime+1).toString();
 }
 
 function songPlayer(){
@@ -1804,7 +1813,7 @@ function timeUpdate(){
 
 function sliderUpdate(ele){
     currentTime = parseInt(ele.value);
-	//MIDI.Player.currentTime = (currentTime/song.metaData.length)*1000;
+	MIDI.Player.currentTime = (currentTime/song.metaData.length)*1000;
 }
 
 function newCurrentTime(){
@@ -2872,7 +2881,7 @@ function serverPlayerExport(type){
 		});
     })
 }
-
+/*
 function loadedAndPlay(){
 	MIDI.Player.currentTime = (currentTime-1.5)/song.metaData.nps*1000;
 	
@@ -2881,7 +2890,7 @@ function loadedAndPlay(){
 	IntervalManager.set(0, timeUpdate, 1000/song.metaData.nps);
 	
 	messageOff();
-}
+}*/
 
 function midiNoteAt(i, j, k){
     
