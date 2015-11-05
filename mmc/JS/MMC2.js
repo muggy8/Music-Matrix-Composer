@@ -1817,7 +1817,7 @@ function timeUpdate(){
 
 function sliderUpdate(ele){
     currentTime = parseInt(ele.value);
-	MIDI.Player.currentTime = ((currentTime)/song.metaData.nps)*1000;
+	MIDI.Player.currentTime = ((currentTime-1)/song.metaData.nps)*1000;
 }
 
 function newCurrentTime(){
@@ -1830,7 +1830,7 @@ function slowSync(){
 	}
 	else{
 		var midiTime = MIDI.Player.currentTime/1000;
-		timelineSlider.value = Math.floor(song.metaData.nps*midiTime);
+		timelineSlider.value = Math.ceil(song.metaData.nps*midiTime);
 		
 		if (MIDI.Player.endTime - MIDI.Player.currentTime < 50){
 			$('[src="img/icons/Stop.png"]').click();
