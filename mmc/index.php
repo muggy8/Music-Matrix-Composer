@@ -124,6 +124,9 @@
                     <h2 class="sectionName">
                         News:
                     </h2>
+					<h3>2015 November 2nd 6:51 PM Pacific Time</h3>
+					<p>There was a pretty major revamp today to the Music Matrix Compser v2's underlying archetecture. There is now 2 different modes of playback. The primary mode of playback has been changed to Server Player which will use the server to create a Midi file which will get played on the browser when playback is needed. However in the case that the server is down or experiancing heavy traffic, it's best to revert to the less accurate but largely unchanged Browser Player which isn't too much of a change. On the top right of the editor, you are able to toggle between the Server Player and the Browser Player. Hope to see better performance out of the program in your future composition endevers!</p>
+					
 					<h3>2015 October 25th 10:30 AM Pacific Time</h3>
 					<p>Small update to the website happend today that impoves the efficency of the program. You should be able to see a few small perforamce improvements. I will be continueing to look into other ways to optimize the performace of the program so that you can play your song smoothly in the program instead of having to export it to see the song in full speed. Any help with optimization would be much appreciated. as always, If you find any problems, dont hesitate to contact me via <a href="https://www.reddit.com/user/muggy8/">Reddit</a>.</p>
 					
@@ -177,8 +180,8 @@
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-		<!--<script src="JS/jsmidi/midi.js"></script>-->
-		<!--<script src="JS/jsmidgen/lib/jsmidgen.js"></script>-->
+		<script src="JS/jsmidi/midi.js"></script>
+		<script src="JS/jsmidgen/lib/jsmidgen.js"></script>
         <script src="JS/MMC2.js<?php echo "?noCache=$noCache"; ?>"></script>
         <!-- jasmid package -->
     	<script src="JS/inc/jasmid/stream.js"></script>
