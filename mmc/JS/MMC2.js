@@ -1646,10 +1646,10 @@ function playSong(ele){
 }
 
 
-/*
+
 function buildB64(){
 	var file = new Midi.File();
-	var ticksPerNote = 128/song.metaData.nps;
+	var ticksPerNote = 256/song.metaData.nps;
 	// build the export stuff in 
 	index = 0;
 	while (song["track"+index].songData.length){
@@ -1657,40 +1657,56 @@ function buildB64(){
 		file.addTrack(b64Track);
 		var trackData = song["track"+index].songData;
 		var trackScale = song["track"+index].scale;
+		var lastBreak = 0;
 		for (var i = 1; i < trackData.length; i++){
 			var firstFlag = false;
+			var noteContinued = false;
+			for (var j = 1;j<trackData[i-1].length ;j++){//for every note in the pervious collum
+				var previousPitch = MIDI.noteToKey[ trackScale[trackData[i-1][j]]];
+				var previousTone = trackData[i-1][j];
+				if (trackData[i].indexOf(previousTone) == -1 && i != 1){//if a matching note cant be found on this collum
+					//make a noteoff call
+					if (!firstFlag){
+						b64Track.addNoteOff(index,previousPitch,(i-1-lastBreak)*ticksPerNote);
+						firstFlag=true;
+						lastBreak = i-1;
+					}
+					else{
+						b64Track.addNoteOff(index,previousPitch);
+					}
+				}
+				if (trackData[i].indexOf(previousTone) > -1 && i != 1) {
+					noteContinued = true;
+				}
+			}
+			/*if (!noteContinued && trackData[i-1].length > 1){ // if note did not continue and there was something in the previous collum
+				lastBreak = i-1;
+			}*/
 			for (var j = 1; j <trackData[i].length; j++){//for every note in the currenc collum
 				var currentPitch = MIDI.noteToKey[ trackScale[trackData[i][j]]];
 				var currentTone = trackData[i][j];
 				if (trackData[i-1].indexOf(currentTone) == -1){ // if there is no note for this note in the previous collum
 					if (!firstFlag){//first time on the current time
-						b64Track.addNoteOn(index, currentPitch, (i-1)*ticksPerNote);
+						b64Track.addNoteOn(index, currentPitch, (i-1-lastBreak)*ticksPerNote);
 						firstFlag=true;
+						lastBreak = i-1;
 					}
 					else{
 						b64Track.addNoteOn(index, currentPitch);
 					}
 				}
 			}
-			for (var j = 1;j<trackData[i-1].length ;j++){//for every note in the pervious collum
-				var previousPitch = MIDI.noteToKey[ trackScale[trackData[i-1][j]]];
-				var previousTone = trackData[i-1][j];
-				if (trackData[i].indexOf(previousTone) == -1){//if a matching note cant be found on this collum
-					//make a noteoff call
-					if (!firstFlag){
-						b64Track.addNoteOff(index,previousPitch,(i-1)*ticksPerNote);
-						firstFlag=true;
-					}
-					else{
-						b64Track.addNoteOff(index,previousPitch);
-					}
-				}
-			}
+			//alert("comparing: " + JSON.stringify(trackData[i]) + " and " + JSON.stringify(trackData[i-1]) + ". i: "+ i +" lastBreak: " + lastBreak + " noteContinued: " + noteContinued);
 		}
 		index++;
 	}
 	return file;
-}*/
+}
+/*
+var s = buildB64();
+var sf = MidiWriter(s);
+sf.save();
+*/
 
 function stopSong(ele){
     IntervalManager.clearAll();
@@ -2968,8 +2984,8 @@ $(function() { // horizontal scrolling provided by http://css-tricks.com/
 function acknowledgements(){
     var displayText = "<h2>Special thanks to these wonderful programmers for making this possiable</h2>Mudcube: <a href='https://github.com/mudcube/MIDI.js'>Midi.JS</a><br>";
     displayText += "Gleitz: <a href='https://github.com/gleitz/midi-js-soundfonts'>Midi.JS SoundFonts</a><br>";
-	//displayText += "Sergi Mansilla: <a href='https://github.com/sergi/jsmidi'>jsmidi</a><br>";
-	//displayText += "Dingram: <a href='https://github.com/dingram/jsmidgen'>jsmidigen</a><br>";
+	displayText += "Sergi Mansilla: <a href='https://github.com/sergi/jsmidi'>jsmidi</a><br>";
+	displayText += "Dingram: <a href='https://github.com/dingram/jsmidgen'>jsmidigen</a><br>";
     displayText += "Letoribo: <a href='https://github.com/letoribo/General-MIDI-Percussion-soundfonts-for-MIDI.js-'>General Midi Percussion SoundFonts</a><br>";
     displayText += "Eligrey: <a href='https://github.com/eligrey/FileSaver.js/'>FileSaver.js</a><br>";
     displayText += "Eligrey: <a href='https://github.com/eligrey/Blob.js'>Blobs.js</a><br>";
