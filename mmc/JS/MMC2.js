@@ -1670,7 +1670,9 @@ function buildB64(){
 		for (var i = 1; i < trackData.length; i++){
 			var firstFlag = false;
 			var noteContinued = false;
-			
+			if (trackData[i][0].vol > -1){
+				song["track"+index].lastVolKey = trackData[i][0].vol;
+			}
 			for (var j = 1;j<trackData[i-1].length ;j++){//for every note in the pervious collum
 				var previousPitch = MIDI.noteToKey[ trackScale[trackData[i-1][j]]];
 				var previousTone = trackData[i-1][j];
@@ -1682,7 +1684,7 @@ function buildB64(){
 						lastBreak = i-1;
 					}
 					else{
-						b64Track.addNoteOff(index,previousPitch,0);
+						b64Track.addNoteOff(index,previousPitch);
 					}
 				}
 				if (trackData[i].indexOf(previousTone) > -1 && i != 1) {
@@ -1697,17 +1699,17 @@ function buildB64(){
 				var currentTone = trackData[i][j];
 				if (trackData[i-1].indexOf(currentTone) == -1){ // if there is no note for this note in the previous collum
 					if (!firstFlag){//first time on the current time
-						b64Track.addNoteOn(index, currentPitch, (i-1-lastBreak)*ticksPerNote, trackData.lastVolKey*trackData.vol);
+						b64Track.addNoteOn(index, currentPitch, (i-1-lastBreak)*ticksPerNote, song["track"+index].lastVolKey*song["track"+index].scale.vol);
 						firstFlag=true;
 						lastBreak = i-1;
 					}
 					else{
-						b64Track.addNoteOn(index, currentPitch, 0, trackData.lastVolKey*trackData.vol);
+						b64Track.addNoteOn(index, currentPitch, 0, song["track"+index].lastVolKey*song["track"+index].scale.vol);
 					}
 				}
 			}
 			//alert("comparing: " + JSON.stringify(trackData[i]) + " and " + JSON.stringify(trackData[i-1]) + ". i: "+ i +" lastBreak: " + lastBreak + " noteContinued: " + noteContinued);
-			trackData.lastVolKey = 0.5;
+			song["track"+index].lastVolKey = 0.5;
 		}
 		index++;
 	}
@@ -1815,7 +1817,7 @@ function timeUpdate(){
 
 function sliderUpdate(ele){
     currentTime = parseInt(ele.value);
-	MIDI.Player.currentTime = (currentTime/song.metaData.length)*1000;
+	MIDI.Player.currentTime = ((currentTime)/song.metaData.nps)*1000;
 }
 
 function newCurrentTime(){
@@ -1829,6 +1831,16 @@ function slowSync(){
 	else{
 		var midiTime = MIDI.Player.currentTime/1000;
 		timelineSlider.value = Math.floor(song.metaData.nps*midiTime);
+		
+		if (MIDI.Player.endTime - MIDI.Player.currentTime < 50){
+			$('[src="img/icons/Stop.png"]').click();
+		}
+		if (autoScroll){
+			var windowWidth = $( window ).width();
+			if ((currentTime*23)-(windowWidth/2)>0){
+				$("body").animate({scrollLeft: (currentTime*23)-(windowWidth/2)}, 1);
+			}
+		}
 	}
 }
 
