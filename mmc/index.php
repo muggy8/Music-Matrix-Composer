@@ -170,7 +170,7 @@
             </div>
             
             <div id="imglessButtons" class="otherBar">
-                <button onclick="loopToggle(this)">Loop Song: On</button>
+                <!--<button onclick="loopToggle(this)">Loop Song: On</button>-->
 				<button onclick="playMode(this)" title="Server mode is usuaully faster but needs a bit of arm time. In addition, arm time can increase based on how much traffic the site gets. use browser mode in those scenarios.">Play Mode: Server Player</button>
                 <button onclick="scrollToggle(this)">Auto Scroll: Off</button>
             </div>
