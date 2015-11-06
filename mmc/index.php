@@ -124,6 +124,9 @@
                     <h2 class="sectionName">
                         News:
                     </h2>
+					<h3>2015 November 5th 1:21 AM Pacific Time</h3>
+					<p>Another pretty large playback engine update came live. It combined the best parts of the previous update being the Browser playback and Server Playback split and combined them into one playback engine that only uses the browser to play back your tunes. Because of this, a few few features became redundent and was removed. You should see much better playback performance when testing and composing! If you find any other issues, please let me know via <a href="https://www.reddit.com/user/muggy8/">Reddit</a>.</p>
+					
 					<h3>2015 November 2nd 6:51 PM Pacific Time</h3>
 					<p>There was a pretty major revamp today to the Music Matrix Compser v2's underlying archetecture. There is now 2 different modes of playback. The primary mode of playback has been changed to Server Player which will use the server to create a Midi file which will get played on the browser when playback is needed. However in the case that the server is down or experiancing heavy traffic, it's best to revert to the less accurate but largely unchanged Browser Player which isn't too much of a change. On the top right of the editor, you are able to toggle between the Server Player and the Browser Player. Hope to see better performance out of the program in your future composition endevers!</p>
 					
