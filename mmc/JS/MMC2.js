@@ -1655,8 +1655,9 @@ function playSong(ele){
 }
 
 
-
+//var tempData = "";
 function buildB64(){
+	tempData = "";
 	var file = new Midi.File();
 	var ticksPerNote = 256/song.metaData.nps;
 	// build the export stuff in 
@@ -1682,9 +1683,11 @@ function buildB64(){
 						b64Track.addNoteOff(index,previousPitch,(i-1-lastBreak)*ticksPerNote);
 						firstFlag=true;
 						lastBreak = i-1;
+						//tempData +="b64Track.addNoteOff("+index+","+previousPitch+","+(i-1-lastBreak)*ticksPerNote+");";
 					}
 					else{
 						b64Track.addNoteOff(index,previousPitch);
+						//tempData += "b64Track.addNoteOff("+index+","+previousPitch+");";
 					}
 				}
 				if (trackData[i].indexOf(previousTone) > -1 && i != 1) {
@@ -1702,16 +1705,21 @@ function buildB64(){
 						b64Track.addNoteOn(index, currentPitch, (i-1-lastBreak)*ticksPerNote, Math.floor(song["track"+index].lastVolKey*song["track"+index].scale.vol));
 						firstFlag=true;
 						lastBreak = i-1;
+						//tempData += " lastVol: "+song["track"+index].lastVolKey + ", scaleVol: " + song["track"+index].scale.vol + " EventAdded: ";
+						//tempData += 'b64Track.addNoteOn('+index+','+ currentPitch+','+ (i-1-lastBreak)*ticksPerNote+','+ Math.floor(song["track"+index].lastVolKey*song["track"+index].scale.vol)+');';
 					}
 					else{
 						b64Track.addNoteOn(index, currentPitch, 0, Math.floor(song["track"+index].lastVolKey*song["track"+index].scale.vol));
+						//tempData += " lastVol: "+song["track"+index].lastVolKey + ", scaleVol: " + song["track"+index].scale.vol + " EventAdded: ";
+						//tempData += 'b64Track.addNoteOn('+index+', '+currentPitch+', 0, '+Math.floor(song["track"+index].lastVolKey*song["track"+index].scale.vol)+');';
 					}
 					//console.log(song["track"+index].lastVolKey*song["track"+index].scale.vol);
 				}
 			}
 			//alert("comparing: " + JSON.stringify(trackData[i]) + " and " + JSON.stringify(trackData[i-1]) + ". i: "+ i +" lastBreak: " + lastBreak + " noteContinued: " + noteContinued);
-			song["track"+index].lastVolKey = 0.5;
+			
 		}
+		song["track"+index].lastVolKey = 0.5;
 		index++;
 	}
 	//console.log(file);
