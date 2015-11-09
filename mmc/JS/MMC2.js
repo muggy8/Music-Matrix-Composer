@@ -1670,7 +1670,7 @@ function buildB64(){
 		for (var i = 1; i < trackData.length; i++){
 			var firstFlag = false;
 			var noteContinued = false;
-			if (trackData[i][0].vol > -1){
+			if (trackData[i][0].vol > -0.5){
 				song["track"+index].lastVolKey = trackData[i][0].vol;
 			}
 			for (var j = 1;j<trackData[i-1].length ;j++){//for every note in the pervious collum
@@ -1699,13 +1699,14 @@ function buildB64(){
 				var currentTone = trackData[i][j];
 				if (trackData[i-1].indexOf(currentTone) == -1){ // if there is no note for this note in the previous collum
 					if (!firstFlag){//first time on the current time
-						b64Track.addNoteOn(index, currentPitch, (i-1-lastBreak)*ticksPerNote, song["track"+index].lastVolKey*song["track"+index].scale.vol);
+						b64Track.addNoteOn(index, currentPitch, (i-1-lastBreak)*ticksPerNote, Math.floor(song["track"+index].lastVolKey*song["track"+index].scale.vol));
 						firstFlag=true;
 						lastBreak = i-1;
 					}
 					else{
-						b64Track.addNoteOn(index, currentPitch, 0, song["track"+index].lastVolKey*song["track"+index].scale.vol);
+						b64Track.addNoteOn(index, currentPitch, 0, Math.floor(song["track"+index].lastVolKey*song["track"+index].scale.vol));
 					}
+					//console.log(song["track"+index].lastVolKey*song["track"+index].scale.vol);
 				}
 			}
 			//alert("comparing: " + JSON.stringify(trackData[i]) + " and " + JSON.stringify(trackData[i-1]) + ". i: "+ i +" lastBreak: " + lastBreak + " noteContinued: " + noteContinued);
@@ -1713,6 +1714,7 @@ function buildB64(){
 		}
 		index++;
 	}
+	//console.log(file);
 	return file;
 }
 /*
@@ -1837,8 +1839,8 @@ function slowSync(){
 		}
 		if (autoScroll){
 			var windowWidth = $( window ).width();
-			if ((currentTime*23)-(windowWidth/2)>0){
-				$("body").animate({scrollLeft: (currentTime*23)-(windowWidth/2)}, 1);
+			if ((midiTime*23*song.metaData.nps)-(windowWidth/2)>0){
+				$("body").scrollLeft((midiTime*23*song.metaData.nps)-(windowWidth/2));
 			}
 		}
 	}
