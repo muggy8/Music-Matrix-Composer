@@ -1091,6 +1091,7 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
         });
     }
     else { //soundfont already loaded
+		//alert(midiChannel + " " + instruments.indexOf(tool));
         MIDI.programChange(midiChannel, instruments.indexOf(tool)); //change track to have an instrument
         tracksLoaded++;
 		if (tracksLoaded == totalTracksToLoad){

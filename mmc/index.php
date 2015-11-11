@@ -211,8 +211,8 @@
     	<script src="JS/fileSaver/Blob.js" type="text/javascript"></script>
     	<script src="JS/fileSaver/FileSaver.min.js" type="text/javascript"></script>
     	<!-- preload soundfonts-->
-    	<script src="soundfont/acoustic_grand_piano-mp3.js" type="text/javascript"></script>
+    	<!--<script src="soundfont/acoustic_grand_piano-mp3.js" type="text/javascript"></script>
     	<script src="soundfont/gunshot-mp3.js" type="text/javascript"></script>
-    	<script src="soundfont/woodblock-mp3.js" type="text/javascript"></script>
+    	<script src="soundfont/woodblock-mp3.js" type="text/javascript"></script>-->
     </body>
 </html>
