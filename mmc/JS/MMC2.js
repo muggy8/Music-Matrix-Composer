@@ -1832,6 +1832,21 @@ function timeUpdate(){
 function sliderUpdate(ele){
     currentTime = parseInt(ele.value);
 	MIDI.Player.currentTime = ((currentTime-1)/song.metaData.nps)*1000;
+	
+	//findLastVolKey();
+}
+
+function findLastVolKey(){
+	var index = 0;
+	while (song["track" + index].songData.length){
+		for (var i = currentTime, i >= 0; i--){
+			if (song["track"+index].songData[i][0].vol > -0.5){
+				song["track"+index].lastVolKey = song["track"+index].songData[i][0].vol;
+				i = -1;
+			}
+		}
+		index ++;
+	}
 }
 
 function newCurrentTime(){
