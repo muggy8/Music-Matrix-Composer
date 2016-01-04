@@ -115,8 +115,9 @@
                     <h2 class="sectionName">Your saved songs:</h2>
                 </div>
                 <div id="credits" class="collumEle">
-                    <h2>Special thanks to:</h2>
-                    <button class="alertOk" onclick="acknowledgements();" style="float:none; width:auto;">Acknowledgements</button>
+                    <h2>Info:</h2>
+                    <button class="alertOk" onclick="acknowledgements();" style="float:left; width:auto; clear:none;">Acknowledgements</button>
+                    <button class="alertOk" onclick="showTutorial();" style="float:left; width:auto; clear:none;">Tutorial</button>
                 </div>
             </div>
             <div id="leftCollum" class="rightCollumBody">
@@ -140,14 +141,14 @@
                         A Major update happened today to the playback engine. You should see better performance for composition using multiple tracks. If you find that your track is not working as intended, please save your song and reload your song. That should make most errors go away. If the problem presists, Please contact me via <a href="https://www.reddit.com/user/muggy8/">Reddit</a>.
                     </p>                        
                 </div>
+                
 				<div class="collumEle" style="max-height:none">
                     <h2 class="sectionName">
-                        Tutorial:
+                        Newly Published Songs:
                     </h2>
-					<div class="aspect-ratio">
-						<iframe width="560" height="315" src="https://www.youtube.com/embed/5sBw8lucG4k" frameborder="0" allowfullscreen></iframe>   
-					</div>
+                    <div id="newsFeed"></div>
                 </div>
+                
             </div>
             <div class="floatClear"></div>
         </div>
