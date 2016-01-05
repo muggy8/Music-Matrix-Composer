@@ -497,11 +497,11 @@ function showPublicSongs(){
 		
 		var editBtn = document.createElement("img");
         newsItemBox.appendChild(editBtn);
-		editBtn.src = "img/icons/edit.png";\
+		editBtn.src = "img/icons/edit.png";
 		editBtn.title = editBtn.alt = "Edit this song";
         editBtn.width = 32;
         editBtn.height = 32;
-		editBtn.setAttribute( "onclick", "loadSong(" + publicRecentSongs["song"+counter].songID + ")");
+		editBtn.setAttribute( "onclick", "loadPublicSong('song" + counter + "')");
 		
 		/*
 		var loadBtn = document.createElement("img");
@@ -1061,6 +1061,72 @@ function loadSong(songID){
         slider.setAttribute("max", (songSec*nps).toString());
         
         loadQuotes(songID);
+        
+        var currentUser = "";
+        if (typeof loginCookie == "undefined" || loginCookie.uName == "" || typeof loginCookie.uName == "undefined" ){
+            currentUser = "Guest";
+        }
+		else{
+			currentUser = loginCookie.uName;
+		}
+        $.post("services/usageTracker.php", {name:currentUser, song:song.metaData.name, len:song.metaData.length }, function(data){
+            console.log("thank you for using Music Matrix Composer v2");
+			console.log(data);
+        });
+        
+    });
+}
+
+function loadPublicSong(saveID){
+    messageOn("<p>Loading please wait</p>", "", false, "Ok");
+    $.post("services/songTracks.php", {name:loginCookie.uName, sessionID:loginCookie.sessionID, songID: publicRecentSongs[saveID].songID}, function(data){
+        //console.log(data);
+        var tracks = JSON.parse(data);
+        var numberOfTracks = Object.keys(tracks).length;
+        
+        //setting global variables
+        mode="initialized";
+        scrollMode = "horiz";
+        
+        //switching viewing mode over
+        document.getElementById("mainbody").className = "hide";
+        document.getElementById("songBody").className = "songBody";
+        
+        var songSec = publicRecentSongs[saveID].length;
+        nps = publicRecentSongs[saveID].nps
+        songName = publicRecentSongs[saveID].songName;
+
+        // Update banner
+        document.getElementById("bannerheader").appendChild(document.createTextNode(" - " + songName));
+        
+        //build data structure
+        song.metaData.length = songSec; // seconds
+        song.metaData.nps = nps;
+        song.metaData.name = songName.replace(/'/g, "\\'");
+        song.metaData.songID = publicRecentSongs[saveID].songID;
+        
+        //disable looper to prevent bad loading
+        loop = 0;
+        document.getElementById("looperNumber").innerHTML = loop;
+        
+        clickSound = false;
+        //build the tracks
+        for (var i = 0; i < numberOfTracks; i++){
+            var trackName = "track"+i;
+            buildTrack(trackName, songSec, nps , tracks[trackName].instrument, tracks[trackName].scale, parseInt(tracks[trackName].id));
+            //console.log(tracks[trackName].songData);
+            loadTune(trackName, tracks[trackName].songData);
+            trackCount++;
+        }
+        totalTracksToLoad = numberOfTracks; // helps with telling the program when to turn off the loading sign
+        clickSound = true;
+        
+        // slider stuff
+        var slider = document.getElementById("timeLine");
+        slider.style.width = (songSec*nps*23)-13 + "px";
+        slider.setAttribute("max", (songSec*nps).toString());
+        
+        //loadQuotes(songID);
         
         var currentUser = "";
         if (typeof loginCookie == "undefined" || loginCookie.uName == "" || typeof loginCookie.uName == "undefined" ){
