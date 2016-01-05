@@ -71,6 +71,11 @@ function login(uNameID, uPassID){
             });
         }
     }
+	loadInstrument("acoustic_grand_piano"/*, function(){
+		for (var i = 1; i<instruments.length; i++){
+			loadInstrument(instruments[i]);
+		}
+	}*/);
     return false;
 }
 
@@ -486,10 +491,21 @@ function showPublicSongs(){
         var newsItemBoxSubHeadding = document.createElement("p");
         newsItemBox.appendChild(newsItemBoxSubHeadding);
         newsItemBoxSubHeadding.innerHTML = "by: " + publicRecentSongs["song"+counter].creator;
+		
+		var breakLine1 = document.createElement("br");
+		newsItemBox.appendChild(breakLine1);
+		
+		var loadBtn = document.createElement("img");
+        newsItemBox.appendChild(loadBtn);
+        loadBtn.src = "img/icons/loadData.png";
+        loadBtn.title = loadBtn.alt = "Fetch data for web player";
+        loadBtn.width = 32;
+        loadBtn.height = 32;
+        loadBtn.setAttribute( "onclick", "getData(" + publicRecentSongs["song"+counter].songID + ")");
         
         var playBtn = document.createElement("img");
         newsItemBox.appendChild(playBtn);
-        playBtn.src = "https://mmc.mugdev.com/img/icons/Play.png";
+        playBtn.src = "img/icons/Play.png";
         playBtn.title = playBtn.alt = "Webplayer Preview";
         playBtn.width = 32;
         playBtn.height = 32;
@@ -499,8 +515,92 @@ function showPublicSongs(){
     }
 }
 
-function playSample(songID){
-    
+var songDataBuffer = {};
+function getData(songID){
+	messageOn("Please wait while song data is being loaded", "messageOff()", false, "ok" );
+	var dataFlag = 2;
+    songDataBuffer["tempBuffer"] = {};
+	
+	$.post("services/songTracks.php", {songID: songID}, function(data){
+		songDataBuffer["tempBuffer"]["trackData"] = JSON.parse(data);
+		dataFlag--;
+		dataFlagCheck();
+	});
+	
+	$.post("services/getPublicSongData.php", {songID: songID}, function(data){
+		songDataBuffer["tempBuffer"]["b64Data"] = data;
+		dataFlag--;
+		dataFlagCheck();
+	});
+	
+	var counter = 0;
+	function dataFlagCheck(){
+		if (dataFlag === 0){
+			//alert (counter);
+			counter = 0;
+			while (songDataBuffer["tempBuffer"].trackData["track"+counter] != undefined){
+				counter++;
+			}
+			for (var i = counter-1; i > -1; i--){
+				//counter--;
+				if (MIDI.Soundfont[songDataBuffer["tempBuffer"].trackData["track"+(i)].instrument] == undefined){
+					loadInstrument(songDataBuffer["tempBuffer"].trackData["track"+(i)].instrument, obtainedMidiData());
+				}
+				else{
+					obtainedMidiData();
+				}
+			}
+		}
+	}
+	
+	function obtainedMidiData(){
+		counter--;
+		
+		messageOn("getting instruments... <br>" + (counter+1) + " remaining", "messageOff()", false, "ok" );
+		//alert (counter + ", counter=0: " + (counter == 0));
+		if (counter == 0){
+			afterLoadSync();
+		}
+	}
+	 
+	function afterLoadSync(){
+		songDataBuffer["songID-"+songID] = $.extend(true, {}, songDataBuffer["tempBuffer"]);
+		//songDataBuffer["tempBuffer"] = {};
+		
+		//alert ("magic1");
+		messageOff();
+		//alert ("magic2");
+	}
+}
+
+function playSample(songID, repeat){
+	if (repeat == undefined){
+		repeat = true;
+	}
+	if (songDataBuffer["songID-"+songID] != undefined){
+		var counter = 0;
+		while (songDataBuffer["songID-"+songID].trackData["track"+counter] != undefined){
+			MIDI.programChange(counter, instruments.indexOf(songDataBuffer["songID-"+songID].trackData["track"+counter].instrument));
+			counter++;
+		}
+		
+		MIDI.Player.currentData = window.atob(songDataBuffer["songID-"+songID].b64Data);
+		MIDI.Player.loadMidiFile();
+		MIDI.Player.start();
+		
+		if (repeat){
+			playSample(songID, false);
+			
+			playSample(songID, false);
+			
+			playSample(songID, false);
+			
+			playSample(songID, false);
+		}
+	}
+	else{
+		messageOn( "There is no data for this track yet. Please load the data for this track before attempting to play this song by clicking the <img src=\"img/icons/loadData.png\" alt=\"Fetch data for web player\" title=\"Fetch data for web player\" width=\"32\" height=\"32\" onclick=\"getData(" + songID + ")\"> button to the left of the play button.");
+	}
 }
 
 
