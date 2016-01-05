@@ -40,7 +40,7 @@
             $songName = addcslashes($songDataDecoded["name"], "W");
             $songNPS = addcslashes($songDataDecoded["nps"], "W");
             
-            $sql = "update songs set name = '$songName', nps = $songNPS where songID = $songID";
+            $sql = "update songs set name = '$songName', nps = $songNPS where songID = $songID and creatorID = $userID";
             if ($conn->query($sql) === TRUE) {
                 $returnArray["success"] = true;
             } else {
