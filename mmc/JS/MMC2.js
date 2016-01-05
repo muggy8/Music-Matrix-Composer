@@ -76,6 +76,7 @@ function login(uNameID, uPassID){
 			loadInstrument(instruments[i]);
 		}
 	}*/);
+	getPublicSongs();
     return false;
 }
 
@@ -1043,6 +1044,7 @@ function loadSong(songID){
         loop = 0;
         document.getElementById("looperNumber").innerHTML = loop;
         
+        totalTracksToLoad = numberOfTracks; // helps with telling the program when to turn off the loading sign
         clickSound = false;
         //build the tracks
         for (var i = 0; i < numberOfTracks; i++){
@@ -1052,7 +1054,6 @@ function loadSong(songID){
             loadTune(trackName, tracks[trackName].songData);
             trackCount++;
         }
-        totalTracksToLoad = numberOfTracks; // helps with telling the program when to turn off the loading sign
         clickSound = true;
         
         // slider stuff
@@ -1109,6 +1110,7 @@ function loadPublicSong(saveID){
         loop = 0;
         document.getElementById("looperNumber").innerHTML = loop;
         
+        totalTracksToLoad = numberOfTracks; // helps with telling the program when to turn off the loading sign
         clickSound = false;
         //build the tracks
         for (var i = 0; i < numberOfTracks; i++){
@@ -1118,9 +1120,8 @@ function loadPublicSong(saveID){
             loadTune(trackName, tracks[trackName].songData);
             trackCount++;
         }
-        totalTracksToLoad = numberOfTracks; // helps with telling the program when to turn off the loading sign
         clickSound = true;
-        
+		
         // slider stuff
         var slider = document.getElementById("timeLine");
         slider.style.width = (songSec*nps*23)-13 + "px";
@@ -1244,6 +1245,7 @@ function trackRetime(newNPS, newDuration){
 
 var tracksLoaded = 0;
 function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
+	//var offFlag = false;
     // build the interface representation of the track
     var trackBody = document.createElement("div");
     trackBody.id = trackname;
@@ -1300,6 +1302,7 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
             tracksLoaded++;
             if (tracksLoaded == totalTracksToLoad){
                 messageOff();
+				//offFlag = true;
             }
             //console.log("program change happened for " + trackname);
         });
@@ -1310,6 +1313,7 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
         tracksLoaded++;
 		if (tracksLoaded == totalTracksToLoad){
 			messageOff();
+			//offFlag = true;
 		}
         console.log("program change happened for " + trackname);
     }
@@ -1359,6 +1363,7 @@ function buildTrack(trackname, duration, pacing, tool, songScale, trackID){
     deleteButton.setAttribute("onclick", "delTrackConfirm('" + trackname + "')");
     deleteButton.title="Delete Track";
     toolBar.appendChild(deleteButton);
+	
 }
 
 function populateBox(trackName, number, container){ // this is where the track gets made
