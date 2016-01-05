@@ -1,11 +1,11 @@
 <?php
     $uName = addcslashes($_POST["name"], "W");
     $sessionID = addcslashes($_POST["sessionID"], "W");
-    $songID = $_POST["songID"];
+    $songID = addcslashes($_POST["songID"], "W");
     $returnStuff = "{";
     
     include "../../configs/sqlConnect.php";
-    $sql="select username, userID, sessionID  from users where username = '$uName' and sessionID = '$sessionID'";
+    $sql="select username, userID, sessionID from users inner join songs on userID = creatorID where username = '$uName' and sessionID = '$sessionID' and songID=$songID";
     $results = mysqli_query($conn, $sql);
     $rowCount1 = mysqli_num_rows($results);
     
