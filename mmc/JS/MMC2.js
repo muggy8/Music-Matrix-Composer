@@ -495,6 +495,15 @@ function showPublicSongs(){
 		var breakLine1 = document.createElement("br");
 		newsItemBox.appendChild(breakLine1);
 		
+		var editBtn = document.createElement("img");
+        newsItemBox.appendChild(editBtn);
+		editBtn.src = "img/icons/edit.png";\
+		editBtn.title = editBtn.alt = "Edit this song";
+        editBtn.width = 32;
+        editBtn.height = 32;
+		editBtn.setAttribute( "onclick", "loadSong(" + publicRecentSongs["song"+counter].songID + ")");
+		
+		/*
 		var loadBtn = document.createElement("img");
         newsItemBox.appendChild(loadBtn);
         loadBtn.src = "img/icons/loadData.png";
@@ -510,11 +519,11 @@ function showPublicSongs(){
         playBtn.width = 32;
         playBtn.height = 32;
         playBtn.setAttribute( "onclick", "playSample(" + publicRecentSongs["song"+counter].songID + ")");
-        
+        */
         counter ++;
     }
 }
-
+/*
 var songDataBuffer = {};
 function getData(songID){
 	messageOn("Please wait while song data is being loaded", "messageOff()", false, "ok" );
@@ -602,7 +611,7 @@ function playSample(songID, repeat){
 		messageOn( "There is no data for this track yet. Please load the data for this track before attempting to play this song by clicking the <img src=\"img/icons/loadData.png\" alt=\"Fetch data for web player\" title=\"Fetch data for web player\" width=\"32\" height=\"32\" onclick=\"getData(" + songID + ")\"> button to the left of the play button.");
 	}
 }
-
+*/
 
 // the notes only goes up to 108 but it's never a bad thing to have more than needed
 var noteToKey = {"4":"C1","5":"Db1","6":"D1","7":"Eb1","8":"E1","9":"F1","10":"Gb1","11":"G1","12":"Ab1","13":"A1","14":"Bb1","15":"B1","16":"C2","17":"Db2","18":"D2","19":"Eb2","20":"E2","21":"F2","22":"Gb2","23":"G2","24":"Ab2","25":"A2","26":"Bb2","27":"B2","28":"C3","29":"Db3","30":"D3","31":"Eb3","32":"E3","33":"F3","34":"Gb3","35":"G3","36":"Ab3","37":"A3","38":"Bb3","39":"B3","40":"C4","41":"Db4","42":"D4","43":"Eb4","44":"E4","45":"F4","46":"Gb4","47":"G4","48":"Ab4","49":"A4","50":"Bb4","51":"B4","52":"C5","53":"Db5","54":"D5","55":"Eb5","56":"E5","57":"F5","58":"Gb5","59":"G5","60":"Ab5","61":"A5","62":"Bb5","63":"B5","64":"C6","65":"Db6","66":"D6","67":"Eb6","68":"E6","69":"F6","70":"Gb6","71":"G6","72":"Ab6","73":"A6","74":"Bb6","75":"B6","76":"C7","77":"Db7","78":"D7","79":"Eb7","80":"E7","81":"F7","82":"Gb7","83":"G7","84":"Ab7","85":"A7","86":"Bb7","87":"B7","88":"C8","89":"Db8","90":"D8","91":"Eb8","92":"E8","93":"F8","94":"Gb8","95":"G8","96":"Ab8","97":"A8","98":"Bb8","99":"B8","100":"C9","101":"Db9","102":"D9","103":"Eb9","104":"E9","105":"F9","106":"Gb9","107":"G9","108":"Ab9","109":"A9","110":"Bb9","111":"B9"};

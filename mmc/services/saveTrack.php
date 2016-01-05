@@ -8,7 +8,7 @@
     $returnArray["trackID"] = $trackDataDecoded["id"];
     
     include "../../configs/sqlConnect.php";
-    $sql="select username, userID, sessionID  from users where username = '$uName' and sessionID = '$sessionID'";
+    $sql="select username, userID, sessionID from users inner join songs on userID = creatorID where username = '$uName' and sessionID = '$sessionID' and songID = $songID";
     $results = mysqli_query($conn, $sql);
     $rowCount = mysqli_num_rows($results);
     if ($rowCount === 1){ //the username and sessionID are ok therefore this person is probably the person who they logged in as.

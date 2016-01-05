@@ -8,10 +8,10 @@
     $returnArray["quoteID"] = $trackDataDecoded["id"];
     
     include "../../configs/sqlConnect.php";
-    $sql="select username, userID, sessionID  from users where username = '$uName' and sessionID = '$sessionID'";
+    $sql="select username, userID, sessionID from users inner join songs on userID = creatorID where username = '$uName' and sessionID = '$sessionID' and songID=$songID";
     $results = mysqli_query($conn, $sql);
     $rowCount = mysqli_num_rows($results);
-    if ($rowCount === 1){ //the username and sessionID are ok therefore this person is probably the person who they logged in as.
+    if ($rowCount === 1){ //the username and sessionID are ok therefore this person is probably the owner of the song.
         $userID=-1;
         $row=mysqli_fetch_row($results);
         $userID = $row[1];
@@ -40,7 +40,7 @@
         else{ //there's already a quote ID so we overwrite the data from last time here.
             $quoteID = $trackDataDecoded["id"];
             if ($trackDataDecoded["inUse"]){
-                $sql = "update Quotes set name = '$QName', Data = '$quoteData' where QuoteID = $quoteID";
+                $sql = "update Quotes set name = '$QName', Data = '$quoteData' where QuoteID = $quoteID and creatorID = $userID and creatorID = $userID";
                 if ($conn->query($sql) === TRUE) {
                     $returnArray["success"] = true;
                 } else {
@@ -48,7 +48,7 @@
                 }
             }
             else{ // quote no longer in use
-                $sql = "delete from Quotes where QuoteID = $quoteID";
+                $sql = "delete from Quotes where QuoteID = $quoteID and creatorID = $userID";
                 if ($conn->query($sql) === TRUE) {
                     $returnArray["success"] = true;
                 } else {

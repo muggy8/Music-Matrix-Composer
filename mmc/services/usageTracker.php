@@ -30,4 +30,7 @@
 	
 	$sql = "insert into tracker (ip, time, user, song, length) values ('$ip', '$time', '$uName', '$sName', $sLength)" ;
 	
-	$conn->query($sql);
+	if ($uName != "muggy8"){
+    	$conn->query($sql);
+	    
+	}
