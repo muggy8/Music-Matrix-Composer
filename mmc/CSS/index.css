@@ -107,6 +107,25 @@ iframe {
     margin-right:0.5em;
 }
 
+.savedSong {
+	margin-top: 1em;
+    background-color: rgb(240, 240, 240);
+    padding: 4px 4px;
+    border-color: rgb(240, 240, 240);
+    border-width: 4px;
+    border-style: solid;
+    border-radius: 0.5em;
+}
+
+.savedSong h4 {
+	margin: 0;
+	margin-bottom: 0.25em;
+}
+
+.savedSong img{
+    margin-right:0.5em;
+}
+
 .sectionName {
     margin-top:0;
 }

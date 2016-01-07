@@ -104,6 +104,7 @@ function manifestData(songList){
     
     for (var i = songCount-1; i >= 0; i--){ //itterate through the list of songs backwards so you can get the newest ones first
         var songContainer = document.createElement("div");
+		songContainer.className = "savedSong";
         document.getElementById("returningUser").appendChild(songContainer);
         
         var songTitle = document.createElement("h4");
@@ -111,28 +112,44 @@ function manifestData(songList){
         songTitle.id = "song" + i + "-title";
         songContainer.appendChild(songTitle);
         
-        var load = document.createElement("button");
-        load.innerHTML="Edit Song";
-        load.setAttribute("type", "button");
+        var load = document.createElement("img");
+		load.src = "img/icons/edit.png";
+        load.title = load.alt ="Edit Song";
+		load.width = 32;
+		load.height = 32;
+		//load.className = "controllButtons" 
+        //load.setAttribute("type", "button");
         load.setAttribute("onclick", "loadSong('song" + i + "')");
         songContainer.appendChild(load);
         
-        var rename = document.createElement("button");
-        rename.innerHTML="Rename";
-        rename.setAttribute("type", "button");
+        var rename = document.createElement("img");
+		rename.src = "img/icons/rename.png";
+        rename.title = rename.alt ="Rename";
+		rename.width = 32;
+		rename.height = 32;
+		//rename.className = "controllButtons" 
+        //rename.setAttribute("type", "button");
         rename.setAttribute("onclick", "renameStart('song" + i + "')");
         songContainer.appendChild(rename);
         
-        var del = document.createElement("button");
-        del.innerHTML = "Delete Song"
-        del.setAttribute("type", "button");
+        var del = document.createElement("img");
+		del.src = "img/icons/Delete.png";
+        del.title = del.alt = "Delete Song"
+        del.width = 32;
+		del.height = 32;
+		//del.className = "controllButtons" 
+		//del.setAttribute("type", "button");
         del.setAttribute("onclick", "delConfirm('song" + i + "')");
         songContainer.appendChild(del);
         
         if (songList["song"+i].public){
-            var share = document.createElement("button");
-            share.innerHTML = "Copy Share Link";
-            share.setAttribute("type", "button");
+            var share = document.createElement("img");
+			share.src = "img/icons/link.png";
+            share.title = share.alt = "Copy Share Link";
+			share.width = 32;
+			share.height = 32
+			//share.className = "controllButtons" 
+            //share.setAttribute("type", "button");
             share.setAttribute("onclick", "songLink('song" + i + "')");
             songContainer.appendChild(share);
         }
@@ -210,6 +227,11 @@ function registerAcc(){
 
 function songLink(savedIndex){
     var shareID = savedSongs[savedIndex].songID
+    messageOn("<P>Share the following link for this song:</p><h3>https://mmc.mugdev.com/?song=" + shareID + "</h3>");
+}
+
+function publicLink(savedIndex){
+    var shareID = publicRecentSongs[savedIndex].songID
     messageOn("<P>Share the following link for this song:</p><h3>https://mmc.mugdev.com/?song=" + shareID + "</h3>");
 }
 
@@ -517,6 +539,14 @@ function showPublicSongs(){
         editBtn.width = 32;
         editBtn.height = 32;
 		editBtn.setAttribute( "onclick", "loadPublicSong('song" + counter + "')");
+		
+		var shareBtn = document.createElement("img");
+        newsItemBox.appendChild(shareBtn);
+		shareBtn.src = "img/icons/link.png";
+		shareBtn.title = shareBtn.alt = "Share this song";
+        shareBtn.width = 32;
+        shareBtn.height = 32;
+		shareBtn.setAttribute( "onclick", "publicLink('song" + counter + "')");
 		
 		/*
 		var loadBtn = document.createElement("img");
