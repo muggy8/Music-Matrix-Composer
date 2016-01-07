@@ -128,6 +128,14 @@ function manifestData(songList){
         del.setAttribute("type", "button");
         del.setAttribute("onclick", "delConfirm('song" + i + "')");
         songContainer.appendChild(del);
+        
+        if (songList["song"+i].public){
+            var share = document.createElement("button");
+            share.innerHTML = "Copy Share Link";
+            share.setAttribute("type", "button");
+            share.setAttribute("onclick", "songLink('song" + i + "')");
+            songContainer.appendChild(share);
+        }
     }
     
 }
@@ -198,6 +206,11 @@ function registerAcc(){
         messageOn("password must match and cannot be empty");
     }
    return false;
+}
+
+function songLink(savedIndex){
+    var shareID = savedSongs[savedIndex].songID
+    messageOn("<P>Share the following link for this song:</p><h3>https://mmc.mugdev.com/?song=" + shareID + "</h3>");
 }
 
 // ---------------------------------------------------------------
@@ -480,10 +493,11 @@ function getPublicSongs(){
 
 function showPublicSongs(){
     var counter = 0;
+    $("#newsFeed")[0].innerHTML = "";
     while (publicRecentSongs["song"+counter] != undefined){
         var newsItemBox = document.createElement("div");
         newsItemBox.className="newsFeedItem";
-        $("#newsFeed").append(newsItemBox)
+        $("#newsFeed").append(newsItemBox);
         
         var newsItemBoxHeadding = document.createElement("h3");
         newsItemBox.appendChild(newsItemBoxHeadding);
@@ -523,6 +537,7 @@ function showPublicSongs(){
         */
         counter ++;
     }
+    PHPcalls();
 }
 /*
 var songDataBuffer = {};
@@ -1078,9 +1093,18 @@ function loadSong(songID){
     });
 }
 
+function showSong(inDBSongID){
+    $.post("services/getPublicSongById.php", {inDBSongID: inDBSongID}, function(data){
+        if (data != "{}"){
+            publicRecentSongs = JSON.parse(data);
+            loadPublicSong("song0");
+        }
+    });
+}
+
 function loadPublicSong(saveID){
     messageOn("<p>Loading please wait</p>", "", false, "Ok");
-    $.post("services/songTracks.php", {name:loginCookie.uName, sessionID:loginCookie.sessionID, songID: publicRecentSongs[saveID].songID}, function(data){
+    $.post("services/songTracks.php", {songID: publicRecentSongs[saveID].songID}, function(data){
         //console.log(data);
         var tracks = JSON.parse(data);
         var numberOfTracks = Object.keys(tracks).length;
@@ -2118,7 +2142,7 @@ function colorFade(ele){
 }
 
 function homeButton(){
-    messageOn("<p>Unsaved work will be lost.</p><p>click the dark region to return to your work, click ok to continue</p>", "location.reload()", true, "Got it!");
+    messageOn("<p>Unsaved work will be lost.</p><p>click the dark region to return to your work, click ok to continue</p>", "document.location = \"/\"", true, "Got it!");
 }
 
 function addTrack(){
@@ -2277,6 +2301,26 @@ function saveSong(){
     }
     else {
         messageOn("<p>You need to log in before you can save</p><p>Login now or create a new account.</p><iframe src=\"newAccount.html\" class=\"iframe\" scrolling=\"no\"></iframe>");
+    }
+}
+
+//var tempStorage;
+function publishSong(){
+    if (document.cookie != "" && loginCookie.uName != "" && song.metaData.songID != ""){
+        messageOn("<p>Publishing in progress...</p>", "messageOff()", false, "Ok");
+        $.post("services/publishSong.php", {name:loginCookie.uName, sessionID:loginCookie.sessionID, data: JSON.stringify(song.metaData)}, function(data){
+            //console.log(data);
+            var returnData = JSON.parse(data);
+            if (returnData.success){
+                trackSave(0);
+            }
+            else{
+                messageOn(returnData.error);
+            }
+        });
+    }
+    else {
+        messageOn("<p>You cant publish an unsaved song. Please save your song fist</p>");
     }
 }
 
@@ -2634,7 +2678,7 @@ function recalcLength(){
 
 function exportSong(){
     //messageOn("<p>This function is currently under construction</p>");
-    messageOn("Please choose how you would like to export your song: <br> <button type='button' onclick='jsonExport()'>JSON exporter</button><br> <button type='button' onclick='midiExport(1)'>Multi Track MIDI Exporter</button> <br> <button type='button' onclick='midiExport(0)'>Mono Track MIDI Exporter</button>", "messageOff()", true, "Maybe Later");
+    messageOn("Please choose how you would like to export your song: <br> <button type='button' onclick='jsonExport()'>JSON exporter</button><br> <button type='button' onclick='midiExport(1)'>Multi Track MIDI Exporter</button> <br> <button type='button' onclick='midiExport(0)'>Mono Track MIDI Exporter</button> <br> <button type='button' onclick='publishSong()'>Publish For Public Viewing</button>", "messageOff()", true, "Maybe Later");
 }
 
 function jsonExport(){

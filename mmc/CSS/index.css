@@ -103,8 +103,8 @@ iframe {
     padding-left: 0.5em;
 }
 
-.newsFeedItem > img {
-    display:block;
+.newsFeedItem img{
+    margin-right:0.5em;
 }
 
 .sectionName {

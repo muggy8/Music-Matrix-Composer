@@ -125,6 +125,8 @@
                     <h2 class="sectionName">
                         News:
                     </h2>
+                    <h3>2016 January 6th 9:14 AM Pacific Time</h3>
+                    <p>After a pretty long hitus, I finally gotten around to adding a song publishing feature which I had wanted to add for a long time. The option to publish songs is found in the list of options under the export function. The <a href="https://github.com/muggy8/Music-Matrix-Composer">Github Repository</a> will be updated to reflect the live server at a later date. The song publishing function is still not pefect so more itterations are to come in the futre but the basic feature wont change much from here on out. In the mean time feel free to share your creations publicly. Additionally, more functionality will be added to the song sharing feature such as compose together (much like github's code merging) allowing for an easier time remixing other people's works and social functionality such as comments and descriptions. As always if you have any questions, concernes or want to help out, leave a message for me on <a href="https://www.reddit.com/user/muggy8/">Reddit</a>.</p>
 					<h3>2015 November 5th 1:21 AM Pacific Time</h3>
 					<p>Another pretty large playback engine update came live. It combined the best parts of the previous update being the Browser playback and Server Playback split and combined them into one playback engine that only uses the browser to play back your tunes. Because of this, a few few features became redundent and was removed. You should see much better playback performance when testing and composing! If you find any other issues, please let me know via <a href="https://www.reddit.com/user/muggy8/">Reddit</a>.</p>
 					
@@ -215,5 +217,16 @@
     	<!--<script src="soundfont/acoustic_grand_piano-mp3.js" type="text/javascript"></script>
     	<script src="soundfont/gunshot-mp3.js" type="text/javascript"></script>
     	<script src="soundfont/woodblock-mp3.js" type="text/javascript"></script>-->
+    	<script>
+    	    function PHPcalls(){
+    	        console.log("exectuing PHP requested functions");
+    	        <?php   
+    	            if (isset($_GET["song"])){
+                        $inDBSongID = $_GET["song"];
+                        echo "showSong($inDBSongID);";
+                    } 
+                ?>
+    	    }
+    	</script>
     </body>
 </html>
